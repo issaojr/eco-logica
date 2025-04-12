@@ -1,0 +1,62 @@
+# Arquivos de compilação
+*.o
+*.obj
+*.exe
+*.out
+*.app
+*.dll
+*.so
+*.dylib
+
+# Arquivos gerados pelo Code::Blocks
+*.layout
+*.depend
+*.cbTemp
+bin/
+obj/
+
+# Diretórios e arquivos gerados durante a compilação
+Debug/
+Release/
+*.pdb
+*.ilk
+*.idb
+*.ipch
+
+# Arquivos de dados do sistema
+data/*.dat
+*.csv
+*.txt
+!README.txt
+!requirements.txt
+
+# Arquivos temporários
+*.log
+*.tmp
+*.temp
+~*
+
+# Arquivos específicos do Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Arquivos específicos do macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Arquivos específicos do VSCode
+.vscode/
+
+# Arquivos específicos de backup
+*.bak
+*.swp
+*.swo
+
+# Outros
+*.zip
+*.rar
+*.7z
