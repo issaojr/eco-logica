@@ -8,7 +8,7 @@ Sistema desenvolvido como parte do Projeto Integrado Multidisciplinar (PIM IV) d
 
 ## Descrição
 
-O EcoLógica é um sistema desktop desenvolvido em linguagem C com interface gráfica Win32 API para gerenciar todas as tarefas de cadastro e relatórios de uma startup de soluções ambientais. A empresa trabalha com o cadastro, mapeamento e gerenciamento de indústrias que necessitam abater seu material particulado e gases da atmosfera.
+O EcoLógica é um sistema desktop desenvolvido em linguagem C com interface de linha de comando. O sistema foi projetado para gerenciar todas as tarefas de cadastro e relatórios de uma startup de soluções ambientais, permitindo ao usuário interagir por meio de menus e comandos no console.
 
 ## Funcionalidades
 
