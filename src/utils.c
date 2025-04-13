@@ -11,7 +11,12 @@ void clearConsole(void) {
 #endif
 }
 
-void pauseConsole(void) {
-    printf("\nPressione ENTER para continuar...");
+void pauseConsole(const char *msg) {
+    // Exibe a mensagem personalizada. Se msg for NULL, usa uma mensagem padrão.
+    if (msg && msg[0] != '\0') {
+        printf("\n%s", msg);
+    } else {
+        printf("\nPressione ENTER para continuar...");
+    }
     getchar();
 }

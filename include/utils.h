@@ -3,6 +3,6 @@
 #define UTILS_H
 
 void clearConsole(void);
-void pauseConsole(void);
+void pauseConsole(const char *msg);
 
 #endif // UTILS_H
