@@ -1,10 +1,10 @@
 // EcoLogica/src/interface/menu.c
 #include <stdio.h>
 #include "menu.h"
-#include "auth.h"       // Placeholder para a função de login
-// #include "cadastro.h" // (Descomentar quando existir a função de cadastro)
-// #include "relatorios.h" // (Descomentar quando existir a função de geração de relatórios)
-#include "utils.h"            // Placeholder para a função de limpeza de tela
+#include "auth.h"       // Placeholder para a funo de login
+// #include "cadastro.h" // (Descomentar quando existir a funo de cadastro)
+// #include "relatorios.h" // (Descomentar quando existir a funo de gerao de relatrios)
+#include "utils.h"            // Placeholder para a funo de limpeza de tela
 
 void showMainMenu(void) {
     int option = -1;
