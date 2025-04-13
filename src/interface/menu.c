@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "menu.h"
 #include "auth.h"       // Placeholder para a funcao de login
+#include "cadastro_ui.h" // Placeholder para a funcao de cadastro
 // #include "cadastro.h" // (Descomentar quando existir a funcao de cadastro)
 // #include "relatorios.h" // (Descomentar quando existir a funcao de geracao de relatorios)
 #include "utils.h"            // Placeholder para a funcao de limpeza de tela
@@ -64,8 +65,7 @@ void showMainMenu(void) {
 
             switch(option) {
                 case 1:
-                    // Placeholder para cadastro
-                    printf("Função de cadastro ainda a ser implementada.\n");
+                    iniciarInterfaceCadastro();
                     break;
                 case 2:
                     // Placeholder para geração de relatórios
