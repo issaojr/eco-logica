@@ -11,7 +11,8 @@ SOURCES = \
     src/crypto/crypto.c \
     src/session.c \
     src/interface/cadastro_ui.c \
-    src/business/cadastro.c
+    src/business/cadastro.c \
+    src/data/persistencia.c
 	
 TARGET = ecologica
 

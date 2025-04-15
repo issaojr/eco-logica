@@ -5,26 +5,30 @@
 #include "cadastro.h"
 #include "funcionario.h"
 #include "crypto.h"     // Para usar xorCipher
+#include "persistencia.h"
 
 #define CRYPTO_KEY 0x5A
 
-// Função que processa o cadastro. 
-// Ela invoca a interface para coletar os dados e então aplica as operações da camada de negócio.
+// Funcao que processa o cadastro. 
+// Ela invoca a interface para coletar os dados e entao aplica as operacoes da camada de negocio.
 int processaCadastro(int matricula, const char *nome, const char *senha) {  
 
     Funcionario *novoFuncionario = (Funcionario *)malloc(sizeof(Funcionario));
 
-    // Verifica se o ponteiro é nulo
+    // Verifica se o ponteiro e nulo
     if (novoFuncionario == NULL) {
         return -1; // Erro ao processar o cadastro
     }    
 
     // Converte o nome para caixa alta
     char nomeMaiusculo[sizeof(novoFuncionario->nome)];
-    for (size_t i = 0; i < sizeof(novoFuncionario->nome) - 1 && nome[i] != '\0'; i++) {
-        nomeMaiusculo[i] = toupper((unsigned char)nome[i]);
+    memset(nomeMaiusculo, 0, sizeof(nomeMaiusculo)); // Zera todo o array
+
+    size_t i = 0;
+    for (; i < sizeof(novoFuncionario->nome) - 1 && nome[i] != '\0'; i++) {
+        nomeMaiusculo[i] = (char)toupper((unsigned char)nome[i]);
     }
-    nomeMaiusculo[sizeof(novoFuncionario->nome) - 1] = '\0'; // Garante que a string esteja terminada
+    nomeMaiusculo[i] = '\0'; // Finaliza a string com terminador nulo
 
     // Preenche os dados do novo funcionário
     novoFuncionario->matricula = matricula;
@@ -42,7 +46,13 @@ int processaCadastro(int matricula, const char *nome, const char *senha) {
     xorCipher(novoFuncionario->senha, CRYPTO_KEY); // Criptografa a senha
     printf("Senha (criptografada): %s\n", novoFuncionario->senha);
 
-    // Aqui será adicionada a lógica para persistir os dados.
+    // Salva os dados no arquivo CSV
+    int ret = salvarFuncionarioCSV(novoFuncionario, "funcionarios.csv");
+    if (ret == 0) {
+        printf("Dados salvos com sucesso em 'funcionarios.csv'.\n");
+    } else {
+        printf("Erro ao salvar os dados.\n");
+    }
 
     // Libera a memória alocada para o novo funcionário
     free(novoFuncionario);

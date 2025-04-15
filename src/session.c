@@ -14,5 +14,8 @@ void setUsuarioLogado(Funcionario *func) {
 }
 
 void logout(void) {
-    usuarioLogado = NULL;
+    if (getUsuarioLogado() != NULL) {
+        free(getUsuarioLogado());
+        setUsuarioLogado(NULL);
+    }
 }
