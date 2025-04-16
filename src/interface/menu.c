@@ -7,6 +7,7 @@
 // #include "relatorios.h" // (Descomentar quando existir a funcao de geracao de relatorios)
 #include "utils.h"            // Placeholder para a funcao de limpeza de tela
 #include "session.h"         // Placeholder para a funcao de sessao
+#include "industria_ui.h"    // Placeholder para a funcao de cadastro de industria
 
 void showMainMenu(void) {
     int option = -1;
@@ -65,11 +66,10 @@ void showMainMenu(void) {
 
             switch(option) {
                 case 1:
-                    iniciarInterfaceCadastro();
+                    iniciarInterfaceCadastro(); // Chama a tela de cadastro de usuário
                     break;
                 case 2:
-                    // Placeholder para geração de relatórios
-                    printf("Função de relatórios ainda a ser implementada.\n");
+                    iniciarInterfaceIndustria(); // Chama a tela de cadastro de indústria
                     break;
                 case 3:
                     logout();

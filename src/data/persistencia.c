@@ -3,6 +3,7 @@
 #include <string.h>
 #include "persistencia.h"
 #include "crypto.h"
+#include "industria.h"
 
 // Definindo a chave de criptografia usada em outros módulos
 #define CRYPTO_KEY 0x5A
@@ -70,5 +71,23 @@ int salvarFuncionarioCSV(const Funcionario *func, const char *nomeArquivo) {
     int resultado = fprintf(arquivo, "%d,\"%s\",\"%s\"\n", func->matricula, func->nome, func->senha);
     fclose(arquivo);
 
+    return (resultado > 0) ? 0 : -1;
+}
+
+int salvarIndustriaCSV(const Industria *ind, const char *nomeArquivo) {
+    if (ind == NULL || nomeArquivo == NULL)
+        return -1;
+    
+    FILE *arquivo = fopen(nomeArquivo, "a");
+    if (arquivo == NULL) {
+        perror("Erro ao abrir o arquivo de indústrias");
+        return -1;
+    }
+    
+    // Grava os dados no formato CSV com campos delimitados por aspas
+    int resultado = fprintf(arquivo, "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n",
+                              ind->nome, ind->cnpj, ind->razaoSocial, ind->nomeFantasia,
+                              ind->telefone, ind->endereco, ind->email, ind->dataAbertura);
+    fclose(arquivo);
     return (resultado > 0) ? 0 : -1;
 }

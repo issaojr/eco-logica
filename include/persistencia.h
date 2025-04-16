@@ -2,6 +2,7 @@
 #define PERSISTENCIA_H
 
 #include "funcionario.h"
+#include "industria.h"
 
 /**
  * @brief Salva os dados de um funcionÃ¡rio em um arquivo CSV.
@@ -28,5 +29,14 @@ int salvarFuncionarioCSV(const Funcionario *func, const char *nomeArquivo);
  * @return int Retorna 0 se encontrar um usuário válido; caso contrário, retorna um valor negativo.
  */
 int validarFuncionarioCSV(int matricula, const char *senha, Funcionario *funcEncontrado);
+
+/**
+ * @brief Salva os dados de uma indústria em um arquivo CSV.
+ *
+ * @param ind Ponteiro para a estrutura Industria a ser salva.
+ * @param nomeArquivo Nome do arquivo CSV onde os dados serão gravados.
+ * @return int 0 se a operação for bem-sucedida; -1 em caso de erro.
+ */
+int salvarIndustriaCSV(const Industria *ind, const char *nomeArquivo);
 
 #endif // PERSISTENCIA_H

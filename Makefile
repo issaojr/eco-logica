@@ -12,7 +12,10 @@ SOURCES = \
     src/session.c \
     src/interface/cadastro_ui.c \
     src/business/cadastro.c \
-    src/data/persistencia.c
+    src/data/persistencia.c \
+    src/interface/industria_ui.c \
+    src/business/industria.c \
+    src/business/industria_business.c
 	
 TARGET = ecologica
 
