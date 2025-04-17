@@ -91,3 +91,19 @@ int salvarIndustriaCSV(const Industria *ind, const char *nomeArquivo) {
     fclose(arquivo);
     return (resultado > 0) ? 0 : -1;
 }
+
+int salvarResiduosCSV(const Residuos *r, const char *nomeArquivo) {
+    if (!r || !nomeArquivo) return -1;
+    FILE *f = fopen(nomeArquivo, "a");
+    if (!f) {
+        perror("Erro ao abrir resíduos.csv");
+        return -1;
+    }
+    // Formato: CNPJ,AAAA-MM,quantidade,custo
+    int ret = fprintf(f, "\"%s\",%04d-%02d,%.2f,%.2f\n",
+                      r->cnpj, r->ano, r->mes,
+                      r->quantidadeTratada,
+                      r->custoEstimado);
+    fclose(f);
+    return (ret > 0) ? 0 : -1;
+}

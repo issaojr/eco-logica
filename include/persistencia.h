@@ -3,17 +3,18 @@
 
 #include "funcionario.h"
 #include "industria.h"
+#include "residuos.h"
 
 /**
  * @brief Salva os dados de um funcionário em um arquivo CSV.
  *
- * Esta função grava os dados do funcionário (matrícula, nome e senha) no arquivo especificado.
- * Os dados são gravados no formato CSV, utilizando vírgulas como delimitadores e aspas para
+ * Esta funcao grava os dados do funcionario (matri�cula, nome e senha) no arquivo especificado.
+ * Os dados sao gravados no formato CSV, utilizando vi�rgulas como delimitadores e aspas para
  * os campos de texto, garantindo que campos com vírgulas internas sejam tratados corretamente.
  *
  * @param func Ponteiro para a estrutura Funcionario a ser salvo.
- * @param nomeArquivo Nome do arquivo onde os dados serão gravados.
- * @return int Retorna 0 se a operação foi bem-sucedida ou um valor negativo em caso de erro.
+ * @param nomeArquivo Nome do arquivo onde os dados serao gravados.
+ * @return int Retorna 0 se a operacao foi bem-sucedida ou um valor negativo em caso de erro.
  */
 int salvarFuncionarioCSV(const Funcionario *func, const char *nomeArquivo);
 
@@ -40,3 +41,9 @@ int validarFuncionarioCSV(int matricula, const char *senha, Funcionario *funcEnc
 int salvarIndustriaCSV(const Industria *ind, const char *nomeArquivo);
 
 #endif // PERSISTENCIA_H
+
+/**
+ * @brief Salva uma atualiza��o mensal de res�duos em CSV.
+ */
+int salvarResiduosCSV(const Residuos *r, const char *nomeArquivo);
+

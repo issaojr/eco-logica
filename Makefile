@@ -2,7 +2,7 @@
 
 CC = gcc
 CFLAGS = -Wall -Iinclude
-# Liste os arquivos que você já criou; adicione os outros conforme forem sendo implementados
+# Liste os arquivos que voce ja criou; adicione os outros conforme forem sendo implementados
 SOURCES = \
     src/main.c \
     src/interface/menu.c \
@@ -14,8 +14,9 @@ SOURCES = \
     src/business/cadastro.c \
     src/data/persistencia.c \
     src/interface/industria_ui.c \
-    src/business/industria.c \
-    src/business/industria_business.c
+    src/business/industria_business.c \
+    src/interface/residuos_ui.c \
+    src/business/residuos_business.c 
 	
 TARGET = ecologica
 

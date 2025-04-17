@@ -8,6 +8,7 @@
 #include "utils.h"            // Placeholder para a funcao de limpeza de tela
 #include "session.h"         // Placeholder para a funcao de sessao
 #include "industria_ui.h"    // Placeholder para a funcao de cadastro de industria
+#include "residuos_ui.h"     // Placeholder para a funcao de residuos
 
 void showMainMenu(void) {
     int option = -1;
@@ -47,9 +48,11 @@ void showMainMenu(void) {
             Funcionario *usuario = getUsuarioLogado();
             printf("Usuário logado: %s (Matrícula: %d)\n", usuario->nome, usuario->matricula);
             printf("Escolha uma opção:\n");
-            printf("1. Cadastro de usuário\n");   
-            printf("2. Relatórios\n");
-            printf("3. Logout\n");
+            printf("1. Cadastro de usuário\n");
+            printf("2. Cadastro de indústria\n");
+            printf("3. Atualização Mensal de Resíduos\n");
+            printf("4. Relatórios\n");
+            printf("5. Logout\n");
             printf("0. Sair\n");
             printf("Opção: ");
             
@@ -64,14 +67,21 @@ void showMainMenu(void) {
             // Limpa a tela após a leitura da opção
             clearConsole(); // Limpa o console novamente para manter a interface limpa
 
-            switch(option) {
+            switch (option) {
                 case 1:
-                    iniciarInterfaceCadastro(); // Chama a tela de cadastro de usuário
+                    iniciarInterfaceCadastro();
                     break;
                 case 2:
-                    iniciarInterfaceIndustria(); // Chama a tela de cadastro de indústria
+                    iniciarInterfaceIndustria();
                     break;
                 case 3:
+                    iniciarInterfaceResiduos();
+                    break;
+                case 4:
+                    // placeholder para relatórios
+                    printf("Função de relatórios ainda a ser implementada.\n");
+                    break;
+                case 5:
                     logout();
                     printf("Logout realizado com sucesso.\n");
                     break;
