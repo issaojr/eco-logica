@@ -1,4 +1,3 @@
-// EcoLogica/src/business/cadastro.h
 #ifndef CADASTRO_H
 #define CADASTRO_H
 
@@ -11,6 +10,6 @@
  * e, por enquanto, exibe uma mensagem de sucesso. Em iterações futuras, 
  * a persistência poderá ser implementada.
  */
-int processaCadastro(int matricula, const char *nome, const char *senha);
+int processaCadastroFuncionario(int matricula, const char *nome, const char *senha);
 
 #endif // CADASTRO_H

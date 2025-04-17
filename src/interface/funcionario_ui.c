@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
-#include "cadastro_ui.h"
+#include "funcionario_ui.h"
 #include "funcionario.h"
 #include "crypto.h"     // Para usar xorCipher
-#include "cadastro.h"   // Para usar processaCadastro
+#include "funcionario_business.h"   // Para usar processaCadastro
 #include "utils.h"     // Para usar clearConsole
 
 void iniciarInterfaceCadastro() {
@@ -30,6 +30,7 @@ void iniciarInterfaceCadastro() {
         return;
     }
     nome[strcspn(nome, "\n")] = '\0';  // Remove a nova linha
+    toUpperCase(nome); // Converte o nome para maiúsculas
 
     // Coleta a senha do novo usuário
     printf("Digite a senha do novo usuário: ");
@@ -40,7 +41,7 @@ void iniciarInterfaceCadastro() {
     }
     while(getchar() != '\n'); // Limpa o buffer
 
-    int resultado = processaCadastro(matricula, nome, senha);
+    int resultado = processaCadastroFuncionario(matricula, nome, senha);
 
     // Verifica se o resultado do cadastro foi bem-sucedido
     if (resultado == 0) {

@@ -10,8 +10,8 @@ SOURCES = \
     src/utils.c \
     src/crypto/crypto.c \
     src/session.c \
-    src/interface/cadastro_ui.c \
-    src/business/cadastro.c \
+    src/interface/funcionario_ui.c \
+    src/business/funcionario_business.c \
     src/data/persistencia.c \
     src/interface/industria_ui.c \
     src/business/industria_business.c \

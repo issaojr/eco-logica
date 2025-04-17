@@ -2,16 +2,17 @@
 #include <string.h>
 #include <stdlib.h>     // Para usar malloc e free
 #include <ctype.h>     // Para usar toupper
-#include "cadastro.h"
+#include "funcionario_business.h"
 #include "funcionario.h"
 #include "crypto.h"     // Para usar xorCipher
 #include "persistencia.h"
+#include "utils.h"     // Para usar safeStrCopy
 
 #define CRYPTO_KEY 0x5A
 
 // Funcao que processa o cadastro. 
 // Ela invoca a interface para coletar os dados e entao aplica as operacoes da camada de negocio.
-int processaCadastro(int matricula, const char *nome, const char *senha) {  
+int processaCadastroFuncionario(int matricula, const char *nome, const char *senha) {  
 
     Funcionario *novoFuncionario = (Funcionario *)malloc(sizeof(Funcionario));
 
@@ -20,23 +21,11 @@ int processaCadastro(int matricula, const char *nome, const char *senha) {
         return -1; // Erro ao processar o cadastro
     }    
 
-    // Converte o nome para caixa alta
-    char nomeMaiusculo[sizeof(novoFuncionario->nome)];
-    memset(nomeMaiusculo, 0, sizeof(nomeMaiusculo)); // Zera todo o array
-
-    size_t i = 0;
-    for (; i < sizeof(novoFuncionario->nome) - 1 && nome[i] != '\0'; i++) {
-        nomeMaiusculo[i] = (char)toupper((unsigned char)nome[i]);
-    }
-    nomeMaiusculo[i] = '\0'; // Finaliza a string com terminador nulo
-
     // Preenche os dados do novo funcionário
     novoFuncionario->matricula = matricula;
-    strncpy(novoFuncionario->nome, nomeMaiusculo, sizeof(novoFuncionario->nome) - 1);
-    novoFuncionario->nome[sizeof(novoFuncionario->nome) - 1] = '\0'; // Garante que a string esteja terminada
-    strncpy(novoFuncionario->senha, senha, sizeof(novoFuncionario->senha) - 1);
-    novoFuncionario->senha[sizeof(novoFuncionario->senha) - 1] = '\0'; // Garante que a string esteja terminada
-
+    safeStrCopy(novoFuncionario->nome, nome, sizeof(novoFuncionario->nome));
+    safeStrCopy(novoFuncionario->senha, senha, sizeof(novoFuncionario->senha));
+    
     // Exibe os dados para confirmação, apenas para teste
     printf("\nUsuário cadastrado com sucesso (dados com senha criptografada):\n");
     printf("Matrícula: %d\n", novoFuncionario->matricula);
