@@ -105,13 +105,14 @@ void iniciarInterfaceIndustria(void) {
         return;
     }
     while(getchar() != '\n');
-    
+      
     // Processa o cadastro por meio da camada de negócio
-    if (processarCadastroIndustria(&novaIndustria) == 0) {
+    int cadastroResult = processarCadastroIndustria(&novaIndustria);
+    if (cadastroResult == 0) {
         showInfoDialog(msgCadastroSuccess); // Exibe mensagem de sucesso
-    } else if (processarCadastroIndustria(&novaIndustria) == -1) {
+    } else if (cadastroResult == -1) {
         showErrorDialog(msgCnpjError); // Exibe mensagem de erro de CNPJ
-    } else if (processarCadastroIndustria(&novaIndustria) == -2) {
+    } else if (cadastroResult == -2) {
         showErrorDialog(msgCadastroError);
     }
 }
