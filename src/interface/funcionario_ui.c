@@ -5,17 +5,25 @@
 #include "crypto.h"     // Para usar xorCipher
 #include "funcionario_business.h"   // Para usar processaCadastro
 #include "utils.h"     // Para usar clearConsole
+#include "logged_user_ui.h" // Para usar showLoggedUser
+#include "screen_title_ui.h" // Para usar showTitleScreen
+#include "info_dialog_ui.h" // Para usar showCadastroSuccessMessage e showCadastroErrorMessage
 
-void iniciarInterfaceCadastro() {
+void iniciarInterfaceFuncionario() {
     
     int matricula;
     char nome[150];
     char senha[50];
 
-    printf("=== Cadastro de Usuário ===\n");
+    const char *cadastroTitle = "EcoLógica: Cadastro de Funcionário";
+    const char *msgCadastroSuccess = "Cadastro realizado com sucesso!";
+    const char *msgCadastroError = "Erro ao cadastrar funcionário!";
+
+    showLoggedUser(); // Exibe o usuário logado, se houver
+    showTitleScreen(cadastroTitle); // Exibe o título da tela de cadastro
 
     // Coleta a matrícula
-    printf("Digite a matrícula do novo usuário: ");
+    printf(">> Digite a matrícula do novo usuário: ");
     if (scanf("%d", &matricula) != 1) {
         printf("Entrada inválida para matrícula.\n");
         while(getchar() != '\n'); // Limpa o buffer
@@ -24,7 +32,7 @@ void iniciarInterfaceCadastro() {
     while(getchar() != '\n'); // Limpa o buffer
     
     // Coleta o nome do novo usuário
-    printf("Digite o nome do novo usuário: ");
+    printf(">> Digite o nome do novo usuário: ");
     if (fgets(nome, sizeof(nome), stdin) == NULL) {
         printf("Erro na entrada do nome.\n");
         return;
@@ -33,7 +41,7 @@ void iniciarInterfaceCadastro() {
     toUpperCase(nome); // Converte o nome para maiúsculas
 
     // Coleta a senha do novo usuário
-    printf("Digite a senha do novo usuário: ");
+    printf(">> Digite a senha do novo usuário: ");
     if (scanf("%49s", senha) != 1) {
         printf("Entrada inválida para senha.\n");
         while(getchar() != '\n');
@@ -45,9 +53,9 @@ void iniciarInterfaceCadastro() {
 
     // Verifica se o resultado do cadastro foi bem-sucedido
     if (resultado == 0) {
-        printf("Usuário cadastrado com sucesso!\n");
+        showInfoDialog(msgCadastroSuccess); // Exibe mensagem de sucesso
     } else {
-        printf("Erro ao cadastrar o usuário.\n");
+        showErrorDialog(msgCadastroError); // Exibe mensagem de erro
     }
     
 }

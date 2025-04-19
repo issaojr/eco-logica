@@ -11,7 +11,6 @@ int processarCadastroIndustria(Industria *ind) {
     
     // Valida os dados (exemplo: garantir que o CNPJ não seja vazio)
     if (strlen(ind->cnpj) == 0) {
-        printf("CNPJ não pode ser vazio.\n");
         return -1;
     }
     
@@ -19,11 +18,8 @@ int processarCadastroIndustria(Industria *ind) {
     
     // Chama a função de persistência para salvar os dados da indústria em CSV
     int ret = salvarIndustriaCSV(ind, "industrias.csv");
-    if (ret == 0) {
-        printf("Dados salvos com sucesso em 'industrias.csv'.\n");
-    } else {
-        printf("Erro ao salvar os dados da indústria.\n");
+    if (ret != 0) {
+        return -2; // Erro ao salvar os dados
     }
-    
     return ret;
 }

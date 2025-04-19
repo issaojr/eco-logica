@@ -5,7 +5,7 @@ CFLAGS = -Wall -Iinclude
 # Liste os arquivos que voce ja criou; adicione os outros conforme forem sendo implementados
 SOURCES = \
     src/main.c \
-    src/interface/menu.c \
+    src/interface/menu_ui.c \
     src/business/auth.c \
     src/utils.c \
     src/crypto/crypto.c \
@@ -16,7 +16,14 @@ SOURCES = \
     src/interface/industria_ui.c \
     src/business/industria_business.c \
     src/interface/residuos_ui.c \
-    src/business/residuos_business.c 
+    src/business/residuos_business.c \
+    src/interface/relatorios_ui.c \
+    src/business/relatorios_business.c \
+    src/interface/login_ui.c \
+    src/interface/logged_user_ui.c \
+    src/interface/screen_title_ui.c \
+    src/strings_globais.c \
+    src/interface/info_dialog_ui.c
 	
 TARGET = ecologica
 

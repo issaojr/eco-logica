@@ -9,6 +9,6 @@
  * Também responsável por chamar a regra de negócio para o cadastro.
  * 
  */
-void iniciarInterfaceCadastro(void);
+void iniciarInterfaceFuncionario(void);
 
 #endif // CADASTRO_UI_H

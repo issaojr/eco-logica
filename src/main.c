@@ -1,9 +1,8 @@
-// EcoLogica/src/main.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
 #include "utils.h"
-#include "menu.h"
+#include "menu_ui.h"
 
 int main(void) {
     system("chcp 1252 > nul");  // Força o console a usar code page 1252
