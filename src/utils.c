@@ -4,7 +4,7 @@
 #include <string.h> // Para strlen
 #include <ctype.h> // Para toupper
 
-void clearConsole(void) {
+void clear_console(void) {
 #ifdef _WIN32
     system("cls");
 #else
@@ -12,7 +12,7 @@ void clearConsole(void) {
 #endif
 }
 
-void pauseConsole(const char *msg) {
+void pause_console(const char *msg) {
     // Exibe a mensagem personalizada. Se msg for NULL, usa uma mensagem padrão.
     if (msg && msg[0] != '\0') {
         printf("\n%s", msg);
@@ -22,7 +22,7 @@ void pauseConsole(const char *msg) {
     getchar();
 }
 
-void toUpperCase(char *str) {
+void to_upper_case(char *str) {
     if (str == NULL) return;
     size_t len = strlen(str);
     for (size_t i = 0; i < len; i++) {
@@ -32,22 +32,11 @@ void toUpperCase(char *str) {
     str[len] = '\0';
 }
 
-void safeStrCopy(char *dest, const char *src, size_t size) {
+void safe_str_copy(char *dest, const char *src, size_t size) {
     if (!dest || !src || size == 0) return;
     // Copia até size-1 bytes e garante '\\0'
     strncpy(dest, src, size - 1);
     dest[size - 1] = '\0';
-}
-
-int inputOption() {
-    int option = -1;
-    if (scanf("%d", &option) != 1) {
-        while(getchar() != '\n'); // Limpa o buffer
-        option = -1;
-    } else {
-        while(getchar() != '\n'); // Limpa o buffer
-    }
-    return option;
 }
 
 /**
@@ -56,7 +45,7 @@ int inputOption() {
  * @param width    Comprimento total do campo (colunas).
  * @return         Ponteiro para buffer alocado (chamador faz free), ou NULL se erro.
  */
-char *centerMessage(const char *msg, size_t width) {
+char *centralizar_msg(const char *msg, size_t width) {
     if (!msg || width == 0) return NULL;
 
     size_t len = strlen(msg);
@@ -78,10 +67,10 @@ char *centerMessage(const char *msg, size_t width) {
  * @param msg      Mensagem de entrada.
  * @return         Ponteiro para buffer alocado (chamador faz free), ou NULL se erro.
  */
-char *centerMessageDefault(const char *msg) {
+char *center_message_default(const char *msg) {
     const size_t DEFAULT_WIDTH = 48;
     
-    return centerMessage(msg, DEFAULT_WIDTH);
+    return centralizar_msg(msg, DEFAULT_WIDTH);
 }
 
 /**
@@ -89,7 +78,7 @@ char *centerMessageDefault(const char *msg) {
  * @param s        Ponteiro para buffer alocado.
  * @return         NULL
  */
-char *freeString(char *s) {
+char *libera_mem_str(char *s) {
     free(s);
     return NULL;
 }
@@ -100,7 +89,7 @@ char *freeString(char *s) {
  * @param width   Largura total do campo (colunas).
  * @return        Ponteiro para buffer alocado (+ '\0'); chamador deve free().
  */
-char *rightAlignMessage(const char *msg, size_t width) {
+char *right_align_message(const char *msg, size_t width) {
     if (!msg || width == 0) return NULL;
 
     size_t len = strlen(msg);
@@ -119,7 +108,8 @@ char *rightAlignMessage(const char *msg, size_t width) {
  * @param msg     Mensagem de entrada.
  * @return        Ponteiro para buffer alocado; chamador deve free().
  */
-char *rightAlignMessageDefault(const char *msg) {
+char *right_align_message_default(const char *msg) {
     const size_t DEFAULT_WIDTH = 50;
-    return rightAlignMessage(msg, DEFAULT_WIDTH);
+    return right_align_message(msg, DEFAULT_WIDTH);
 }
+

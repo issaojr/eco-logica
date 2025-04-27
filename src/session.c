@@ -5,17 +5,17 @@
 // Variável global para armazenar o usuário logado.
 static Funcionario *usuarioLogado = NULL;
 
-Funcionario* getUsuarioLogado(void) {
+Funcionario* get_usuario_logado(void) {
     return usuarioLogado;
 }
 
-void setUsuarioLogado(Funcionario *func) {
+void set_usuario_logado(Funcionario *func) {
     usuarioLogado = func;
 }
 
 void logout(void) {
-    if (getUsuarioLogado() != NULL) {
-        free(getUsuarioLogado());
-        setUsuarioLogado(NULL);
+    if (get_usuario_logado() != NULL) {
+        free(get_usuario_logado());
+        set_usuario_logado(NULL);
     }
 }
