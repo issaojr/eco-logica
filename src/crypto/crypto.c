@@ -16,8 +16,8 @@ void hash_senha(const char *senha, char *output, char key) {
         return;
     }
     for (size_t i = 0; i < len; i++) {
-        unsigned char x = (unsigned char)senha[i] ^ key;
-        sprintf(output + (i * 2), "%02X", x);
+        unsigned char char_cifrado = (unsigned char)senha[i] ^ key;
+        sprintf(output + (i * 2), "%02X", char_cifrado);
     }
     output[len * 2] = '\0';
 }

@@ -61,5 +61,5 @@ $RECYCLE.BIN/
 *.rar
 *.7z
 
-# Ignorar pasta de documentação
-docs/
+# A pasta docs/ não deve mais ser ignorada
+# docs/
