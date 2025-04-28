@@ -3,13 +3,13 @@
 
 
 // Variável global para armazenar o usuário logado.
-static Funcionario *usuarioLogado = NULL;
+static funcionario_t *usuarioLogado = NULL;
 
-Funcionario* get_usuario_logado(void) {
+funcionario_t* get_usuario_logado(void) {
     return usuarioLogado;
 }
 
-void set_usuario_logado(Funcionario *func) {
+void set_usuario_logado(funcionario_t *func) {
     usuarioLogado = func;
 }
 

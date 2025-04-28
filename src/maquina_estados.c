@@ -14,7 +14,7 @@
  */
 const estado_aplicacao transicoes[][MAX_OPCOES_MENU] = {
     [ESTADO_MENU_LOGIN] = {
-        [0] = ESTADO_LOGIN_CREDENCIAIS,   // 1. Login
+        [0] = ESTADO_FORM_LOGIN,          // 1. Formulário de Login
         [1] = ESTADO_SOBRE_PROJETO,       // 2. Sobre
         [2] = ESTADO_SAIR                 // 3. Sair
     },
@@ -22,6 +22,9 @@ const estado_aplicacao transicoes[][MAX_OPCOES_MENU] = {
     [ESTADO_SOBRE_PROJETO] = {
         [0] = ESTADO_MENU_LOGIN           // ENTER volta para o menu de login
     },
+
+    // Estado de formulário de login: tratar credenciais
+    [ESTADO_FORM_LOGIN] = { },
 
     //[ESTADO_LOGIN_CREDENCIAIS] = { },
 

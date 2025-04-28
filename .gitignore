@@ -60,3 +60,6 @@ $RECYCLE.BIN/
 *.zip
 *.rar
 *.7z
+
+# Ignorar pasta de documentação
+docs/

@@ -8,7 +8,7 @@
 // Definindo a chave de criptografia usada em outros módulos
 #define CRYPTO_KEY 0x5A
 
-int validarFuncionarioCSV(int matricula, const char *senha, Funcionario *funcEncontrado) {
+int validarFuncionarioCSV(int matricula, const char *senha, funcionario *funcEncontrado) {
     // if (senha == NULL || funcEncontrado == NULL) {
     //     return -1;
     // }
@@ -56,7 +56,7 @@ int validarFuncionarioCSV(int matricula, const char *senha, Funcionario *funcEnc
     return -1;
 }
 
-int salvar_funcionario_csv(const Funcionario *func, const char *nomeArquivo) {
+int salvar_funcionario_csv(const funcionario *func, const char *nomeArquivo) {
     // if (func == NULL || nomeArquivo == NULL) {
     //     return -1;
     // }

@@ -21,7 +21,7 @@ int performLogin(int matricula, const char *senhaInput) {
         // Copia os dados do funcionário validado para a nova memória
         *usuarioLogado = temp;
         
-        setUsuarioLogado(usuarioLogado); // Armazena o usuário logado na sessão
+        set_usuario_logado(usuarioLogado); // Armazena o usuário logado na sessão
 
         return 0; // Login bem-sucedido
     } else {

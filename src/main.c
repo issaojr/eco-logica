@@ -7,8 +7,14 @@
 #include "menu.h"
 //#include "tests/teste_menu.h"
 #include "estados.h"
-#include "tela_login_ui.h"
+#include "tela_menu_login_ui.h"
 #include "tela_menu_principal_ui.h"
+// Incluídos para suportar cadastro de funcionário
+#include "persistencia.h"
+#include "funcionario.h"
+#include "crypto.h"
+#include "auth.h"
+#include "session.h"  // Para get_usuario_logado
 
 int main(void) {
     system("chcp 1252 > nul");  // Força o console a usar code page 1252
@@ -28,9 +34,10 @@ int main(void) {
         /* 1) seleciona o menu conforme o estado */
         switch (estado) {
             case ESTADO_MENU_LOGIN:
-                mapa   = tela_login_mapa;
-                mapa_n = tela_login_mapa_n;
-                prompt = tela_login_prompt;
+                mapa   = tela_menu_login_mapa;
+                mapa_n = tela_menu_login_mapa_n;
+                prompt = tela_menu_login_prompt;
+                
                 break;
 
             case ESTADO_SOBRE_PROJETO:
@@ -42,10 +49,33 @@ int main(void) {
                 //prompt = tela_sobre_prompt;
                 //break;
 
+            case ESTADO_MSG_LOGIN_SUCESSO:
+                puts("+================================================+");
+                puts("|          Login realizado com sucesso!          |");
+                puts("+================================================+");
+                printf("Pressione ENTER para continuar..."); getchar();
+                estado = ESTADO_MENU_PRINCIPAL;
+                continue;
+
+            case ESTADO_MSG_LOGIN_FALHA:
+                puts("+================================================+");
+                puts("|    Erro! Usuário ou Senha Inválidos            |");
+                puts("+================================================+");
+                printf("Pressione ENTER para continuar..."); getchar();
+                estado = ESTADO_MENU_LOGIN;
+                continue;
+
             case ESTADO_MENU_PRINCIPAL:
                 mapa   = tela_menu_principal_mapa;
                 mapa_n = tela_menu_principal_mapa_n;
                 prompt = tela_menu_principal_prompt;
+                { // Cabeçalho com usuário autenticado
+                    funcionario_t *u = get_usuario_logado();
+                    if (u) {
+                        printf("Usuário: %s (Matr: %d)\n", u->nome, u->matricula);
+                        printf("__________________________________________________\n");
+                    }
+                }
                 break;
 
             /* ... demais casos para cada estado que exiba opções ... */
@@ -53,11 +83,30 @@ int main(void) {
             default:
                 /* estados “de ação” (login, cadastros, etc.) são tratados aqui */
                 switch (estado) {
-                    case ESTADO_LOGIN_CREDENCIAIS: {
-                        //bool ok = autenticar_usuario(...);
-                        bool ok = true;  // Simula autenticação bem-sucedida
+                    case ESTADO_FORM_LOGIN: {
+                        int matricula;
+                        char senha[64];
+                        printf(">> Digite sua matricula: ");
+                        if (scanf("%d", &matricula) != 1) {
+                            while (getchar() != '\n');
+                            estado = ESTADO_MSG_LOGIN_FALHA;
+                            continue;
+                        }
+                        printf(">> Digite sua senha: ");
+                        scanf("%63s", senha);
+                        while (getchar() != '\n');
+                        bool ok = autenticar(matricula, senha);
                         estado = ok ? ESTADO_MSG_LOGIN_SUCESSO
                                     : ESTADO_MSG_LOGIN_FALHA;
+                        continue;
+                    }
+                    case ESTADO_CADASTRO_FUNCIONARIO: {
+                        puts("+================================================+");
+                        puts("|        Cadastro de Funcionário               |");
+                        puts("+================================================+");
+                        printf("Funcionalidade de cadastro ainda não implementada.\n");
+                        printf("Pressione ENTER para continuar..."); getchar();
+                        estado = ESTADO_MENU_PRINCIPAL;
                         continue;
                     }
                     /* adicionar tratamentos para outros “estados de ação” */

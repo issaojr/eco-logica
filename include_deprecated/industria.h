@@ -16,6 +16,6 @@ typedef struct {
     char cep[10];          // CEP
     char email[100];          // E-mail
     char dataAbertura[20];    // Data de abertura (ex.: dd/mm/yyyy)
-} Industria;
+} industria_t;
 
 #endif // INDUSTRIA_H
