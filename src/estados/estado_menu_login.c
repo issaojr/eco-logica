@@ -4,25 +4,24 @@
 #include "estados/estado_menu_login.h"
 #include "tela_menu_login_ui.h"
 #include "estado_menu_utils.h"
+#include "ui/ui_comum.h"
 
 // Funções específicas deste estado
 static int inicializar(void) {
-    // Limpar a tela
-    system("cls");
-    
     // Obter data e hora atual
     time_t t = time(NULL);
     struct tm *tm_info = localtime(&t);
     char data_hora[64];
     strftime(data_hora, sizeof(data_hora), "%d/%m/%Y %H:%M", tm_info);
     
-    // Cabeçalho com informações do sistema
-    printf("EcoLógica Soluções Ambientais\n");
-    printf("=============================\n");
-    printf("Sistema de Gestão Ambiental\n");
-    printf("Data: %s\n\n", data_hora);
+    // Usar nossos componentes de UI para exibir o cabeçalho
+    ui_exibir_titulo("EcoLógica Soluções Ambientais", "Sistema de Gestão Ambiental");
     
-    printf("Bem-vindo! Por favor, selecione uma opção:\n\n");
+    // Exibir informações adicionais
+    printf("Data e hora: %s\n\n", data_hora);
+    
+    ui_exibir_info("Bem-vindo! Por favor, selecione uma opção:");
+    printf("\n");
     
     return 0; // sucesso
 }

@@ -1,24 +1,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "estados/estado_msg_login_falha.h"
+#include "ui/ui_comum.h"
 
 // Funções específicas deste estado
 static int inicializar(void) {
-    // Limpar a tela
-    system("cls");
+    // Exibir título e mensagem de erro usando nossos componentes de UI
+    ui_exibir_titulo("Falha na Autenticação", "Não foi possível realizar o login");
     
-    printf("\n\n");
-    puts("+================================================+");
-    puts("|    Erro! Usuário ou Senha Inválidos            |");
-    puts("+================================================+");
+    ui_exibir_erro("Usuário ou senha inválidos!");
     
     printf("\nAs credenciais fornecidas não são válidas.");
-    printf("\nVerifique sua matrícula e senha e tente novamente.");
+    printf("\nVerifique sua matrícula e senha e tente novamente.\n\n");
     
-    printf("\n\nPressione ENTER para voltar à tela de login...");
-    
-    // Aguarda o usuário pressionar ENTER
-    getchar();
+    // Usar nosso componente para pausar e aguardar o ENTER
+    ui_pausar(NULL);
     
     return 0; // sucesso
 }

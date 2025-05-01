@@ -19,3 +19,8 @@ $(TARGET): $(OBJ)
 
 clean:
 	rm -f $(OBJ) $(TARGET)
+
+# Regra para criar diretórios se não existirem
+directories:
+	@mkdir -p src/ui
+	@mkdir -p include/ui

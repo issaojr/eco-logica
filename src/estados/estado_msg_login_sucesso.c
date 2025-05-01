@@ -2,28 +2,25 @@
 #include <stdio.h>
 #include "estados/estado_msg_login_sucesso.h"
 #include "session.h"
+#include "ui/ui_comum.h"
 
 // Funções específicas deste estado
 static int inicializar(void) {
-    // Limpar a tela
-    system("cls");
-    
     // Obter informações do usuário logado para personalizar a mensagem
     funcionario_t *usuario = get_usuario_logado();
     
-    printf("\n\n");
-    puts("+================================================+");
-    puts("|          Login realizado com sucesso!          |");
-    puts("+================================================+");
+    // Exibir título e mensagem de sucesso usando nossos componentes de UI
+    ui_exibir_titulo("Login Realizado", "Autenticação bem-sucedida");
+    
+    ui_exibir_sucesso("Login realizado com sucesso!");
     
     if (usuario) {
         printf("\nBem-vindo(a), %s!\n", usuario->nome);
+        printf("Matrícula: %d\n\n", usuario->matricula);
     }
     
-    printf("\nPressione ENTER para continuar...");
-    
-    // Aguarda o usuário pressionar ENTER
-    getchar();
+    // Usar nosso componente para pausar e aguardar o ENTER
+    ui_pausar(NULL);
     
     return 0; // sucesso
 }
