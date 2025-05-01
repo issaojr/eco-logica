@@ -3,7 +3,7 @@
 ## Fase 1: Estabilização da Arquitetura (1-2 dias)
 - [x] Corrigir problemas de autenticação
 - [x] Padronizar nomenclatura (snake_case)
-- [ ] Finalizar a refatoração de código para arquitetura de máquina de estados
+- [x] Finalizar a refatoração de código para arquitetura de máquina de estados
 - [ ] Remover arquivos deprecados que não serão mais utilizados
 - [ ] Resolver problemas de codificação de caracteres especiais em arquivos de texto
 

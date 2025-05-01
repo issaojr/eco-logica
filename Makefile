@@ -4,7 +4,7 @@ CC = gcc
 CFLAGS = -Wall -Iinclude
 
 # Fontes agrupadas por diretório
-SRC = $(wildcard src/*.c src/ui/*.c src/business/*.c src/crypto/*.c src/persistencia/*.c)
+SRC = $(wildcard src/*.c src/ui/*.c src/business/*.c src/crypto/*.c src/persistencia/*.c src/estados/*.c)
 OBJ = $(SRC:.c=.o)
 TARGET = ecologica
 
