@@ -5,37 +5,33 @@
 #include "tela_menu_principal_ui.h"
 #include "estado_menu_utils.h"
 #include "session.h"
+#include "ui/ui_comum.h"
 
 // Funções específicas deste estado
 static int inicializar(void) {
     // Limpar a tela
-    system("cls");
+    ui_limpar_tela();
     
     // Obter data e hora atual
     time_t t = time(NULL);
     struct tm *tm_info = localtime(&t);
     char data_hora[64];
     strftime(data_hora, sizeof(data_hora), "%d/%m/%Y %H:%M", tm_info);
+
+    ui_exibir_titulo("EcoLógica Soluções Ambientais", "Sistema de Gestão Ambiental");
     
-    // Exibe informações do usuário logado
-    funcionario_t *usuario = get_usuario_logado();
-    if (usuario) {
-        printf("???????????????????????????????????????????????????????\n");
-        printf("? Usuário: %-20s      Matr: %-6d ?\n", usuario->nome, usuario->matricula);
-        printf("? Sessão iniciada em: %-30s ?\n", data_hora);
-        printf("???????????????????????????????????????????????????????\n\n");
+    // Exibe painel de informações do funcionário logado
+    funcionario_t *funcionario = get_funcionario_logado();
+    if (funcionario) {
+        char mat_str[32];
+        snprintf(mat_str, sizeof(mat_str), "%d", funcionario->matricula);
+        desenhar_painel_funcionario(funcionario->nome, mat_str);
     }
+
+    // Desenhar cabeçalho padrão
+    desenhar_cabecalho("MENU PRINCIPAL");
     
-    printf("EcoLógica: Menu Principal\n");
-    printf("==================================================\n\n");
-    
-    // Resumo de informações importantes
-    printf("Resumo do Sistema:\n");
-    printf("• Indústrias cadastradas: [Funcionalidade a implementar]\n");
-    printf("• Último relatório gerado: [Funcionalidade a implementar]\n");
-    printf("• Atualizações pendentes: [Funcionalidade a implementar]\n\n");
-    
-    printf("Escolha uma opção >>\n\n");
+    printf("\n");
     
     return 0; // sucesso
 }

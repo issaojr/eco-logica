@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include "ui/ui_comum.h"
 
-#define UI_LARGURA_PADRAO 60
+#define UI_LARGURA_PADRAO 55
 #define UI_COR_RESET "\033[0m"
 #define UI_COR_VERMELHO "\033[31m"
 #define UI_COR_VERDE "\033[32m"
@@ -13,6 +13,9 @@
 #define UI_COR_AMARELO "\033[33m"
 #define UI_COR_CIANO "\033[36m"
 #define UI_COR_NEGRITO "\033[1m"
+
+// Constantes para desenho da interface
+#define UI_LARGURA_QUADRO 55
 
 // Limpa o buffer de entrada
 static void limpar_buffer_entrada(void) {
@@ -59,7 +62,7 @@ void ui_exibir_titulo(const char* titulo, const char* subtitulo) {
     
     // Borda inferior
     ui_exibir_separador('=', largura);
-    printf("\n");
+    //printf("\n");
 }
 
 void ui_exibir_erro(const char* mensagem) {
@@ -303,4 +306,92 @@ bool ui_confirmar(const char* mensagem) {
     }
     
     return false; // Padrão é não
+}
+
+void desenhar_cabecalho(const char* titulo) {
+    // Desenha a borda superior dinâmica
+    putchar('+'); for (int i = 0; i < UI_LARGURA_QUADRO - 2; i++) putchar('-'); puts("+");
+    // Linha em branco centralizada
+    //putchar('|'); for (int i = 0; i < UI_LARGURA_QUADRO - 2; i++) putchar(' '); puts("|");
+
+    // Desenha a linha de título centralizado
+    int espacos = (UI_LARGURA_QUADRO - strlen(titulo) - 2) / 2;
+    putchar('|');
+    for (int i = 0; i < espacos; i++) putchar(' ');
+    printf("%s", titulo);
+    for (int i = 0; i < UI_LARGURA_QUADRO - 2 - espacos - strlen(titulo); i++) putchar(' ');
+    puts("|");
+
+    // Desenha linha simples após o título
+    desenhar_linha_simples();
+}
+
+void desenhar_linha_simples(void) {
+    // Linha separadora dinâmica (barra e traços)
+    putchar('+');
+    for (int i = 0; i < UI_LARGURA_QUADRO - 2; i++) putchar('-');
+    puts("+");
+}
+
+void desenhar_rodape(void) {
+    // Rodapé dinâmico (barra e traços)
+    putchar('+');
+    for (int i = 0; i < UI_LARGURA_QUADRO - 2; i++) putchar('-');
+    puts("+");
+}
+
+void desenhar_caixa_mensagem(const char* mensagem, int tipo) {
+    const char* prefixo;
+    
+    // Determina o prefixo baseado no tipo
+    switch (tipo) {
+        case 0: // info
+            prefixo = "INFO";
+            break;
+        case 1: // sucesso
+            prefixo = "SUCESSO";
+            break;
+        case 2: // erro
+            prefixo = "ERRO";
+            break;
+        default:
+            prefixo = "";
+    }
+    
+    // Desenha a caixa superior dinâmica
+    desenhar_linha_simples();
+    
+    // Linha com o tipo da mensagem
+    if (strlen(prefixo) > 0) {
+        // Prefixo centralizado ou ajustado
+        int esp = UI_LARGURA_QUADRO - 4 - strlen(prefixo);
+        printf("| [%s]%*s |\n", prefixo, esp, "");
+        desenhar_linha_simples();
+    }
+    
+    // Mensagem principal
+    printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, mensagem);
+    
+    // Rodapé da caixa dinâmica
+    desenhar_rodape();
+}
+
+void desenhar_painel_funcionario(const char* funcionario, const char* matricula) {
+    char linha[UI_LARGURA_QUADRO - 3];
+    desenhar_linha_simples();
+    snprintf(linha, sizeof(linha), "Funcionário: %s", funcionario);
+    printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
+    snprintf(linha, sizeof(linha), "Matrícula: %s", matricula);
+    printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
+    desenhar_rodape();
+}
+
+void ui_exibir_sobre_projeto(void) {
+    ui_limpar_tela();
+    ui_exibir_titulo("Sobre o Projeto", NULL);
+    ui_exibir_info("EcoLógica Soluções Ambientais - versão acadêmica");
+    ui_exibir_info("Autor: Issao Hanaoka Junior");
+    ui_exibir_info("UNIP - Universidade Paulista");
+    ui_exibir_info("PIM IV - Projeto Integrado Multidisciplinar");
+    ui_exibir_info("2025 - 1o Semestre");
 }

@@ -2,26 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#ifdef _WIN32
-#include <conio.h> // Para _getch() no Windows
-#else
-#include <termios.h> // Para implementação de getch() em sistemas Unix
-#include <unistd.h>
-
-// Implementação de getch para sistemas Unix/Linux
-int _getch(void) {
-    struct termios old, new;
-    int ch;
-    tcgetattr(STDIN_FILENO, &old);
-    new = old;
-    new.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &new);
-    ch = getchar();
-    tcsetattr(STDIN_FILENO, TCSANOW, &old);
-    return ch;
-}
-#endif
-
 #include "ui/ui_formulario.h"
 #include "ui/ui_comum.h"
 

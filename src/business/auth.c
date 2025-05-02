@@ -11,7 +11,7 @@ bool autenticar(int matricula, const char *senha) {
         funcionario_t *user = malloc(sizeof(funcionario_t));
         if (!user) return false;
         *user = temp;
-        set_usuario_logado(user);
+        set_funcionario_logado(user);
         return true;
     }
     return false;

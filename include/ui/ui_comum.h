@@ -95,4 +95,37 @@ bool ui_ler_cnpj(const char* prompt, char* buffer, size_t tamanho, bool obrigato
  */
 bool ui_confirmar(const char* mensagem);
 
+/**
+ * @brief Desenha o cabeçalho padronizado para telas do sistema
+ * @param titulo Texto do título a ser exibido no cabeçalho
+ */
+void desenhar_cabecalho(const char* titulo);
+
+/**
+ * @brief Desenha uma linha simples para separar seções
+ */
+void desenhar_linha_simples(void);
+
+/**
+ * @brief Desenha o rodapé padronizado para telas do sistema
+ */
+void desenhar_rodape(void);
+
+/**
+ * @brief Desenha uma caixa de diálogo com mensagem
+ * @param mensagem Texto da mensagem a ser exibida
+ * @param tipo Tipo da mensagem: 0=info, 1=sucesso, 2=erro
+ */
+void desenhar_caixa_mensagem(const char* mensagem, int tipo);
+
+// Exibe informações sobre o projeto na tela padrão
+void ui_exibir_sobre_projeto(void);
+
+/**
+ * @brief Desenha um painel com dados do funcionário
+ * @param funcionario Nome do funcionário
+ * @param matricula Matrícula ou ID do funcionário
+ */
+void desenhar_painel_funcionario(const char* funcionario, const char* matricula);
+
 #endif // UI_COMUM_H

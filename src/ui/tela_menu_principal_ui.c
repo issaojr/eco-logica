@@ -15,4 +15,4 @@ const size_t tela_menu_principal_mapa_n =
     sizeof(tela_menu_principal_mapa) / sizeof(tela_menu_principal_mapa[0]);
 
 const char *tela_menu_principal_prompt =
-    "Escolha uma opção (1–6): ";
+    "\n>> Escolha uma opção (1–6): ";

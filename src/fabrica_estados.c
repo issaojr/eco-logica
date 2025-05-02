@@ -10,9 +10,6 @@
 #include "estados/estado_msg_login_falha.h"
 #include "estados/estado_sair.h"
 
-/**
- * Implementação da fábrica de estados
- */
 estado_t* criar_estado(estado_aplicacao id) {
     switch (id) {
         case ESTADO_MENU_LOGIN:

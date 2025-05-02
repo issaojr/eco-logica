@@ -7,7 +7,7 @@
 // Funções específicas deste estado
 static int inicializar(void) {
     // Obter informações do usuário logado para personalizar a mensagem
-    funcionario_t *usuario = get_usuario_logado();
+    funcionario_t *usuario = get_funcionario_logado();
     
     // Exibir título e mensagem de sucesso usando nossos componentes de UI
     ui_exibir_titulo("Login Realizado", "Autenticação bem-sucedida");

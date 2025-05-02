@@ -12,6 +12,11 @@ typedef enum {
     ESTADO_MSG_LOGIN_FALHA,            // Mensagem “Usuário ou senha inválidos”
     ESTADO_MSG_LOGOUT_SUCESSO,         // Mensagem “Logout realizado com sucesso”
     ESTADO_MENU_PRINCIPAL,             // Menu principal
+    ESTADO_LISTAR_FUNCIONARIOS,        // Tela de listagem de funcionários
+    ESTADO_ADICIONAR_FUNCIONARIO,      // Tela de adição de funcionário
+    ESTADO_EDITAR_FUNCIONARIO,         // Tela de edição de funcionário
+    ESTADO_EXCLUIR_FUNCIONARIO,        // Tela de exclusão de funcionário
+    ESTADO_MSG_OPERACAO_FUNCIONARIO,   // Mensagem de resultado da operação com funcionário
     ESTADO_CADASTRO_FUNCIONARIO,       // Tela de cadastro de funcionário
     ESTADO_MSG_CADASTRO_FUNCIONARIO,   // Mensagem “Cadastro realizado com sucesso”
     ESTADO_CADASTRO_INDUSTRIA,         // Tela de cadastro de indústria
