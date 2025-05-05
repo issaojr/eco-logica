@@ -1,7 +1,7 @@
 #ifndef ESTADO_MENU_PRINCIPAL_H
 #define ESTADO_MENU_PRINCIPAL_H
 
-#include "../estado.h"
+#include "estados/estado.h"
 
 /**
  * Cria uma instância do estado de menu principal

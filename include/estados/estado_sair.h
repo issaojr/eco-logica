@@ -1,7 +1,7 @@
 #ifndef ESTADO_SAIR_H
 #define ESTADO_SAIR_H
 
-#include "../estado.h"
+#include "estados/estado.h"
 
 /**
  * Cria uma instância do estado de saída

@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "auth.h"
-#include "persistencia.h"
+#include "persistencia/funcionario_dao.h"
 #include "session.h"
 
 bool autenticar(int matricula, const char *senha) {

@@ -1,6 +1,6 @@
 #include <stdbool.h>
-#include "industria_business.h"
-#include "persistencia.h"
+#include "business/industria_business.h"
+#include "persistencia/industria_dao.h"
 
 bool cadastrar_industria(const industria_t *industria) {
     industria_t existente;

@@ -1,7 +1,7 @@
 #include <stdlib.h>
-#include "estado.h"
+#include "estados/estado.h"
 #include "menu.h"
-#include "estados.h"
+#include "estados/estados.h"
 
 /**
  * Função utilitária para processar entrada de estados de menu.

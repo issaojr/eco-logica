@@ -13,12 +13,13 @@
 #define UI_COR_AMARELO "\033[33m"
 #define UI_COR_CIANO "\033[36m"
 #define UI_COR_NEGRITO "\033[1m"
+#define UI_COR_LARANJA "\033[35m"
 
 // Constantes para desenho da interface
 #define UI_LARGURA_QUADRO 55
 
 // Limpa o buffer de entrada
-static void limpar_buffer_entrada(void) {
+void limpar_buffer_entrada(void) {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
@@ -75,6 +76,44 @@ void ui_exibir_sucesso(const char* mensagem) {
 
 void ui_exibir_info(const char* mensagem) {
     printf("%s[INFO] %s%s\n", UI_COR_AZUL, mensagem, UI_COR_RESET);
+}
+
+void ui_exibir_to_do(const char* mensagem) {
+    printf("%s[TODO] %s%s\n", UI_COR_LARANJA, mensagem, UI_COR_RESET);
+}
+
+void ui_prompt_voltar_inicio(const char* mensagem) {
+    if (mensagem != NULL) {
+        printf("%s%s%s\n", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+    } else {
+        printf("%sPressione ENTER para voltar ao início...%s\n", UI_COR_AMARELO, UI_COR_RESET);
+    }
+    //limpar_buffer_entrada(); // Limpa o buffer antes de esperar a entrada
+    getchar(); // Espera o usuário pressionar ENTER
+}
+
+void ui_prompt_voltar_menu_principal(const char* mensagem) {
+    if (mensagem != NULL) {
+        printf("%s%s%s\n", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+    } else {
+        printf("%sPressione ENTER para voltar ao menu principal...%s\n", UI_COR_AMARELO, UI_COR_RESET);
+    }
+    //limpar_buffer_entrada(); // Limpa o buffer antes de esperar a entrada
+    getchar(); // Espera o usuário pressionar ENTER
+}
+
+void ui_prompt_voltar_menu_anterior(const char* mensagem) {
+    if (mensagem != NULL) {
+        printf("%s%s%s\n", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+    } else {
+        printf("%sPressione ENTER para voltar ao menu anterior...%s\n", UI_COR_AMARELO, UI_COR_RESET);
+    }
+    //limpar_buffer_entrada(); // Limpa o buffer antes de esperar a entrada
+    getchar(); // Espera o usuário pressionar ENTER
+}
+
+void ui_exibir_data_hora(const char* data_hora) {
+    printf("%s[DATA/HORA] %s%s\n", UI_COR_CIANO, data_hora, UI_COR_RESET);
 }
 
 void ui_pausar(const char* mensagem) {
@@ -384,14 +423,4 @@ void desenhar_painel_funcionario(const char* funcionario, const char* matricula)
     snprintf(linha, sizeof(linha), "Matrícula: %s", matricula);
     printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
     desenhar_rodape();
-}
-
-void ui_exibir_sobre_projeto(void) {
-    ui_limpar_tela();
-    ui_exibir_titulo("Sobre o Projeto", NULL);
-    ui_exibir_info("EcoLógica Soluções Ambientais - versão acadêmica");
-    ui_exibir_info("Autor: Issao Hanaoka Junior");
-    ui_exibir_info("UNIP - Universidade Paulista");
-    ui_exibir_info("PIM IV - Projeto Integrado Multidisciplinar");
-    ui_exibir_info("2025 - 1o Semestre");
 }

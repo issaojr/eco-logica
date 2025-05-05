@@ -1,6 +1,6 @@
 // src/maquina_estados.c
 
-#include "estados.h"
+#include "estados/estados.h"
 
 #define UNUSED(x) (void)(x)
 
@@ -41,24 +41,74 @@ const estado_aplicacao transicoes[][MAX_OPCOES_MENU] = {
     },
 
     [ESTADO_MENU_PRINCIPAL] = {
-        [0] = ESTADO_CADASTRO_FUNCIONARIO,    // 1. Cadastro de Funcionário
-        [1] = ESTADO_CADASTRO_INDUSTRIA,      // 2. Cadastro de Indústria
+        [0] = ESTADO_CADASTRO_FUNCIONARIOS,    // 1. Cadastro de Funcionário
+        [1] = ESTADO_CADASTRO_INDUSTRIAS,      // 2. Cadastro de Indústria
         [2] = ESTADO_ATUALIZACAO_RESIDUOS,    // 3. Atualização Mensal de Resíduos
         [3] = ESTADO_RELATORIOS_INDUSTRIA,    // 4. Relatórios por Indústria
-        [4] = ESTADO_SUBMENU_RELATORIOS_GLOBAIS, // 5. Relatórios Globais
-        [5] = ESTADO_MSG_LOGOUT_SUCESSO       // 6. Logout
+        [4] = ESTADO_RELATORIOS_GLOBAIS, // 5. Relatórios Globais
+        [5] = ESTADO_LOGOUT      // 6. Logout
     },
 
-    [ESTADO_CADASTRO_FUNCIONARIO] = {
-        [0] = ESTADO_MSG_CADASTRO_FUNCIONARIO // ENTER após preencher formulário
+    [ESTADO_CADASTRO_FUNCIONARIOS] = {
+        [0] = ESTADO_LISTAR_FUNCIONARIOS,     // 1. Listar Funcionários
+        [1] = ESTADO_ADICIONAR_FUNCIONARIO,   // 2. Adicionar Funcionário
+        [2] = ESTADO_EDITAR_FUNCIONARIO,      // 3. Editar Funcionário
+        [3] = ESTADO_EXCLUIR_FUNCIONARIO,     // 4. Excluir Funcionário
+        [4] = ESTADO_MENU_PRINCIPAL           // 5. Voltar ao Menu Principal
     },
+
+    [ESTADO_LISTAR_FUNCIONARIOS] = {
+        [0] = ESTADO_CADASTRO_FUNCIONARIOS // ENTER após listar funcionários
+    },
+
+    [ESTADO_ADICIONAR_FUNCIONARIO] = {
+        [0] = ESTADO_MSG_OPERACAO_FUNCIONARIO // ENTER após adicionar funcionário
+    },
+
+    [ESTADO_EDITAR_FUNCIONARIO] = {
+        [0] = ESTADO_MSG_OPERACAO_FUNCIONARIO // ENTER após editar funcionário
+    },
+
+    [ESTADO_EXCLUIR_FUNCIONARIO] = {
+        [0] = ESTADO_MSG_OPERACAO_FUNCIONARIO // ENTER após excluir funcionário
+    },
+
+    [ESTADO_MSG_OPERACAO_FUNCIONARIO] = {
+        [0] = ESTADO_CADASTRO_FUNCIONARIOS // ENTER após operação com funcionário
+    },
+
     [ESTADO_MSG_CADASTRO_FUNCIONARIO] = {
         [0] = ESTADO_MENU_PRINCIPAL           // ENTER volta ao menu principal
     },
 
-    [ESTADO_CADASTRO_INDUSTRIA] = {
-        [0] = ESTADO_MSG_CADASTRO_INDUSTRIA   // ENTER após preencher formulário
+    [ESTADO_CADASTRO_INDUSTRIAS] = {
+        [0] = ESTADO_LISTAR_INDUSTRIAS,     // 1. Listar Indústrias
+        [1] = ESTADO_ADICIONAR_INDUSTRIA,   // 2. Adicionar Indústria
+        [2] = ESTADO_EDITAR_INDUSTRIA,      // 3. Editar Indústria
+        [3] = ESTADO_EXCLUIR_INDUSTRIA,     // 4. Excluir Indústria
+        [4] = ESTADO_MENU_PRINCIPAL         // 5. Voltar ao Menu Principal
     },
+
+    [ESTADO_LISTAR_INDUSTRIAS] = {
+        [0] = ESTADO_CADASTRO_INDUSTRIAS // ENTER após listar indústrias
+    },
+
+    [ESTADO_ADICIONAR_INDUSTRIA] = {
+        [0] = ESTADO_MSG_OPERACAO_INDUSTRIA // ENTER após preencher formulário
+    },
+
+    [ESTADO_EDITAR_INDUSTRIA] = {
+        [0] = ESTADO_MSG_OPERACAO_INDUSTRIA // ENTER após editar indústria
+    },
+
+    [ESTADO_EXCLUIR_INDUSTRIA] = {
+        [0] = ESTADO_MSG_OPERACAO_INDUSTRIA // ENTER após excluir indústria
+    },
+
+    [ESTADO_MSG_OPERACAO_INDUSTRIA] = {
+        [0] = ESTADO_CADASTRO_INDUSTRIAS // ENTER após operação com indústria
+    },
+
     [ESTADO_MSG_CADASTRO_INDUSTRIA] = {
         [0] = ESTADO_MENU_PRINCIPAL
     },
@@ -66,63 +116,39 @@ const estado_aplicacao transicoes[][MAX_OPCOES_MENU] = {
     [ESTADO_ATUALIZACAO_RESIDUOS] = {
         [0] = ESTADO_MSG_ATUALIZACAO_RESIDUOS // ENTER após atualizar dados
     },
+
     [ESTADO_MSG_ATUALIZACAO_RESIDUOS] = {
         [0] = ESTADO_MENU_PRINCIPAL
     },
 
     [ESTADO_RELATORIOS_INDUSTRIA] = {
-        [0] = ESTADO_REL_GLOBAIS_INS_TOT,     // 1. Insumos Tratados por Período
-        [1] = ESTADO_REL_GLOBAIS_TOTAL_GASTOS, // 2. Total de Gastos por Período
-        [2] = ESTADO_MENU_PRINCIPAL          // 3. Voltar ao Menu Principal
+        [0] = ESTADO_MSG_RELATORIOS_INDUSTRIA // ENTER após gerar relatório
     },
 
-    [ESTADO_SUBMENU_RELATORIOS_GLOBAIS] = {
-        [0] = ESTADO_REL_GLOBAIS_REGIAO_MAIOR,   // 1. Regiões c/ Maior Valor de Resíduos
-        [1] = ESTADO_REL_GLOBAIS_IND_MENOR,      // 2. Indústrias c/ Menor Volume
-        [2] = ESTADO_REL_GLOBAIS_APORTE_FINANCEIRO, // 3. Aporte Financeiro
-        [3] = ESTADO_MENU_PRINCIPAL              // 4. Voltar ao Menu Principal
+    [ESTADO_MSG_RELATORIOS_INDUSTRIA] = {
+        [0] = ESTADO_MENU_PRINCIPAL // ENTER após gerar relatório
     },
 
-    /* Estados de exibição de relatório + prompt de exportação:
-     *  1-3 reexibem o mesmo relatório
-     *  4 voltam ao menu de relatórios correspondente
-     *  5 voltam ao menu principal
-     */
-    [ESTADO_REL_GLOBAIS_INS_TOT] = {
-        [0] = ESTADO_REL_GLOBAIS_INS_TOT,
-        [1] = ESTADO_REL_GLOBAIS_INS_TOT,
-        [2] = ESTADO_REL_GLOBAIS_INS_TOT,
-        [3] = ESTADO_SUBMENU_RELATORIOS_GLOBAIS,
-        [4] = ESTADO_MENU_PRINCIPAL
+    [ESTADO_RELATORIOS_GLOBAIS] = {
+        [0] = ESTADO_MSG_RELATORIOS_GLOBAIS // ENTER após gerar relatório
     },
-    [ESTADO_REL_GLOBAIS_TOTAL_GASTOS] = {
-        [0] = ESTADO_REL_GLOBAIS_TOTAL_GASTOS,
-        [1] = ESTADO_REL_GLOBAIS_TOTAL_GASTOS,
-        [2] = ESTADO_REL_GLOBAIS_TOTAL_GASTOS,
-        [3] = ESTADO_SUBMENU_RELATORIOS_GLOBAIS,
-        [4] = ESTADO_MENU_PRINCIPAL
+
+    [ESTADO_MSG_RELATORIOS_GLOBAIS] = {
+        [0] = ESTADO_MENU_PRINCIPAL // ENTER após gerar relatório
     },
-    [ESTADO_REL_GLOBAIS_REGIAO_MAIOR] = {
-        [0] = ESTADO_REL_GLOBAIS_REGIAO_MAIOR,
-        [1] = ESTADO_REL_GLOBAIS_REGIAO_MAIOR,
-        [2] = ESTADO_REL_GLOBAIS_REGIAO_MAIOR,
-        [3] = ESTADO_SUBMENU_RELATORIOS_GLOBAIS,
-        [4] = ESTADO_MENU_PRINCIPAL
+
+    [ESTADO_LOGOUT] = {
+        [0] = ESTADO_MSG_LOGOUT_SUCESSO // ENTER após logout
     },
-    [ESTADO_REL_GLOBAIS_IND_MENOR] = {
-        [0] = ESTADO_REL_GLOBAIS_IND_MENOR,
-        [1] = ESTADO_REL_GLOBAIS_IND_MENOR,
-        [2] = ESTADO_REL_GLOBAIS_IND_MENOR,
-        [3] = ESTADO_SUBMENU_RELATORIOS_GLOBAIS,
-        [4] = ESTADO_MENU_PRINCIPAL
+
+    [ESTADO_MSG_LOGOUT_FALHA] = {
+        [0] = ESTADO_MENU_PRINCIPAL // ENTER após falha no logout
     },
-    [ESTADO_REL_GLOBAIS_APORTE_FINANCEIRO] = {
-        [0] = ESTADO_REL_GLOBAIS_APORTE_FINANCEIRO,
-        [1] = ESTADO_REL_GLOBAIS_APORTE_FINANCEIRO,
-        [2] = ESTADO_REL_GLOBAIS_APORTE_FINANCEIRO,
-        [3] = ESTADO_SUBMENU_RELATORIOS_GLOBAIS,
-        [4] = ESTADO_MENU_PRINCIPAL
+
+    [ESTADO_SAIR] = {
+        [0] = ESTADO_SAIR // ENTER para sair
     }
+
 };
 
 /**

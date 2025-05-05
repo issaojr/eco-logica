@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <stdbool.h>
-#include "estados.h"
-#include "estado.h"
+#include "estados/estados.h"
+#include "estados/estado.h"
 #include "session.h"
 #include "menu.h"
 

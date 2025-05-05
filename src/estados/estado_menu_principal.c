@@ -1,22 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include "estados/estado_menu_principal.h"
-#include "tela_menu_principal_ui.h"
-#include "estado_menu_utils.h"
+#include "estados/estado_menu_utils.h"
 #include "session.h"
 #include "ui/ui_comum.h"
+#include "ui/ui_tela_menu_principal.h"
 
 // Funções específicas deste estado
 static int inicializar(void) {
     // Limpar a tela
     ui_limpar_tela();
-    
-    // Obter data e hora atual
-    time_t t = time(NULL);
-    struct tm *tm_info = localtime(&t);
-    char data_hora[64];
-    strftime(data_hora, sizeof(data_hora), "%d/%m/%Y %H:%M", tm_info);
 
     ui_exibir_titulo("EcoLógica Soluções Ambientais", "Sistema de Gestão Ambiental");
     
@@ -56,6 +49,11 @@ static estado_aplicacao obter_id(void) {
 
 estado_t* criar_estado_menu_principal(void) {
     estado_t* estado = (estado_t*) malloc(sizeof(estado_t));
+
+    if (!estado) {
+        return NULL; // Falha ao alocar memória
+    }
+
     if (estado) {
         estado->inicializar = inicializar;
         estado->processar = processar;

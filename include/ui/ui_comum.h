@@ -5,6 +5,11 @@
 #include <stdbool.h>
 
 /**
+ * @brief Limpa o buffer de entrada do console
+ */
+void limpar_buffer_entrada(void);
+
+/**
  * @brief Limpa a tela do console
  */
 void ui_limpar_tela(void);
@@ -40,6 +45,36 @@ void ui_exibir_sucesso(const char* mensagem);
  * @param mensagem Texto da mensagem informativa
  */
 void ui_exibir_info(const char* mensagem);
+
+/**
+ * @brief Exibe uma mensagem de TODO (a fazer)
+ * @param mensagem Texto da mensagem de TODO
+ */
+void ui_exibir_to_do(const char* mensagem);
+
+/**
+ * @brief Exibe um prompt para o usuário pressionar ENTER para voltar ao início
+ * @param mensagem Texto da mensagem de aviso
+ */
+void ui_prompt_voltar_inicio(const char* mensagem);
+
+/**
+ * @brief Exibe prompt para o usuário pressionar ENTER para voltar ao menu principal
+ * @param mensagem Texto da mensagem (pode ser NULL para usar mensagem padrão)
+ */
+void ui_prompt_voltar_menu_principal(const char* mensagem);
+
+/**
+ * @brief Exibe prompt para o usuário pressionar ENTER para o voltar ao menu anterior
+ * @param mensagem Texto da mensagem (pode ser NULL para usar mensagem padrão)
+ */
+void ui_prompt_voltar_menu_anterior(const char* mensagem);
+
+/**
+ * @brief Exibe uma mensagem de data e hora atual
+ * @param data_hora String formatada com data e hora
+ */
+void ui_exibir_data_hora(const char* data_hora);
 
 /**
  * @brief Pausa a execução e aguarda o usuário pressionar ENTER
@@ -117,9 +152,6 @@ void desenhar_rodape(void);
  * @param tipo Tipo da mensagem: 0=info, 1=sucesso, 2=erro
  */
 void desenhar_caixa_mensagem(const char* mensagem, int tipo);
-
-// Exibe informações sobre o projeto na tela padrão
-void ui_exibir_sobre_projeto(void);
 
 /**
  * @brief Desenha um painel com dados do funcionário
