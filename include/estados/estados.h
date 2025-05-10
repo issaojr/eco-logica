@@ -8,7 +8,7 @@ typedef enum {
     ESTADO_MENU_LOGIN,                 // Tela inicial: [1] Login, [2] Sobre, [3] Sair
     ESTADO_SOBRE_PROJETO,              // Tela “Sobre o Projeto”
     ESTADO_FORM_LOGIN,                 // Tela de formulário de login (matrícula e senha)
-    ESTADO_MSG_LOGIN_SUCESSO,          // Mensagem “Login realizado com sucesso”
+    ESTADO_MSG_LOGIN,          // Mensagem “Login realizado com sucesso”
     ESTADO_MSG_LOGIN_FALHA,            // Mensagem “Usuário ou senha inválidos”
     ESTADO_LOGOUT,                    // Tela de logout (opção 6 do menu principal)
     ESTADO_MSG_LOGOUT_FALHA,           // Mensagem “Logout não realizado”

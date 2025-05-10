@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "persistencia/industria_dao.h"
+#include <string.h>
 
 bool validar_industria_csv(const char *cnpj, industria_t *out_industria) {
     FILE *f = fopen(IND_FILE, "r");

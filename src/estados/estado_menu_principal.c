@@ -6,30 +6,30 @@
 #include "ui/ui_comum.h"
 #include "ui/ui_tela_menu_principal.h"
 
+funcionario_t *funcionario_autenticado;
+
 // Funções específicas deste estado
 static int inicializar(void) {
-    // Limpar a tela
-    ui_limpar_tela();
+    // Obter o funcionário logado
+    funcionario_autenticado = get_funcionario_logado();
 
-    ui_exibir_titulo("EcoLógica Soluções Ambientais", "Sistema de Gestão Ambiental");
-    
-    // Exibe painel de informações do funcionário logado
-    funcionario_t *funcionario = get_funcionario_logado();
-    if (funcionario) {
-        char mat_str[32];
-        snprintf(mat_str, sizeof(mat_str), "%d", funcionario->matricula);
-        desenhar_painel_funcionario(funcionario->nome, mat_str);
-    }
-
-    // Desenhar cabeçalho padrão
-    desenhar_cabecalho("MENU PRINCIPAL");
-    
-    printf("\n");
-    
     return 0; // sucesso
 }
 
 static estado_aplicacao processar(size_t entrada) {
+    if (!funcionario_autenticado) {
+        // [TODO] Criar estado de erro se não houver funcionário logado
+        ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial..."); // [debug]
+        ui_prompt_voltar_inicio("Pressione ENTER para continuar..."); // [debug]
+        return ESTADO_MENU_LOGIN; // Redireciona para o login se não houver funcionário logado
+    }
+
+    // Desenhar tela de menu principal
+    ui_desenhar_tela_menu_principal(
+        funcionario_autenticado->nome,
+        funcionario_autenticado->matricula
+    );
+
     // Usar a função utilitária para processar o menu
     return processar_estado_menu(
         tela_menu_principal_mapa,

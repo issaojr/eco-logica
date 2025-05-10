@@ -1,7 +1,7 @@
 #ifndef UI_TELA_LOGIN_H
 #define UI_TELA_LOGIN_H
 
-#include "menu.h"
+#include "ui/ui_menu.h"
 
 /* mapa de opções e prompt da tela de login */
 extern const opcao_t tela_menu_login_mapa[];

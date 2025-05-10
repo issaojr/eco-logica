@@ -7,30 +7,29 @@
 #include "estados/estado_menu_utils.h"
 #include "session.h"
 
+funcionario_t *funcionario_autenticado;
 
 static int inicializar(void) {
-    // Limpar a tela
-    ui_limpar_tela();
-
-    ui_exibir_titulo("EcoLógica Soluções Ambientais", "Cadastro de Funcionários");
-
-    // Exibe painel de informações do funcionário logado
-    funcionario_t *funcionario = get_funcionario_logado();
-    if (funcionario) {
-        char mat_str[32];
-        snprintf(mat_str, sizeof(mat_str), "%d", funcionario->matricula);
-        desenhar_painel_funcionario(funcionario->nome, mat_str);
-    }
-
-    // Desenhar cabeçalho padrão
-    desenhar_cabecalho("MENU DE CADASTRO DE FUNCIONÁRIOS");
-    
-    printf("\n");
+    // Obter o funcionário logado
+    funcionario_autenticado = get_funcionario_logado();
 
     return 0; // Sucesso
 }
 
 static estado_aplicacao processar(size_t entrada) {
+    if (!funcionario_autenticado) {
+        // [TODO] Criar estado de erro se não houver funcionário logado
+        ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial..."); // [debug]
+        ui_prompt_voltar_inicio("Pressione ENTER para continuar..."); // [debug]
+        return ESTADO_MENU_LOGIN; // Redireciona para o login se não houver funcionário logado
+    }
+
+    // Desenhar tela de menu de cadastro de funcionários
+    ui_desenhar_tela_menu_cadastro_funcionarios(
+        funcionario_autenticado->nome,
+        funcionario_autenticado->matricula
+    );
+    
     return processar_estado_menu(
         tela_menu_cadastro_funcionarios_mapa,
         tela_menu_cadastro_funcionarios_mapa_n,

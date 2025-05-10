@@ -1,7 +1,7 @@
 #ifndef ESTADO_H
 #define ESTADO_H
 
-#include "estados/estados.h"
+#include "estados.h"
 
 /**
  * @brief Interface para estados da aplicação

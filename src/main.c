@@ -5,7 +5,7 @@
 #include "estados/estados.h"
 #include "estados/estado.h"
 #include "session.h"
-#include "menu.h"
+#include "ui/ui_menu.h"
 
 // Estrutura para armazenar informações de entrada para o estado atual
 typedef struct {

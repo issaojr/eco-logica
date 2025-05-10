@@ -1,7 +1,7 @@
 # Makefile cross-platform (GNU make apenas)
 
 CC      := gcc
-CFLAGS  := -Wall -Iinclude
+CFLAGS  := -Wall -Iinclude -std=c99 -pedantic
 
 SRC_DIR := src
 

@@ -3,7 +3,7 @@
 
 #define FUNC_FILE "funcionarios.csv"
 #define FUNC_FILE_TEMP "funcionarios_temp.csv"
-#define HASH_KEY 0xAA
+#define HASH_KEY ((char)0xAA)
 
 #include <stddef.h>
 #include <stdbool.h>

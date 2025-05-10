@@ -2,7 +2,7 @@
 #define ESTADO_MENU_UTILS_H
 
 #include "estados/estados.h"
-#include "menu.h"
+#include "ui/ui_menu.h"
 
 /**
  * Função utilitária para processar entrada de estados de menu.

@@ -1,5 +1,5 @@
-#ifndef INDUSTRIA_BUSINESS_H
-#define INDUSTRIA_BUSINESS_H
+#ifndef BUSINESS_INDUSTRIA_H
+#define BUSINESS_INDUSTRIA_H
 
 #include <stdbool.h>
 #include "persistencia/industria_dao.h" // Garante que industria_t está definido
@@ -9,6 +9,6 @@
  * @param industria Dados da indústria a cadastrar.
  * @return true se cadastrado com sucesso, false se CNPJ já existir ou falha de I/O.
  */
-bool cadastrar_industria(const industria_t *industria);
+bool cadastrar_industria(const industria_t* industria);
 
-#endif // INDUSTRIA_BUSINESS_H
+#endif // BUSINESS_INDUSTRIA_H

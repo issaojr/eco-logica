@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "estados/residuos/estado_msg_atualizacao_residuos.h"
+#include "ui/ui_comum.h"
 
 static int inicializar(void) {
     // TODO: exibir mensagem de sucesso/erro da atualização
@@ -8,7 +9,7 @@ static int inicializar(void) {
 
 static estado_aplicacao processar(size_t entrada) {
     // após exibir a mensagem, retorna ao menu principal ou outro estado
-    puts("[TODO] Implementar estado_msg_atualizacao_residuos.c");
+    ui_exibir_to_do("[TODO] Implementar estado_msg_atualizacao_residuos.c");
     ui_pausar("Pressione ENTER para continuar...");
     return ESTADO_MENU_PRINCIPAL;  // ajuste conforme sua navegação
 }

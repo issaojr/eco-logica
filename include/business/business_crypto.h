@@ -1,5 +1,5 @@
-#ifndef CRYPTO_H
-#define CRYPTO_H
+#ifndef BUSINESS_CRYPTO_H
+#define BUSINESS_CRYPTO_H
 
 #include <stddef.h>
 
@@ -18,4 +18,4 @@ void xor_cipher(char *data, char key);
  */
 void hash_senha(const char *senha, char *output, char key);
 
-#endif // CRYPTO_H
+#endif // BUSINESS_CRYPTO_H

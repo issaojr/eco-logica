@@ -167,36 +167,13 @@ bool ui_exibir_formulario(const char* titulo, const char* subtitulo, campo_formu
                 break;
                 
             case CAMPO_SENHA: {
-                // Para senha, não mostramos o que o usuário digita
-                const char* prompt = campo->rotulo;
-                printf("%s: ", prompt);
-                
-                // Ler a senha (sem eco)
+                // Ler a senha como string normal (visível)
                 char* senha = (char*)campo->valor;
-                size_t idx = 0;
-                int ch;
-                
-                while ((ch = _getch()) != '\r' && ch != '\n') {
-                    if (ch == '\b') { // Backspace
-                        if (idx > 0) {
-                            idx--;
-                            printf("\b \b"); // Apaga o asterisco
-                        }
-                    } else if (idx < campo->tamanho - 1) {
-                        senha[idx++] = ch;
-                        printf("*");
-                    }
-                }
-                senha[idx] = '\0';
-                printf("\n");
-                
-                // Verificar se é obrigatório e foi preenchido
-                if (campo->obrigatorio && idx == 0) {
-                    ui_exibir_erro("Senha obrigatória não pode ficar vazia");
+                if (!ui_ler_string(campo->rotulo, senha, campo->tamanho, campo->obrigatorio)) {
                     sucesso = false;
-                } else {
-                    sucesso = true;
+                    break;
                 }
+                sucesso = true;
                 break;
             }
                 

@@ -1,6 +1,8 @@
 #include "session.h"
+#include "util.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 // Estrutura para um item da sessão
 typedef struct session_item {
@@ -14,7 +16,7 @@ typedef struct session_item {
 } session_item_t;
 
 // Variável global para armazenar o usuário logado.
-static funcionario_t *funcionario_logado = NULL;
+static funcionario_t *funcionario_autenticado = NULL;
 
 // Lista encadeada para armazenar os itens da sessão
 static session_item_t *sessao_items = NULL;
@@ -32,11 +34,11 @@ static session_item_t* encontrar_item(const char *chave) {
 }
 
 funcionario_t* get_funcionario_logado(void) {
-    return funcionario_logado;
+    return funcionario_autenticado;
 }
 
 void set_funcionario_logado(funcionario_t *func) {
-    funcionario_logado = func;
+    funcionario_autenticado = func;
 }
 
 void logout(void) {
@@ -69,7 +71,7 @@ void session_set_int(const char *chave, int valor) {
         item = malloc(sizeof(session_item_t));
         if (!item) return;
         
-        item->chave = strdup(chave);
+        item->chave = util_strdup(chave);
         item->valor.valor_int = valor;
         item->tipo = 0; // inteiro
         item->proximo = sessao_items;
@@ -98,7 +100,7 @@ void session_set_ptr(const char *chave, void *ptr) {
         item = malloc(sizeof(session_item_t));
         if (!item) return;
         
-        item->chave = strdup(chave);
+        item->chave = util_strdup(chave);
         item->valor.valor_ptr = ptr;
         item->tipo = 1; // ponteiro
         item->proximo = sessao_items;

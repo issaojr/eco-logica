@@ -4,7 +4,7 @@
 - [x] Corrigir problemas de autenticação
 - [x] Padronizar nomenclatura (snake_case)
 - [x] Finalizar a refatoração de código para arquitetura de máquina de estados
-- [ ] Remover arquivos deprecados que não serão mais utilizados
+- [x] Remover arquivos deprecados que não serão mais utilizados
 - [ ] Resolver problemas de codificação de caracteres especiais em arquivos de texto
 
 ## Fase 2: Implementação das Funcionalidades Básicas (3-5 dias)

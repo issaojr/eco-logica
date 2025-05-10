@@ -3,7 +3,7 @@
 
 // Funções específicas deste estado
 static int inicializar(void) {
-    // Não há inicialização necessária para o estado de saída
+    // [TODO] Apresentar tela de encerramento
     return 0; // sucesso
 }
 

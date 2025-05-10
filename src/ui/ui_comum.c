@@ -5,15 +5,7 @@
 #include <stdbool.h>
 #include "ui/ui_comum.h"
 
-#define UI_LARGURA_PADRAO 55
-#define UI_COR_RESET "\033[0m"
-#define UI_COR_VERMELHO "\033[31m"
-#define UI_COR_VERDE "\033[32m"
-#define UI_COR_AZUL "\033[34m"
-#define UI_COR_AMARELO "\033[33m"
-#define UI_COR_CIANO "\033[36m"
-#define UI_COR_NEGRITO "\033[1m"
-#define UI_COR_LARANJA "\033[35m"
+
 
 // Constantes para desenho da interface
 #define UI_LARGURA_QUADRO 55
@@ -75,11 +67,26 @@ void ui_exibir_sucesso(const char* mensagem) {
 }
 
 void ui_exibir_info(const char* mensagem) {
-    printf("%s[INFO] %s%s\n", UI_COR_AZUL, mensagem, UI_COR_RESET);
+    printf("%s[INFO] %s%s\n", UI_COR_CIANO_NEGRITO, mensagem, UI_COR_RESET);
 }
 
 void ui_exibir_to_do(const char* mensagem) {
     printf("%s[TODO] %s%s\n", UI_COR_LARANJA, mensagem, UI_COR_RESET);
+}
+
+char* ui_prompt_selecao_opcao(const char* texto, int limite_min, int limite_max) {
+    // Buffer estático para armazenar o resultado
+    static char buffer[128];
+    
+    // Código ANSI para texto amarelo (cor fixa)
+    const char* cor_amarela = "\033[1;33m";
+    const char* reset_cor = "\033[0m";
+    
+    // Formatar o prompt com texto e limites
+    snprintf(buffer, sizeof(buffer), "\n%s%s (%d-%d):%s ", 
+             cor_amarela, texto, limite_min, limite_max, reset_cor);
+    
+    return buffer;
 }
 
 void ui_prompt_voltar_inicio(const char* mensagem) {
@@ -423,4 +430,73 @@ void desenhar_painel_funcionario(const char* funcionario, const char* matricula)
     snprintf(linha, sizeof(linha), "Matrícula: %s", matricula);
     printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
     desenhar_rodape();
+}
+
+void ui_desenhar_tela_menu_padrao(
+    const char *titulo, 
+    const char *subtitulo, 
+    const char *nome_funcionario, 
+    const int matricula, 
+    const char *titulo_cabecalho) {
+    // Limpa a tela
+    ui_limpar_tela();
+
+    // Exibe o título e subtítulo
+    ui_exibir_titulo(titulo, subtitulo);
+
+    if (nome_funcionario != NULL && matricula > 0) {
+        // Exibe o painel do funcionário logado
+        char mat_str[32];
+        snprintf(mat_str, sizeof(mat_str), "%d", matricula);
+        desenhar_painel_funcionario(nome_funcionario, mat_str);
+    }
+
+    // Exibe cabecalho do menu
+    desenhar_cabecalho(titulo_cabecalho);
+
+    printf("\n");
+}
+
+/**
+ * @brief Desenha parte superior de uma tela de formulário padrão
+ * @param titulo Título da tela
+ * @param subtitulo Subtítulo da tela
+ * @param titulo_cabecalho Título do cabeçalho
+ */
+void ui_desenhar_tela_formulario_padrao(
+    const char *titulo, 
+    const char *subtitulo,
+    const char *titulo_cabecalho) {
+    // Limpa a tela
+    ui_limpar_tela();
+
+    // Exibe o título e subtítulo
+    ui_exibir_titulo(titulo, subtitulo);
+
+    // Exibe cabecalho do menu
+    desenhar_cabecalho(titulo_cabecalho);
+
+    printf("\n");
+}
+
+/**
+ * @brief Desenha parte superior de uma tela de relatório padrão
+ * @param titulo Título da tela
+ * @param subtitulo Subtítulo da tela
+ * @param titulo_cabecalho Título do cabeçalho
+ */
+void ui_desenhar_tela_relatorio_padrao(
+    const char *titulo, 
+    const char *subtitulo,
+    const char *titulo_cabecalho) {
+    // Limpa a tela
+    ui_limpar_tela();
+
+    // Exibe o título e subtítulo
+    ui_exibir_titulo(titulo, subtitulo);
+
+    // Exibe cabecalho do menu
+    desenhar_cabecalho(titulo_cabecalho);
+
+    printf("\n");
 }

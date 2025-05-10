@@ -1,6 +1,8 @@
 #ifndef ESTADO_LISTAR_FUNCIONARIOS_H
 #define ESTADO_LISTAR_FUNCIONARIOS_H
 
+#define MAX_FUNCIONARIOS 100 // Tamanho máximo da lista de funcionários
+
 #include "estados/estado.h"
 
 /**

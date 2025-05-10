@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ui/ui_tela_sobre_projeto.h"
+#include "ui/ui_comum.h"
 
 void ui_exibir_sobre_projeto(void) {
     ui_limpar_tela();

@@ -51,6 +51,13 @@ $RECYCLE.BIN/
 # Arquivos específicos do VSCode
 .vscode/
 
+# Arquivos específicos do Visual Studio IDE (NOVO)
+.vs/
+*.suo
+*.user
+*.vcxproj.user
+*.vcxproj.filters.user
+
 # Arquivos específicos de backup
 *.bak
 *.swp

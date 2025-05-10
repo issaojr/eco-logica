@@ -1,6 +1,19 @@
 #ifndef UI_COMUM_H
 #define UI_COMUM_H
 
+#define UI_LARGURA_PADRAO 55
+#define UI_COR_RESET "\033[0m"
+#define UI_COR_VERMELHO "\033[31m"
+#define UI_COR_VERDE "\033[32m"
+#define UI_COR_CIANO_NEGRITO "\033[1;36m"//"\033[34m" 
+#define UI_COR_AMARELO "\033[33m"
+#define UI_COR_CIANO "\033[36m"
+#define UI_COR_NEGRITO "\033[1m"
+#define UI_COR_LARANJA "\033[35m"
+
+#define PROMPT_OPCOES(min, max) "\n\033[33m>> Escolha uma opção (" #min "-" #max "): \033[0m"
+#define PROMPT_FORM(prompt_str) "\n\033[35m>> " prompt_str ": \033[0m"
+
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -51,6 +64,8 @@ void ui_exibir_info(const char* mensagem);
  * @param mensagem Texto da mensagem de TODO
  */
 void ui_exibir_to_do(const char* mensagem);
+
+char* ui_prompt_selecao_opcao(const char* texto, int limite_min, int limite_max);
 
 /**
  * @brief Exibe um prompt para o usuário pressionar ENTER para voltar ao início
@@ -160,4 +175,41 @@ void desenhar_caixa_mensagem(const char* mensagem, int tipo);
  */
 void desenhar_painel_funcionario(const char* funcionario, const char* matricula);
 
+/**
+ * @brief Desenha parte superior de uma tela de menu padrão
+ * @param titulo Título da tela
+ * @param subtitulo Subtítulo da tela
+ * @param nome_funcionario Nome do funcionário logado
+ * @param matricula Matrícula do funcionário logado
+ * @param titulo_cabecalho Título do cabeçalho
+ */
+void ui_desenhar_tela_menu_padrao(
+    const char *titulo, 
+    const char *subtitulo, 
+    const char *nome_funcionario, 
+    const int matricula, 
+    const char *titulo_cabecalho);
+
+/**
+ * @brief Desenha parte superior de uma tela de formulário padrão
+ * @param titulo Título da tela
+ * @param subtitulo Subtítulo da tela
+ * @param titulo_cabecalho Título do cabeçalho
+ */
+void ui_desenhar_tela_formulario_padrao(
+    const char *titulo, 
+    const char *subtitulo,
+    const char *titulo_cabecalho);
+
+/**
+ * @brief Desenha parte superior de uma tela de relatório padrão
+ * @param titulo Título da tela
+ * @param subtitulo Subtítulo da tela
+ * @param titulo_cabecalho Título do cabeçalho
+ */
+void ui_desenhar_tela_relatorio_padrao(
+    const char *titulo, 
+    const char *subtitulo,
+    const char *titulo_cabecalho);
+    
 #endif // UI_COMUM_H

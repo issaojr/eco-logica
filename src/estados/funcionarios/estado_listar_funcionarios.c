@@ -1,18 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "estados/estado.h"
+#include "estados/estados.h"
 #include "estados/funcionarios/estado_listar_funcionarios.h"
+#include "business/business_funcionario.h"
+#include "persistencia/funcionario_dao.h"
 #include "ui/funcionarios/ui_lista_funcionarios.h"
 #include "ui/ui_comum.h"
+#include "session.h"
+
+funcionario_t *funcionario_autenticado = NULL; // Variável global para armazenar o funcionário logado
+funcionario_t funcionarios[MAX_FUNCIONARIOS]; // Array estático
+size_t total_funcionarios = 0; // Total de funcionários cadastrados
+
 
 /* funções internas do estado */
 static int inicializar(void) {
-    // TODO: limpar tela, exibir título, etc.
+    // Busca o funcionário na sessão
+    funcionario_autenticado = get_funcionario_logado();  
+
     return 0; // sucesso
 }
 
 static estado_aplicacao processar(size_t entrada) {
-    ui_exibir_lista_funcionarios(); // Exibe a lista de funcionários cadastrados
+    // Verifica se o funcionário está logado
+    if (!funcionario_autenticado) {
+        // [TODO] Criar estado de erro se não houver funcionário logado
+        ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial..."); // [debug]
+        ui_prompt_voltar_inicio("Pressione ENTER para continuar..."); // [debug]
+        return ESTADO_MENU_LOGIN; // Redireciona para o login se não houver funcionário logado
+    }
+
+    // Chamada para business para recuperar a lista de funcionários
+    obter_todos_funcionarios(funcionarios, MAX_FUNCIONARIOS, &total_funcionarios);
+
+    if (total_funcionarios == 0) {
+        ui_exibir_erro("Nenhum funcionário cadastrado.");
+        ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
+        return ESTADO_MENU_PRINCIPAL; // Retorna ao menu principal
+    }
+
+    ui_desenhar_tela_lista_funcionarios();
+    
+    ui_exibir_lista_funcionarios(
+        funcionarios, 
+        MAX_FUNCIONARIOS, 
+        &total_funcionarios
+    );
+
     return ESTADO_CADASTRO_FUNCIONARIOS; 
 }
 

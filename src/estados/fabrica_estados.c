@@ -11,8 +11,7 @@
 #include "estados/login/estado_form_login.h"
 #include "estados/login/estado_logout.h"
 #include "estados/login/estado_menu_login.h"
-#include "estados/login/estado_msg_login_falha.h"
-#include "estados/login/estado_msg_login_sucesso.h"
+#include "estados/login/estado_msg_login.h"
 #include "estados/login/estado_msg_logout_falha.h"
 #include "estados/login/estado_msg_logout_sucesso.h"
 
@@ -51,10 +50,8 @@ estado_t* criar_estado(estado_aplicacao id) {
             return criar_estado_form_login();
         case ESTADO_SOBRE_PROJETO:
             return criar_estado_sobre_projeto();
-        case ESTADO_MSG_LOGIN_SUCESSO:
+        case ESTADO_MSG_LOGIN:
             return criar_estado_msg_login_sucesso();
-        case ESTADO_MSG_LOGIN_FALHA:
-            return criar_estado_msg_login_falha();
         case ESTADO_LOGOUT:
             return criar_estado_logout();
         case ESTADO_MSG_LOGOUT_FALHA:

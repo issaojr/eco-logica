@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "estados/relatorios/estado_relatorios_globais.h"
+#include "ui/ui_comum.h"
 
 static int inicializar(void) {
     // TODO: limpar tela, exibir título “Relatórios Globais”, etc.
@@ -8,7 +9,7 @@ static int inicializar(void) {
 
 static estado_aplicacao processar(size_t entrada) {
     // TODO: processar opções de relatório
-    puts("[TODO] Implementar estado_relatorios_globais.c");
+    ui_exibir_to_do("[TODO] Implementar estado_relatorios_globais.c");
     ui_pausar("Pressione ENTER para continuar...");
     return ESTADO_MENU_PRINCIPAL;
 }

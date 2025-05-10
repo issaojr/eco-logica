@@ -1,5 +1,5 @@
-#ifndef AUTH_H
-#define AUTH_H
+#ifndef BUSINESS_AUTH_H
+#define BUSINESS_AUTH_H
 
 #include <stdbool.h>
 
@@ -9,6 +9,6 @@
  * @param senha Senha em texto claro.
  * @return true se credenciais válidas, false caso contrário.
  */
-bool autenticar(int matricula, const char *senha);
+bool business_autenticar(int matricula, const char *senha);
 
-#endif // AUTH_H
+#endif // BUSINESS_AUTH_H

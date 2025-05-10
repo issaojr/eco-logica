@@ -9,6 +9,6 @@
  * @param residuo Ponteiro para a estrutura com dados de CNPJ, mês, ano, quantidade e custo.
  * @return true em caso de sucesso, false em caso de falha.
  */
-bool registrar_residuo(const residuo_t *residuo);
+bool registrar_residuo(const residuo_t* residuo);
 
 #endif // RESIDUOS_BUSINESS_H

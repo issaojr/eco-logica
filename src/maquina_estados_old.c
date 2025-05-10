@@ -24,11 +24,14 @@ const estado_aplicacao transicoes[][MAX_OPCOES_MENU] = {
     },
 
     // Estado de formulário de login: tratar credenciais
-    [ESTADO_FORM_LOGIN] = { },
+    [ESTADO_FORM_LOGIN] = {
+        [0] = ESTADO_MSG_LOGIN,   // 1. Login realizado com sucesso
+        [1] = ESTADO_MSG_LOGIN_FALHA       // 2. Login falhou
+    },
 
     //[ESTADO_LOGIN_CREDENCIAIS] = { },
 
-    [ESTADO_MSG_LOGIN_SUCESSO] = {
+    [ESTADO_MSG_LOGIN] = {
         [0] = ESTADO_MENU_PRINCIPAL       // ENTER vai para menu principal
     },
 

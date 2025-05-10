@@ -1,5 +1,5 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef UI_MENU_H
+#define UI_MENU_H
 
 #include <stddef.h>
 #include <stdio.h>
@@ -32,4 +32,4 @@ codigo_opcao ler_opcao(const opcao_t *mapa,
                        size_t n,
                        const char *prompt);
 
-#endif /* MENU_H */
+#endif /* UI_MENU_H */
