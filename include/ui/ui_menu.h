@@ -21,14 +21,14 @@ typedef struct {
  * Imprime no stdout todas as opções de 'mapa' (tamanho n):
  *   "%2d) %s\n"
  */
-void imprimir_menu(const opcao_t *mapa, size_t n);
+void ui_imprimir_menu(const opcao_t *mapa, size_t n);
 
 /**
  * Lê do stdin até que o usuário escolha um código presente em 'mapa' (tamanho n).
  * Exibe o 'prompt' antes da leitura.
  * Retorna OPCAO_INVALIDA em caso de EOF.
  */
-codigo_opcao ler_opcao(const opcao_t *mapa,
+codigo_opcao ui_ler_opcao(const opcao_t *mapa,
                        size_t n,
                        const char *prompt);
 

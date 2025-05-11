@@ -6,7 +6,7 @@
 #include "estados/funcionarios/estado_listar_funcionarios.h"
 #include "business/business_funcionario.h"
 #include "persistencia/funcionario_dao.h"
-#include "ui/funcionarios/ui_lista_funcionarios.h"
+#include "ui/funcionarios/ui_tela_cadastro_funcionarios.h"
 #include "ui/ui_comum.h"
 #include "session.h"
 
@@ -41,9 +41,7 @@ static estado_aplicacao processar(size_t entrada) {
         return ESTADO_MENU_PRINCIPAL; // Retorna ao menu principal
     }
 
-    ui_desenhar_tela_lista_funcionarios();
-    
-    ui_exibir_lista_funcionarios(
+    ui_desenhar_lista_funcionarios(
         funcionarios, 
         MAX_FUNCIONARIOS, 
         &total_funcionarios

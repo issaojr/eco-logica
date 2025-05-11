@@ -1,7 +1,11 @@
 #ifndef UI_COMUM_H
 #define UI_COMUM_H
 
-#define UI_LARGURA_PADRAO 55
+/* Constantes para desenho da interface */
+#define UI_LARGURA_QUADRO 80
+#define UI_LARGURA_PADRAO 80
+
+/* Cores ANSI para formatação de texto */
 #define UI_COR_RESET "\033[0m"
 #define UI_COR_VERMELHO "\033[31m"
 #define UI_COR_VERDE "\033[32m"
@@ -11,6 +15,20 @@
 #define UI_COR_NEGRITO "\033[1m"
 #define UI_COR_LARANJA "\033[35m"
 
+/* Título e subtítulos das telas */
+#define UI_TITULO_PROGRAMA "EcoLógica Soluções Ambientais"
+#define UI_SUBTITULO_PROGRAMA "Sistema de Gestão Ambiental"
+#define UI_SUBTITULO_LOGIN "Formulário de Login"
+#define UI_SUBTITULO_CADASTRO_FUNCIONARIOS "Cadastro de Funcionários"
+#define UI_SUBTITULO_CADASTRO_INDUSTRIAS "Cadastro de Indústrias"
+#define UI_SUBTITULO_SOBRE "Sobre o Projeto"
+#define UI_SUBTITULO_LOGIN_SUCESSO "Autenticação Bem-Sucedida"
+#define UI_SUBTITULO_LOGIN_FALHA "Falha na Autenticação"
+#define UI_SUBTITULO_ADICIONAR_FUNCIONARIO_SUCESSO "Funcionário Adicionado com Sucesso"
+#define UI_SUBTITULO_ADICIONAR_FUNCIONARIO_FALHA "Falha ao Adicionar Funcionário"
+#define UI_SUBTITULO_ADICIONAR_FUNCIONARIO_JA_EXISTE "Funcionário Já Cadastrado"
+
+/* Prompts para entrada do usuário */
 #define PROMPT_OPCOES(min, max) "\n\033[33m>> Escolha uma opção (" #min "-" #max "): \033[0m"
 #define PROMPT_FORM(prompt_str) "\n\033[35m>> " prompt_str ": \033[0m"
 
@@ -20,7 +38,7 @@
 /**
  * @brief Limpa o buffer de entrada do console
  */
-void limpar_buffer_entrada(void);
+void ui_limpar_buffer_entrada(void);
 
 /**
  * @brief Limpa a tela do console
@@ -65,7 +83,20 @@ void ui_exibir_info(const char* mensagem);
  */
 void ui_exibir_to_do(const char* mensagem);
 
+/**
+ * @brief Exibe um prompt para o usuário selecionar uma opção
+ * @param texto Texto do prompt
+ * @param limite_min Valor mínimo da opção
+ * @param limite_max Valor máximo da opção
+ * @return String formatada com o prompt
+ */
 char* ui_prompt_selecao_opcao(const char* texto, int limite_min, int limite_max);
+
+/**
+ * @brief Exibe um prompt para o usuário pressionar ENTER para continuar
+ * @param mensagem Texto da mensagem (pode ser NULL para usar mensagem padrão)
+ */
+void ui_prompt_continuar(const char* mensagem);
 
 /**
  * @brief Exibe um prompt para o usuário pressionar ENTER para voltar ao início
@@ -85,11 +116,14 @@ void ui_prompt_voltar_menu_principal(const char* mensagem);
  */
 void ui_prompt_voltar_menu_anterior(const char* mensagem);
 
+
+void ui_prompt_sair(const char* mensagem);
+
 /**
  * @brief Exibe uma mensagem de data e hora atual
  * @param data_hora String formatada com data e hora
  */
-void ui_exibir_data_hora(const char* data_hora);
+void ui_exibir_data_hora(void);
 
 /**
  * @brief Pausa a execução e aguarda o usuário pressionar ENTER
@@ -149,17 +183,17 @@ bool ui_confirmar(const char* mensagem);
  * @brief Desenha o cabeçalho padronizado para telas do sistema
  * @param titulo Texto do título a ser exibido no cabeçalho
  */
-void desenhar_cabecalho(const char* titulo);
+void ui_desenhar_cabecalho(const char* titulo);
 
 /**
  * @brief Desenha uma linha simples para separar seções
  */
-void desenhar_linha_simples(void);
+void ui_desenhar_linha_simples(void);
 
 /**
  * @brief Desenha o rodapé padronizado para telas do sistema
  */
-void desenhar_rodape(void);
+void ui_desenhar_rodape(void);
 
 /**
  * @brief Desenha uma caixa de diálogo com mensagem
@@ -173,7 +207,7 @@ void desenhar_caixa_mensagem(const char* mensagem, int tipo);
  * @param funcionario Nome do funcionário
  * @param matricula Matrícula ou ID do funcionário
  */
-void desenhar_painel_funcionario(const char* funcionario, const char* matricula);
+void ui_desenhar_painel_funcionario(const char* funcionario, const char* matricula);
 
 /**
  * @brief Desenha parte superior de uma tela de menu padrão
@@ -183,12 +217,11 @@ void desenhar_painel_funcionario(const char* funcionario, const char* matricula)
  * @param matricula Matrícula do funcionário logado
  * @param titulo_cabecalho Título do cabeçalho
  */
-void ui_desenhar_tela_menu_padrao(
+void ui_desenhar_tela_padrao(
     const char *titulo, 
     const char *subtitulo, 
     const char *nome_funcionario, 
-    const int matricula, 
-    const char *titulo_cabecalho);
+    const int matricula);
 
 /**
  * @brief Desenha parte superior de uma tela de formulário padrão
@@ -212,4 +245,10 @@ void ui_desenhar_tela_relatorio_padrao(
     const char *subtitulo,
     const char *titulo_cabecalho);
     
+/**
+ * @brief Converte uma string para maiúsculas
+ * @param str String a ser convertida
+ */
+void ui_converter_para_maiusculo(char* str);
+
 #endif // UI_COMUM_H

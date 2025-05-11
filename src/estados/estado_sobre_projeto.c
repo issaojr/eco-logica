@@ -8,27 +8,12 @@
 
 // Funções específicas deste estado
 static int inicializar(void) {
-    // Obter data e hora atual
-    time_t t = time(NULL);
-    struct tm *tm_info = localtime(&t);
-    char data_hora[64];
-    strftime(data_hora, sizeof(data_hora), "%d/%m/%Y %H:%M", tm_info);
-    
-    // Usar nossos componentes de UI para exibir o cabeçalho
-    ui_exibir_titulo("EcoLógica Soluções Ambientais", "Sistema de Gestão Ambiental");
-    
-    ui_exibir_data_hora(data_hora);
-    
-    ui_exibir_sobre_projeto();
-    printf("\n");
     
     return 0; // sucesso
 }
 
 static estado_aplicacao processar(size_t entrada) {
-    // Este estado não processa entradas do usuário, apenas exibe informações
-    // e aguarda o usuário pressionar ENTER para voltar ao menu anterior.
-    ui_prompt_voltar_menu_anterior(NULL);
+    ui_desenhar_tela_sobre_projeto();
     return ESTADO_MENU_LOGIN;
 }
 

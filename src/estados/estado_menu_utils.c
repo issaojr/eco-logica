@@ -15,8 +15,8 @@
 estado_aplicacao processar_estado_menu(const opcao_t *mapa, size_t mapa_n, 
                                        const char *prompt, estado_aplicacao estado_atual) {
     // Exibe o menu e coleta a entrada do usuário
-    imprimir_menu(mapa, mapa_n);
-    codigo_opcao escolha = ler_opcao(mapa, mapa_n, prompt);
+    ui_imprimir_menu(mapa, mapa_n);
+    codigo_opcao escolha = ui_ler_opcao(mapa, mapa_n, prompt);
 
     // Encontra o índice da opção selecionada
     size_t idx = 0;

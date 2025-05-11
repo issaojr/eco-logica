@@ -5,6 +5,8 @@
 #include "session.h"
 #include "ui/ui_comum.h"
 
+funcionario_t *funcionario_autenticado;
+
 // Funções específicas deste estado
 static int inicializar(void) {   
     
@@ -13,11 +15,11 @@ static int inicializar(void) {
 
 static estado_aplicacao processar(size_t entrada) {
     // Obter informações do usuário logado para personalizar a mensagem
-    funcionario_t *funcionario = get_funcionario_logado();
+    funcionario_autenticado = get_funcionario_logado();
 
-    if (funcionario) {
+    if (funcionario_autenticado) {
         // Desenha a tela de mensagem de login com sucesso
-        ui_desenhar_tela_msg_login_sucesso(funcionario->nome, funcionario->matricula);
+        ui_desenhar_tela_msg_login_sucesso(funcionario_autenticado->nome, funcionario_autenticado->matricula);
         return ESTADO_MENU_PRINCIPAL;
     } else {
         // Se não houver funcionário logado, exibe mensagem de falha

@@ -2,20 +2,14 @@
 
 void ui_desenhar_tela_menu_principal(const char *nome_funcionario, 
                                            const int matricula) {
-    const char *titulo = "EcoLógica Soluções Ambientais";
-    const char *subtitulo = "Sistema de Gestão Ambiental";
-    const char *cabecalho = "MENU PRINCIPAL";
     
     // Desenha tela de menu principal
-    ui_desenhar_tela_menu_padrao(
-        titulo, 
-        subtitulo, 
+    ui_desenhar_tela_padrao(
+        UI_TITULO_PROGRAMA, 
+        UI_SUBTITULO_PROGRAMA, 
         nome_funcionario, 
-        matricula, 
-        cabecalho
-    );
-    
-    printf("\n");
+        matricula
+    );    
 }
 
 const opcao_t tela_menu_principal_mapa[] = {
@@ -31,3 +25,7 @@ const size_t tela_menu_principal_mapa_n =
     sizeof(tela_menu_principal_mapa) / sizeof(tela_menu_principal_mapa[0]);
 
 const char *tela_menu_principal_prompt = PROMPT_OPCOES(1, 6);
+
+void ui_desenhar_cabecalho_menu_principal(void) {
+    ui_desenhar_cabecalho("MENU PRINCIPAL");
+}

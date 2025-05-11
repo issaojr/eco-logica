@@ -1,24 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "estados/login/estado_msg_logout_sucesso.h"
+#include "ui/login/ui_tela_msg_login.h"
 #include "ui/ui_comum.h"
 #include "session.h"
 
 // Funções específicas deste estado
 static int inicializar(void) {
-    // Exibir título e mensagem de erro usando nossos componentes de UI
-    ui_exibir_titulo("Logout Efetuado", "Funcionário Desconectado");
-    
-    ui_exibir_sucesso("Logout realizado com sucesso!");
-    
-    // Usar nosso componente para pausar e aguardar o ENTER
-    ui_prompt_voltar_inicio(NULL);
     
     return 0; // sucesso
 }
 
 static estado_aplicacao processar(size_t entrada) {
-    // Este estado sempre transita para o menu de login após inicialização
+    ui_desenhar_msg_logout_sucesso();
     return ESTADO_MENU_LOGIN;
 }
 

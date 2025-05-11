@@ -236,3 +236,4 @@ bool ui_exibir_formulario(const char* titulo, const char* subtitulo, campo_formu
     // Todos os campos foram preenchidos com sucesso
     return true;
 }
+

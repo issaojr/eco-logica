@@ -34,6 +34,7 @@ typedef enum {
     ESTADO_MSG_RELATORIOS_GLOBAIS,     // Mensagem “Relatório gerado com sucesso”
     ESTADO_RELATORIOS_INDUSTRIA,       // Tela “Relatórios por Indústria”
     ESTADO_MSG_RELATORIOS_INDUSTRIA,   // Mensagem “Relatório gerado com sucesso”
+    ESTADO_MSG_ENCERRAMENTO,              // Mensagem “Encerramento realizado com sucesso”
     ESTADO_SAIR                        // Estado de saída da aplicação
 } estado_aplicacao;
 

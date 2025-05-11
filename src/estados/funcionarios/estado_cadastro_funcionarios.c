@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "estados/funcionarios/estado_cadastro_funcionarios.h"
-#include "ui/funcionarios/ui_tela_menu_cadastro_funcionarios.h"
+#include "ui/funcionarios/ui_tela_cadastro_funcionarios.h"
 #include "ui/ui_comum.h"
 #include "estados/estado_menu_utils.h"
 #include "session.h"
@@ -25,15 +25,19 @@ static estado_aplicacao processar(size_t entrada) {
     }
 
     // Desenhar tela de menu de cadastro de funcionários
-    ui_desenhar_tela_menu_cadastro_funcionarios(
+    ui_desenhar_tela_cadastro_funcionarios(
         funcionario_autenticado->nome,
         funcionario_autenticado->matricula
     );
+
+    /* Desenhar o menu de cadastro de funcionários (CRUD) */
+    ui_desenhar_cabecalho("MENU DE CADASTRO DE FUNCIONÁRIOS");
+    printf("\n");
     
     return processar_estado_menu(
-        tela_menu_cadastro_funcionarios_mapa,
-        tela_menu_cadastro_funcionarios_mapa_n,
-        tela_menu_cadastro_funcionarios_prompt,
+        ui_menu_cadastro_funcionarios_mapa,
+        ui_menu_cadastro_funcionarios_mapa_n,
+        ui_menu_cadastro_funcionarios_prompt,
         ESTADO_CADASTRO_FUNCIONARIOS
     );
 }

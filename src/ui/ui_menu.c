@@ -29,14 +29,14 @@ int ui_opcoes_max(opcao_t *mapa, size_t n) {
     return max;
 }
 
-void imprimir_menu(const opcao_t *mapa, size_t n) {
+void ui_imprimir_menu(const opcao_t *mapa, size_t n) {
     for (size_t i = 0; i < n; i++) {
         /* Exibe: " 1) Login" etc. */
         printf("%2d) %s\n", (int)mapa[i].codigo, mapa[i].msg);
     }
 }
 
-codigo_opcao ler_opcao(const opcao_t *mapa, size_t n, const char *prompt) {
+codigo_opcao ui_ler_opcao(const opcao_t *mapa, size_t n, const char *prompt) {
     char buf[64];
     long val;
     char *endptr;

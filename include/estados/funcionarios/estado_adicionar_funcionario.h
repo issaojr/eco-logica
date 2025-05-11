@@ -4,6 +4,7 @@
 
 #include "estados/estado.h"
 
+
 /**
  * Cria uma instância do estado para adicionar funcionário
  * @return Ponteiro para o estado criado ou NULL em caso de falha

@@ -4,73 +4,7 @@
 #include "ui/ui_comum.h"
 #include "session.h"
 #include "business/business_funcionario.h"
-
-
-/**
- * Solicita e valida a matrícula de um funcionário para edição.
- *
- * @return 1 se uma matrícula válida foi obtida e armazenada na sessão, 0 caso contrário
- */
-int solicitar_matricula_edicao(void) {
-	int matricula;
-	printf("Digite a matrícula do funcionário a editar: ");
-	if (scanf("%d", &matricula) != 1) {
-		getchar(); // Limpar o buffer
-		ui_limpar_tela();
-		desenhar_caixa_mensagem("Matrícula inválida!", 2);
-		printf("\nPressione ENTER para continuar...");
-		getchar();
-		return 0;
-	}
-	getchar(); // Consumir o \n
-
-	// Verificar se o funcionário existe
-	funcionario_t funcionario;
-	if (!buscar_funcionario_csv(matricula, &funcionario)) {
-		ui_limpar_tela();
-		desenhar_caixa_mensagem("Funcionário não encontrado!", 2);
-		printf("\nPressione ENTER para continuar...");
-		getchar();
-		return 0;
-	}
-
-	// Armazenar a matrícula na sessão para o próximo estado
-	session_set_int("matricula_editar", matricula);
-	return 1;
-}
-
-/**
- * Solicita e valida a matrícula de um funcionário para exclusão.
- *
- * @return 1 se uma matrícula válida foi obtida e armazenada na sessão, 0 caso contrário
- */
-int solicitar_matricula_exclusao(void) {
-	int matricula;
-	printf("Digite a matrícula do funcionário a excluir: ");
-	if (scanf("%d", &matricula) != 1) {
-		getchar(); // Limpar o buffer
-		ui_limpar_tela();
-		desenhar_caixa_mensagem("Matrícula inválida!", 2);
-		printf("\nPressione ENTER para continuar...");
-		getchar();
-		return 0;
-	}
-	getchar(); // Consumir o \n
-
-	// Verificar se o funcionário existe
-	funcionario_t funcionario;
-	if (!buscar_funcionario_csv(matricula, &funcionario)) {
-		ui_limpar_tela();
-		desenhar_caixa_mensagem("Funcionário não encontrado!", 2);
-		printf("\nPressione ENTER para continuar...");
-		getchar();
-		return 0;
-	}
-
-	// Armazenar a matrícula na sessão para o próximo estado
-	session_set_int("matricula_excluir", matricula);
-	return 1;
-}
+#include "persistencia/funcionario_dao.h"
 
 /**
  * @brief Obtém a lista completa de todos os funcionários cadastrados.
@@ -83,6 +17,44 @@ int solicitar_matricula_exclusao(void) {
 int obter_todos_funcionarios(funcionario_t* funcionarios_out, size_t max_funcionarios, size_t* total_funcionarios_out) {
 	// Delega a chamada para a camada de persistência
 	if (listar_funcionarios_csv(funcionarios_out, max_funcionarios, total_funcionarios_out)) {
+		return 0; // Sucesso
+	} else {
+		return 1; // Erro
+	}
+}
+
+int adicionar_funcionario(funcionario_t* funcionario) {
+	if (!funcionario) return 1; // Erro: funcionário inválido
+
+	// Verifica se o funcionário já existe
+	bool existe = buscar_funcionario_csv(funcionario->matricula, funcionario);
+
+	if (existe) {
+		return 2; // Erro: funcionário já existe
+	}
+
+	// Delega a chamada para a camada de persistência
+	if (inserir_funcionario_csv(funcionario)) {
+		return 0; // Sucesso
+	} else {
+		return 1; // Erro
+	}
+}
+
+int editar_funcionario(funcionario_t* funcionario) {
+	if (!funcionario) return 1; // Erro: funcionário inválido
+
+	// Delega a chamada para a camada de persistência
+	if (atualizar_funcionario_csv(funcionario)) {
+		return 0; // Sucesso
+	} else {
+		return 1; // Erro
+	}
+}
+
+int excluir_funcionario(int matricula) {
+	// Delega a chamada para a camada de persistência
+	if (excluir_funcionario_csv(matricula)) {
 		return 0; // Sucesso
 	} else {
 		return 1; // Erro

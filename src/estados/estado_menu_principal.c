@@ -30,6 +30,9 @@ static estado_aplicacao processar(size_t entrada) {
         funcionario_autenticado->matricula
     );
 
+    /* Desenhar cabecalho de menu principal */
+    ui_desenhar_cabecalho_menu_principal();
+
     // Usar a função utilitária para processar o menu
     return processar_estado_menu(
         tela_menu_principal_mapa,

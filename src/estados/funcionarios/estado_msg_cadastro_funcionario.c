@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "estados/funcionarios/estado_msg_cadastro_funcionario.h"
+#include "ui/funcionarios/ui_tela_msg_funcionarios.h"
 #include "ui/ui_comum.h"
 
 /* funções internas do estado */
@@ -11,8 +12,16 @@ static int inicializar(void) {
 }
 
 static estado_aplicacao processar(size_t entrada) {
-    puts("[TODO] Implementar estado_msg_cadastro_funcionario()");
-    ui_pausar("Pressione ENTER para continuar...");
+    if(entrada == 0) {
+        ui_desenhar_tela_msg_adicionar_funcionario_sucesso();
+    } else if (entrada == 1) {
+        ui_desenhar_tela_msg_adicionar_funcionario_falha();
+        
+    } else if (entrada == 2) {
+        ui_desenhar_tela_msg_adicionar_funcionario_ja_existe();
+    } else {
+        ui_desenhar_tela_msg_adicionar_funcionario_falha();
+    }
     return ESTADO_CADASTRO_FUNCIONARIOS; 
 }
 

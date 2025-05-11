@@ -2,17 +2,37 @@
 #include <stdlib.h>
 #include <string.h>
 #include "estados/funcionarios/estado_editar_funcionario.h"
-#include "ui/funcionarios/ui_form_editar_funcionario.h"
+#include "ui/funcionarios/ui_tela_cadastro_funcionarios.h"
 #include "ui/ui_comum.h"
+#include "session.h"
+
+funcionario_t *funcionario_autenticado;
 
 /* funções internas do estado */
 static int inicializar(void) {
-    // TODO: limpar tela, exibir título, etc.
+    funcionario_autenticado = get_funcionario_logado();
+
     return 0; // sucesso
 }
 
 static estado_aplicacao processar(size_t entrada) {
-    ui_exibir_form_editar_funcionario(); // Exibe o formulário de editar funcionário 
+    if (!funcionario_autenticado) {
+        // [TODO] Criar estado de erro se não houver funcionário logado
+        ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial..."); // [debug]
+        ui_prompt_voltar_inicio("Pressione ENTER para continuar..."); // [debug]
+        return ESTADO_MENU_LOGIN; // Redireciona para o login se não houver funcionário logado
+    }  
+
+    ui_desenhar_tela_cadastro_funcionarios(
+        funcionario_autenticado->nome,
+        funcionario_autenticado->matricula
+    );
+
+    printf("\n");
+
+    // Exibe o formulário de editar funcionário
+    ui_desenhar_form_editar_funcionario();
+
     return ESTADO_CADASTRO_FUNCIONARIOS; 
 }
 

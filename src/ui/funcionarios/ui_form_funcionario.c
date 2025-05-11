@@ -1,20 +1,14 @@
+#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-#include "ui/login/ui_form_login.h"
+#include "ui/funcionarios/ui_form_funcionario.h"
 #include "ui/ui_comum.h"
 
 
-void ui_desenhar_tela_form_login(void) {
-    ui_exibir_titulo("Login do Sistema", "Informe seus dados de acesso");
-    //ui_exibir_separador('-', 50);
-    printf("\n");
-}
-
-void ui_ler_matricula(int* matricula) {
+void ui_ler_matricula_cadastro_funcionario(int* matricula) {
     char buffer[20];
     //const char* prompt = ">> Digite sua matrícula: ";
-    const char* prompt = PROMPT_FORM("Digite sua matrícula");
+    const char* prompt = PROMPT_FORM("Digite a matrícula do funcionário");
 
     while (1) {
         printf("%s", prompt);
@@ -35,8 +29,24 @@ void ui_ler_matricula(int* matricula) {
     }
 }
 
-void ui_ler_senha_segura(char* senha_buffer, size_t tamanho) {
-    const char* prompt = PROMPT_FORM("Digite sua senha");
+void ui_ler_nome_cadastro_funcionario(char* nome_buffer, size_t tamanho) {
+    const char* prompt = PROMPT_FORM("Digite o nome do funcionário");
+    while (1) {
+        printf("%s", prompt);
+        
+        // Lê a entrada como string
+        if (ui_ler_string(NULL, nome_buffer, tamanho, true)) {
+            ui_converter_para_maiusculo(nome_buffer);
+            return; // Nome lido com sucesso
+        } else {
+            ui_exibir_erro("Entrada inválida. Tente novamente.");
+            continue;
+        }
+    }
+}
+
+void ui_ler_senha_segura_cadastro_funcionario(char* senha_buffer, size_t tamanho) {
+    const char* prompt = PROMPT_FORM("Digite a senha do funcionário");
     while (1) {
         printf("%s", prompt);
         

@@ -5,7 +5,7 @@
 #include "business/business_auth.h"
 #include "ui/ui_comum.h"
 #include "ui/ui_formulario.h"
-#include "ui/login/ui_form_login.h"
+#include "ui/login/ui_tela_menu_login.h"
 
 // Variáveis específicas deste estado
 static int matricula;
@@ -17,15 +17,16 @@ static int inicializar(void) {
     matricula = 0;
     memset(senha, 0, sizeof(senha));
     
-    // Desenha a tela de login
-    ui_desenhar_tela_form_login();
+    
     
     return 0; // sucesso
 }
 
 static estado_aplicacao processar(size_t entrada) {
-    // No estado de formulário, ignoramos o parâmetro entrada
-    // e usamos diretamente a entrada do usuário
+    // Desenha a tela de login
+    ui_desenhar_tela_form_login();
+
+    ui_desenhar_cabecalho("INFORME SUAS CREDENCIAIS");
 
     // Apresenta formulário de login.
     // Matrícula e senha são lidas pelas funções de UI

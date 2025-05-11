@@ -3,15 +3,11 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <time.h>
 #include "ui/ui_comum.h"
 
-
-
-// Constantes para desenho da interface
-#define UI_LARGURA_QUADRO 55
-
 // Limpa o buffer de entrada
-void limpar_buffer_entrada(void) {
+void ui_limpar_buffer_entrada(void) {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
@@ -34,9 +30,6 @@ void ui_exibir_separador(char caractere, int largura) {
 void ui_exibir_titulo(const char* titulo, const char* subtitulo) {
     int largura = UI_LARGURA_PADRAO;
     
-    ui_limpar_tela();
-    printf("\n");
-    
     // Borda superior
     ui_exibir_separador('=', largura);
     
@@ -55,7 +48,7 @@ void ui_exibir_titulo(const char* titulo, const char* subtitulo) {
     
     // Borda inferior
     ui_exibir_separador('=', largura);
-    //printf("\n");
+    
 }
 
 void ui_exibir_erro(const char* mensagem) {
@@ -89,13 +82,23 @@ char* ui_prompt_selecao_opcao(const char* texto, int limite_min, int limite_max)
     return buffer;
 }
 
+void ui_prompt_continuar(const char* mensagem) {
+    if (mensagem != NULL) {
+        printf("%s%s%s\n", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+    } else {
+        printf("%sPressione ENTER para continuar...%s\n", UI_COR_AMARELO, UI_COR_RESET);
+    }
+    //ui_limpar_buffer_entrada(); // Limpa o buffer antes de esperar a entrada
+    getchar(); // Espera o usuário pressionar ENTER
+}
+
 void ui_prompt_voltar_inicio(const char* mensagem) {
     if (mensagem != NULL) {
         printf("%s%s%s\n", UI_COR_AMARELO, mensagem, UI_COR_RESET);
     } else {
         printf("%sPressione ENTER para voltar ao início...%s\n", UI_COR_AMARELO, UI_COR_RESET);
     }
-    //limpar_buffer_entrada(); // Limpa o buffer antes de esperar a entrada
+    //ui_limpar_buffer_entrada(); // Limpa o buffer antes de esperar a entrada
     getchar(); // Espera o usuário pressionar ENTER
 }
 
@@ -105,7 +108,7 @@ void ui_prompt_voltar_menu_principal(const char* mensagem) {
     } else {
         printf("%sPressione ENTER para voltar ao menu principal...%s\n", UI_COR_AMARELO, UI_COR_RESET);
     }
-    //limpar_buffer_entrada(); // Limpa o buffer antes de esperar a entrada
+    //ui_limpar_buffer_entrada(); // Limpa o buffer antes de esperar a entrada
     getchar(); // Espera o usuário pressionar ENTER
 }
 
@@ -115,12 +118,28 @@ void ui_prompt_voltar_menu_anterior(const char* mensagem) {
     } else {
         printf("%sPressione ENTER para voltar ao menu anterior...%s\n", UI_COR_AMARELO, UI_COR_RESET);
     }
-    //limpar_buffer_entrada(); // Limpa o buffer antes de esperar a entrada
+    //ui_limpar_buffer_entrada(); // Limpa o buffer antes de esperar a entrada
+    getchar(); // Espera o usuário pressionar ENTER
+}
+void ui_prompt_sair(const char* mensagem) {
+    if (mensagem != NULL) {
+        printf("%s%s%s\n", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+    } else {
+        printf("%sPressione ENTER para finalizar...%s\n", UI_COR_AMARELO, UI_COR_RESET);
+    }
+    //ui_limpar_buffer_entrada(); // Limpa o buffer antes de esperar a entrada
     getchar(); // Espera o usuário pressionar ENTER
 }
 
-void ui_exibir_data_hora(const char* data_hora) {
-    printf("%s[DATA/HORA] %s%s\n", UI_COR_CIANO, data_hora, UI_COR_RESET);
+void ui_exibir_data_hora() {
+    // Obter data e hora atual
+    time_t t = time(NULL);
+    struct tm *tm_info = localtime(&t);
+    char data_hora[64];
+    strftime(data_hora, sizeof(data_hora), "%d/%m/%Y %H:%M", tm_info);
+    
+    // Exibir informações adicionais
+    printf("%sData e hora: %s%s\n", UI_COR_CIANO, data_hora, UI_COR_RESET);
 }
 
 void ui_pausar(const char* mensagem) {
@@ -222,7 +241,7 @@ int ui_ler_inteiro(const char* prompt, int min, int max, int padrao, bool obriga
 }
 
 // Função auxiliar para validar uma data no formato DD/MM/AAAA
-static bool validar_data(const char* data) {
+static bool ui_validar_data(const char* data) {
     if (strlen(data) != 10) return false;
     
     // Verificar formato DD/MM/AAAA
@@ -285,7 +304,7 @@ bool ui_ler_data(const char* prompt, char* buffer, size_t tamanho, bool obrigato
         }
         
         // Validar a data
-        if (validar_data(buffer)) {
+        if (ui_validar_data(buffer)) {
             return true;
         } else {
             ui_exibir_erro("Data inválida. Use o formato DD/MM/AAAA");
@@ -294,7 +313,7 @@ bool ui_ler_data(const char* prompt, char* buffer, size_t tamanho, bool obrigato
 }
 
 // Função auxiliar para validar CNPJ
-static bool validar_cnpj(const char* cnpj) {
+static bool ui_validar_cnpj(const char* cnpj) {
     if (strlen(cnpj) != 18) return false;
     
     // Verificar formato XX.XXX.XXX/XXXX-XX
@@ -332,7 +351,7 @@ bool ui_ler_cnpj(const char* prompt, char* buffer, size_t tamanho, bool obrigato
         }
         
         // Validar o CNPJ
-        if (validar_cnpj(buffer)) {
+        if (ui_validar_cnpj(buffer)) {
             return true;
         } else {
             ui_exibir_erro("CNPJ inválido. Use o formato XX.XXX.XXX/XXXX-XX");
@@ -354,7 +373,7 @@ bool ui_confirmar(const char* mensagem) {
     return false; // Padrão é não
 }
 
-void desenhar_cabecalho(const char* titulo) {
+void ui_desenhar_cabecalho(const char* titulo) {
     // Desenha a borda superior dinâmica
     putchar('+'); for (int i = 0; i < UI_LARGURA_QUADRO - 2; i++) putchar('-'); puts("+");
     // Linha em branco centralizada
@@ -369,17 +388,17 @@ void desenhar_cabecalho(const char* titulo) {
     puts("|");
 
     // Desenha linha simples após o título
-    desenhar_linha_simples();
+    ui_desenhar_linha_simples();
 }
 
-void desenhar_linha_simples(void) {
+void ui_desenhar_linha_simples(void) {
     // Linha separadora dinâmica (barra e traços)
     putchar('+');
     for (int i = 0; i < UI_LARGURA_QUADRO - 2; i++) putchar('-');
     puts("+");
 }
 
-void desenhar_rodape(void) {
+void ui_desenhar_rodape(void) {
     // Rodapé dinâmico (barra e traços)
     putchar('+');
     for (int i = 0; i < UI_LARGURA_QUADRO - 2; i++) putchar('-');
@@ -405,56 +424,63 @@ void desenhar_caixa_mensagem(const char* mensagem, int tipo) {
     }
     
     // Desenha a caixa superior dinâmica
-    desenhar_linha_simples();
+    ui_desenhar_linha_simples();
     
     // Linha com o tipo da mensagem
     if (strlen(prefixo) > 0) {
         // Prefixo centralizado ou ajustado
         int esp = UI_LARGURA_QUADRO - 4 - strlen(prefixo);
         printf("| [%s]%*s |\n", prefixo, esp, "");
-        desenhar_linha_simples();
+        ui_desenhar_linha_simples();
     }
     
     // Mensagem principal
     printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, mensagem);
     
     // Rodapé da caixa dinâmica
-    desenhar_rodape();
+    ui_desenhar_rodape();
 }
 
-void desenhar_painel_funcionario(const char* funcionario, const char* matricula) {
+void ui_desenhar_painel_funcionario(const char* funcionario, const char* matricula) {
     char linha[UI_LARGURA_QUADRO - 3];
-    desenhar_linha_simples();
+    ui_desenhar_linha_simples();
     snprintf(linha, sizeof(linha), "Funcionário: %s", funcionario);
     printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
     snprintf(linha, sizeof(linha), "Matrícula: %s", matricula);
     printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
-    desenhar_rodape();
+    ui_desenhar_rodape();
 }
 
-void ui_desenhar_tela_menu_padrao(
+void ui_desenhar_linha_funcionario(const char* funcionario, const char* matricula) {
+    char linha[UI_LARGURA_PADRAO];
+    snprintf(linha, sizeof(linha), "Funcionário: %s (Matr: %s)", funcionario, matricula);
+    printf(" %-*s \n", UI_LARGURA_PADRAO - 4, linha);
+}
+
+void ui_desenhar_tela_padrao(
     const char *titulo, 
     const char *subtitulo, 
     const char *nome_funcionario, 
-    const int matricula, 
-    const char *titulo_cabecalho) {
+    const int matricula) {
     // Limpa a tela
     ui_limpar_tela();
-
-    // Exibe o título e subtítulo
-    ui_exibir_titulo(titulo, subtitulo);
 
     if (nome_funcionario != NULL && matricula > 0) {
         // Exibe o painel do funcionário logado
         char mat_str[32];
         snprintf(mat_str, sizeof(mat_str), "%d", matricula);
-        desenhar_painel_funcionario(nome_funcionario, mat_str);
+        ui_desenhar_linha_funcionario(nome_funcionario, mat_str);
     }
 
-    // Exibe cabecalho do menu
-    desenhar_cabecalho(titulo_cabecalho);
+    // Exibe o título e subtítulo
+    ui_exibir_titulo(titulo, subtitulo);
 
-    printf("\n");
+    // if (nome_funcionario != NULL && matricula > 0) {
+    //     // Exibe o painel do funcionário logado
+    //     char mat_str[32];
+    //     snprintf(mat_str, sizeof(mat_str), "%d", matricula);
+    //     ui_desenhar_painel_funcionario(nome_funcionario, mat_str);
+    // }
 }
 
 /**
@@ -474,7 +500,7 @@ void ui_desenhar_tela_formulario_padrao(
     ui_exibir_titulo(titulo, subtitulo);
 
     // Exibe cabecalho do menu
-    desenhar_cabecalho(titulo_cabecalho);
+    ui_desenhar_cabecalho(titulo_cabecalho);
 
     printf("\n");
 }
@@ -496,7 +522,15 @@ void ui_desenhar_tela_relatorio_padrao(
     ui_exibir_titulo(titulo, subtitulo);
 
     // Exibe cabecalho do menu
-    desenhar_cabecalho(titulo_cabecalho);
+    ui_desenhar_cabecalho(titulo_cabecalho);
 
     printf("\n");
+}
+
+void ui_converter_para_maiusculo(char* str) {
+    if (!str) return;
+
+    for (size_t i = 0; str[i] != '\0'; i++) {
+        str[i] = (char) toupper((unsigned char) str[i]);
+    }
 }

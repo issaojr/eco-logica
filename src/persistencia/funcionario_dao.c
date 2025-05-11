@@ -78,6 +78,36 @@ bool validar_funcionario_csv(int matricula, const char *senha, funcionario_t *ou
 }
 
 bool inserir_funcionario_csv(const funcionario_t *funcionario) {
+    // Verificar se o funcionário é válido
+    if (!funcionario) return false;
+    
+    // Primeiro, verificamos se o arquivo existe e se termina com uma quebra de linha
+    FILE *f_read = fopen(FUNC_FILE, "r");
+    if (f_read) {
+        // Vai para o fim do arquivo
+        fseek(f_read, 0, SEEK_END);
+        long size = ftell(f_read);
+        
+        // Se o arquivo não está vazio, verificar o último caractere
+        if (size > 0) {
+            // Volta uma posição para ler o último caractere
+            fseek(f_read, -1, SEEK_END);
+            char last_char = fgetc(f_read);
+            fclose(f_read);
+            
+            // Se o último caractere não for quebra de linha, abrir em modo a+ para adicionar quebra de linha
+            if (last_char != '\n') {
+                FILE *f_append_nl = fopen(FUNC_FILE, "a");
+                if (!f_append_nl) return false;
+                fprintf(f_append_nl, "\n");
+                fclose(f_append_nl);
+            }
+        } else {
+            fclose(f_read);
+        }
+    }
+    
+    // Agora abrimos o arquivo para adicionar o funcionário
     FILE *f = fopen(FUNC_FILE, "a");
     if (!f) return false;
     fprintf(f, "%d,%s,%s\n", funcionario->matricula, funcionario->nome, funcionario->hash_senha);

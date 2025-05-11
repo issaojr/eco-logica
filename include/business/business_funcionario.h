@@ -4,19 +4,6 @@
 #include "persistencia/funcionario_dao.h" // Garante que funcionario_t está definido
 #include <stddef.h>      // Para size_t
 
-/**
- * Solicita e valida a matrícula de um funcionário para edição.
- *
- * @return 1 se uma matrícula válida foi obtida e armazenada na sessão, 0 caso contrário
- */
-int solicitar_matricula_edicao(void);
-
-/**
- * Solicita e valida a matrícula de um funcionário para exclusão.
- *
- * @return 1 se uma matrícula válida foi obtida e armazenada na sessão, 0 caso contrário
- */
-int solicitar_matricula_exclusao(void);
 
 /**
  * @brief Obtém a lista completa de todos os funcionários cadastrados.
@@ -27,5 +14,8 @@ int solicitar_matricula_exclusao(void);
  * @return int 1 se a leitura foi bem-sucedida (mesmo que vazia), 0 em caso de erro.
  */
 int obter_todos_funcionarios(funcionario_t* funcionarios_out, size_t max_funcionarios, size_t* total_funcionarios_out);
+int adicionar_funcionario(funcionario_t* funcionario);
+int editar_funcionario(funcionario_t* funcionario);
+int excluir_funcionario(int matricula);
 
 #endif // BUSINESS_FUNCIONARIO_H

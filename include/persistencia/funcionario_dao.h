@@ -7,15 +7,9 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include "estruturas/funcionario.h"
 
-/**
- * Representa um funcionário autenticável.
- */
-typedef struct {
-    int matricula;
-    char nome[100];
-    char hash_senha[64];
-} funcionario_t;
+
 
 /**
  * Valida se existe um funcionário com matrícula e senha hash na base CSV.

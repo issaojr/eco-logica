@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "estados/industrias/estado_cadastro_industrias.h"
-#include "ui/industrias/ui_tela_menu_cadastro_industrias.h"
+#include "ui/industrias/ui_tela_cadastro_industrias.h"
 #include "ui/ui_comum.h"
 #include "estados/estado_menu_utils.h"
 #include "session.h"
@@ -19,11 +19,11 @@ static int inicializar(void) {
     if (funcionario) {
         char mat_str[32];
         snprintf(mat_str, sizeof(mat_str), "%d", funcionario->matricula);
-        desenhar_painel_funcionario(funcionario->nome, mat_str);
+        ui_desenhar_painel_funcionario(funcionario->nome, mat_str);
     }
 
     // Desenhar cabeçalho padrão
-    desenhar_cabecalho("MENU DE CADASTRO DE INDÚSTRIAS");
+    ui_desenhar_cabecalho("MENU DE CADASTRO DE INDÚSTRIAS");
 
     printf("\n");
 
