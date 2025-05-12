@@ -362,15 +362,44 @@ bool ui_ler_cnpj(const char* prompt, char* buffer, size_t tamanho, bool obrigato
 bool ui_confirmar(const char* mensagem) {
     char resposta[10];
     
-    printf("%s%s (S/N)? %s", UI_COR_AMARELO, mensagem, UI_COR_RESET);
-    
-    if (fgets(resposta, sizeof(resposta), stdin)) {
-        // Converter para minúsculo
-        resposta[0] = tolower(resposta[0]);
-        return (resposta[0] == 's');
+    while (1) {
+        printf("%s%s (S/N)? %s", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+        
+        if (fgets(resposta, sizeof(resposta), stdin)) {
+            // Remover quebra de linha
+            size_t len = strlen(resposta);
+            if (len > 0 && resposta[len - 1] == '\n') {
+                resposta[len - 1] = '\0';
+                len--;
+            }
+            
+            // Se estiver vazio, pedir novamente
+            if (len == 0) {
+                ui_exibir_info("Por favor, responda S para Sim ou N para Não.");
+                continue;
+            }
+            
+            // Converter para maiúsculo para facilitar comparação
+            ui_converter_para_maiusculo(resposta);
+            
+            // Verificar respostas válidas
+            if (resposta[0] == 'S' || strcmp(resposta, "SIM") == 0) {
+                return true;
+            }
+            else if (resposta[0] == 'N' || strcmp(resposta, "NAO") == 0 || strcmp(resposta, "NÃO") == 0) {
+                return false;
+            }
+            else {
+                ui_exibir_erro("Resposta inválida. Por favor, responda S para Sim ou N para Não.");
+                continue;
+            }
+        }
+        else {
+            // Erro de leitura
+            ui_exibir_erro("Erro na leitura da resposta.");
+            return false; // Padrão é não
+        }
     }
-    
-    return false; // Padrão é não
 }
 
 void ui_desenhar_cabecalho(const char* titulo) {

@@ -27,7 +27,17 @@ void ui_exibir_lista_funcionarios(
     size_t* total_funcionarios_out
 );
 
-void ui_desenhar_form_adicionar_funcionario(funcionario_t *novo_funcionario_out);
+void ui_desenhar_form_adicionar_funcionario(
+    funcionario_t *novo_funcionario_out
+);
+void ui_desenhar_tela_excluir_buscar_funcionario(
+    funcionario_t *funcionario_antes_out
+);
+bool ui_desenhar_tela_excluir_confirmar_funcionario(
+    funcionario_t *funcionario_selecionado,
+    const char *nome_funcionario_autenticado,
+    const int matricula_funcionario_autenticado
+);
 void ui_desenhar_tela_editar_buscar_funcionario(
     funcionario_t *funcionario_antes_out
 );
@@ -39,7 +49,9 @@ void ui_desenhar_form_editar_funcionario(
 );
 void ui_desenhar_form_excluir_funcionario(void);
 
-void ui_exibir_form_funcionario(funcionario_t *novo_funcionario_out);
+void ui_exibir_form_funcionario(
+    funcionario_t *novo_funcionario_out
+);
 void ui_exibir_form_editar_funcionario(void);
 void ui_exibir_form_excluir_funcionario(void);
 

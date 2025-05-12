@@ -86,6 +86,44 @@ void ui_desenhar_form_adicionar_funcionario(funcionario_t *novo_funcionario_out)
     //ui_prompt_voltar_menu_principal(NULL);
 }
 
+void ui_desenhar_tela_excluir_buscar_funcionario(
+    funcionario_t *funcionario_antes_out
+) {
+    ui_desenhar_cabecalho("INFORME A MATRÍCULA DO FUNCIONÁRIO A SER EXCLUÍDO");
+    
+    /**
+     * Fase 1 - Formulario para buscar funcionario por matrícula
+     * Apresentar prompt para número de matrícula
+     * Ler matrícula do funcionário 
+     * */
+    ui_ler_matricula_cadastro_funcionario(
+        &funcionario_antes_out->matricula
+    );
+}
+
+bool ui_desenhar_tela_excluir_confirmar_funcionario(
+    funcionario_t *funcionario_selecionado,
+    const char *nome_funcionario_autenticado,
+    const int matricula_funcionario_autenticado
+) {
+    ui_desenhar_tela_cadastro_funcionarios(
+        nome_funcionario_autenticado,
+        matricula_funcionario_autenticado
+    );
+
+    ui_desenhar_cabecalho("CONFIRMAÇÃO DE EXCLUSÃO DE FUNCIONÁRIO");
+    
+    /* Exibe o painel do funcionário encontrado */
+    ui_desenhar_painel_funcionario_selecionado(
+        funcionario_selecionado->nome, 
+        funcionario_selecionado->matricula
+    );
+
+    printf("\n");
+    /* Pergunta se o usuário deseja realmente excluir o funcionário */
+    return ui_confirmar("Deseja realmente excluir este funcionário?");
+}
+
 void ui_desenhar_tela_editar_buscar_funcionario(
     funcionario_t *funcionario_antes_out
 ) {
