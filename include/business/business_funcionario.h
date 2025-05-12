@@ -18,4 +18,13 @@ int adicionar_funcionario(funcionario_t* funcionario);
 int editar_funcionario(funcionario_t* funcionario);
 int excluir_funcionario(int matricula);
 
+/**
+ * @brief Busca um funcionário pelo número de matrícula.
+ *
+ * @param matricula Número de matrícula do funcionário a ser buscado.
+ * @param funcionario_out Ponteiro para a estrutura onde os dados do funcionário serão armazenados.
+ * @return int 0 se encontrado com sucesso, 1 se não encontrado, 2 se erro.
+ */
+int buscar_funcionario_por_matricula(int matricula, funcionario_t* funcionario_out);
+
 #endif // BUSINESS_FUNCIONARIO_H

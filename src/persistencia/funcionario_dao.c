@@ -263,16 +263,18 @@ bool excluir_funcionario_csv(int matricula) {
     if (fgets(line, sizeof(line), f_orig)) {
         fputs(line, f_temp);
     }
-    
-    // Copiar todos os registros para o arquivo temporário, exceto o registro a ser excluído
+      // Copiar todos os registros para o arquivo temporário, exceto o registro a ser excluído
     while (fgets(line, sizeof(line), f_orig)) {
         char linha_copia[256];
         strncpy(linha_copia, line, sizeof(linha_copia) - 1);
         linha_copia[sizeof(linha_copia) - 1] = '\0';
         
-        if (!extrair_dados_funcionario_csv(linha_copia, &funcionario_temp)) {
-            fputs(line, f_temp);
-            continue;
+        // Tenta extrair os dados da linha para verificar se é válida
+        bool linha_valida = extrair_dados_funcionario_csv(linha_copia, &funcionario_temp);
+        
+        // Se a linha não for válida, ignora-a (opção mais segura)
+        if (!linha_valida) {
+            continue; // Linha inválida, não copiar para o arquivo temporário
         }
         
         // Se não for o funcionário a ser excluído, mantém no arquivo

@@ -210,6 +210,13 @@ void desenhar_caixa_mensagem(const char* mensagem, int tipo);
 void ui_desenhar_painel_funcionario(const char* funcionario, const char* matricula);
 
 /**
+ * @brief Desenha um painel com dados do funcionário selecionado
+ * @param funcionario Nome do funcionário
+ * @param matricula Matrícula ou ID do funcionário
+ */
+void ui_desenhar_painel_funcionario_selecionado(const char* funcionario, int matricula);
+
+/**
  * @brief Desenha parte superior de uma tela de menu padrão
  * @param titulo Título da tela
  * @param subtitulo Subtítulo da tela
@@ -244,6 +251,22 @@ void ui_desenhar_tela_relatorio_padrao(
     const char *titulo, 
     const char *subtitulo,
     const char *titulo_cabecalho);
+
+/**
+ * @brief Desenha uma tela de sucesso
+ * @param titulo Título da tela
+ * @param mensagem Mensagem de sucesso a ser exibida
+ * @note Esta função limpa a tela antes de exibir a mensagem
+ */
+void ui_desenhar_tela_sucesso(const char* titulo, const char* mensagem);
+
+/**
+ * @brief Desenha uma tela de erro
+ * @param titulo Título da tela
+ * @param mensagem Mensagem de erro a ser exibida
+ * @note Esta função limpa a tela antes de exibir a mensagem
+ */
+void ui_desenhar_tela_erro(const char* titulo, const char* mensagem);
     
 /**
  * @brief Converte uma string para maiúsculas

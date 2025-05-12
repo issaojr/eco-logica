@@ -86,12 +86,59 @@ void ui_desenhar_form_adicionar_funcionario(funcionario_t *novo_funcionario_out)
     //ui_prompt_voltar_menu_principal(NULL);
 }
 
-void ui_desenhar_form_editar_funcionario(void) {
+void ui_desenhar_tela_editar_buscar_funcionario(
+    funcionario_t *funcionario_antes_out
+) {
+    ui_desenhar_cabecalho("EDIÇÃO: BUSCA DE FUNCIONÁRIO");
+    
+    /**
+     * Fase 1 - Formulario para buscar funcionario por matrícula
+     * Apresentar prompt para número de matrícula
+     * Ler matrícula do funcionário 
+     * */
+    ui_ler_matricula_cadastro_funcionario(
+        &funcionario_antes_out->matricula
+    );
+}
+
+void ui_desenhar_form_editar_funcionario(
+    const char *nome_funcionario_autenticado, 
+    const int matricula_funcionario_autenticado,
+    funcionario_t *funcionario_antes_out,
+    funcionario_t *funcionario_depois_out
+) {
+
+    /* Fase 2 - Formulário para editar funcionário */
+
+    /* Redesenhar tela */
+    ui_desenhar_tela_cadastro_funcionarios(
+        nome_funcionario_autenticado, 
+        matricula_funcionario_autenticado
+    );
+
+    /* Desenhar painel funcionario para funcionario selecionado */
+    ui_desenhar_painel_funcionario_selecionado(
+        funcionario_antes_out->nome, 
+        funcionario_antes_out->matricula
+    );
+
     ui_desenhar_cabecalho("EDIÇÃO DE FUNCIONÁRIO");
-    printf("\n");
-    ui_exibir_form_editar_funcionario();
-    printf("\n");
-    ui_prompt_voltar_menu_principal(NULL);
+
+    ui_ler_nome_cadastro_funcionario(
+        funcionario_depois_out->nome, 
+        sizeof(funcionario_depois_out->nome)
+    );
+    
+    // Primeiro vamos ler a senha em um buffer temporário
+    char senha_temp[100];
+    ui_ler_senha_segura_cadastro_funcionario(
+        senha_temp, 
+        sizeof(senha_temp)
+    );
+
+    // Aplica-se o hash na senha antes de armazenar
+    hash_senha(senha_temp, funcionario_depois_out->hash_senha, HASH_KEY);
+
 }
 
 void ui_desenhar_form_excluir_funcionario(void) {
@@ -122,7 +169,7 @@ void ui_exibir_form_funcionario(funcionario_t *novo_funcionario_out) {
         sizeof(senha_temp)
     );
     
-    // Agora vamos aplicar o hash na senha antes de armazenar
+    // Aplica-se o hash na senha antes de armazenar
     hash_senha(senha_temp, novo_funcionario_out->hash_senha, HASH_KEY);
 }
 

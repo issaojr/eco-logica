@@ -451,6 +451,24 @@ void ui_desenhar_painel_funcionario(const char* funcionario, const char* matricu
     ui_desenhar_rodape();
 }
 
+void ui_desenhar_painel_funcionario_selecionado(const char* funcionario, int matricula) {
+    /* Converte matricula para string */
+    char mat_str[32];
+    snprintf(mat_str, sizeof(mat_str), "%d", matricula);
+
+    /* Desenha o painel do funcionário */
+    char linha[UI_LARGURA_QUADRO - 3];
+    ui_desenhar_linha_simples();
+    snprintf(linha, sizeof(linha), "=> Funcionário Selecionado");
+    printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
+    ui_desenhar_linha_simples();
+    snprintf(linha, sizeof(linha), "Funcionário: %s", funcionario);
+    printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
+    snprintf(linha, sizeof(linha), "Matrícula: %s", mat_str);
+    printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
+    ui_desenhar_rodape();
+}
+
 void ui_desenhar_linha_funcionario(const char* funcionario, const char* matricula) {
     char linha[UI_LARGURA_PADRAO];
     snprintf(linha, sizeof(linha), "Funcionário: %s (Matr: %s)", funcionario, matricula);
@@ -525,6 +543,42 @@ void ui_desenhar_tela_relatorio_padrao(
     ui_desenhar_cabecalho(titulo_cabecalho);
 
     printf("\n");
+}
+
+void ui_desenhar_tela_sucesso(const char* titulo, const char* mensagem) {
+    // Limpa a tela
+    ui_limpar_tela();
+
+    // Exibe o título
+    ui_exibir_titulo(titulo, NULL);
+
+    printf("\n");
+    ui_exibir_separador('*', UI_LARGURA_PADRAO);
+    // Exibe a mensagem de sucesso
+    ui_exibir_sucesso(mensagem);
+    printf("\n");
+    ui_exibir_separador('*', UI_LARGURA_PADRAO);
+    printf("\n");
+
+    ui_prompt_voltar_menu_anterior(NULL);
+}
+
+void ui_desenhar_tela_erro(const char* titulo, const char* mensagem) {
+    // Limpa a tela
+    ui_limpar_tela();
+
+    // Exibe o título
+    ui_exibir_titulo(titulo, NULL);
+
+    printf("\n");
+    ui_exibir_separador('*', UI_LARGURA_PADRAO);
+    // Exibe a mensagem de erro
+    ui_exibir_erro(mensagem);
+    printf("\n");
+    ui_exibir_separador('*', UI_LARGURA_PADRAO);
+    printf("\n");
+
+    ui_prompt_voltar_menu_anterior(NULL);
 }
 
 void ui_converter_para_maiusculo(char* str) {
