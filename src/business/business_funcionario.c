@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "ui/ui_comum.h"
-#include "session.h"
 #include "business/business_funcionario.h"
-#include "persistencia/funcionario_dao.h"
 
 /**
  * @brief Obtém a lista completa de todos os funcionários cadastrados.

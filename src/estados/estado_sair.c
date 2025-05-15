@@ -1,8 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include "estados/estado_sair.h"
-#include "ui/ui_tela_sair.h"
-#include "session.h"
 
 // Funções específicas deste estado
 static int inicializar(void) {

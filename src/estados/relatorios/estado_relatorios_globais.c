@@ -1,6 +1,4 @@
-#include <stdlib.h>
 #include "estados/relatorios/estado_relatorios_globais.h"
-#include "ui/ui_comum.h"
 
 static int inicializar(void) {
     // TODO: limpar tela, exibir título “Relatórios Globais”, etc.

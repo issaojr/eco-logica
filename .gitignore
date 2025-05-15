@@ -25,7 +25,7 @@ Release/
 
 # Arquivos de dados do sistema
 data/*.dat
-*.csv
+#*.csv
 *.txt
 !README.txt
 !requirements.txt

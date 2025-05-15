@@ -2,7 +2,11 @@
 #ifndef ESTADO_MSG_OPERACAO_INDUSTRIA_H
 #define ESTADO_MSG_OPERACAO_INDUSTRIA_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "estados/estado.h"
+#include "ui/ui_comum.h"
 
 /**
  * Cria uma instância do estado para exibir mensagem de operação em indústria

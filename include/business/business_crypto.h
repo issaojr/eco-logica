@@ -2,6 +2,8 @@
 #define BUSINESS_CRYPTO_H
 
 #include <stddef.h>
+#include <string.h>
+#include <stdio.h>
 
 /**
  * Aplica XOR cipher em data com a chave especificada (in-place).

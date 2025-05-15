@@ -3,6 +3,16 @@
 
 #define MAX_FUNCIONARIOS 100 // Tamanho máximo da lista de funcionários
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "estados/estado.h"
+#include "estados/estados.h"
+#include "business/business_funcionario.h"
+#include "persistencia/funcionario_dao.h"
+#include "ui/funcionarios/ui_tela_cadastro_funcionarios.h"
+#include "ui/ui_comum.h"
+#include "session.h"
 #include "estados/estado.h"
 
 /**

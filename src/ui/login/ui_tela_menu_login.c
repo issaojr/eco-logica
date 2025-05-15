@@ -1,6 +1,4 @@
 #include "ui/login/ui_tela_menu_login.h"
-#include "ui/ui_comum.h"
-
 
 void ui_desenhar_tela_menu_login(void) {
     

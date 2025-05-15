@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "ui/ui_tela_sobre_projeto.h"
-#include "ui/ui_comum.h"
+#include "ui/ui_tela_sair.h"
 
 void ui_desenhar_tela_sair(void) {
     const char *titulo = UI_TITULO_PROGRAMA;

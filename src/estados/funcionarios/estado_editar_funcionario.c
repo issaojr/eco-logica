@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "estados/funcionarios/estado_editar_funcionario.h"
-#include "business/business_funcionario.h"
-#include "ui/funcionarios/ui_tela_cadastro_funcionarios.h"
-#include "ui/ui_comum.h"
-#include "session.h"
 
 funcionario_t *funcionario_autenticado;
 

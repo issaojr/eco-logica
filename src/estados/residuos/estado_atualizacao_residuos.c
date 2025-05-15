@@ -1,6 +1,4 @@
-#include <stdlib.h>
 #include "estados/residuos/estado_atualizacao_residuos.h"
-#include "ui/ui_comum.h"
 
 static int inicializar(void) {
     // TODO: limpar tela, exibir título “Atualização de Resíduos”, etc.

@@ -1,10 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include "estados/estado_menu_principal.h"
-#include "estados/estado_menu_utils.h"
-#include "session.h"
-#include "ui/ui_comum.h"
-#include "ui/ui_tela_menu_principal.h"
 
 funcionario_t *funcionario_autenticado;
 
@@ -34,7 +28,7 @@ static estado_aplicacao processar(size_t entrada) {
     ui_desenhar_cabecalho_menu_principal();
 
     // Usar a função utilitária para processar o menu
-    return processar_estado_menu(
+    return estado_processar_estado_menu(
         tela_menu_principal_mapa,
         tela_menu_principal_mapa_n,
         tela_menu_principal_prompt,

@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <string.h> 
-#include <stdlib.h>
 #include "persistencia/funcionario_dao.h"
-#include "business/business_crypto.h"
-#include "ui/ui_comum.h"
 
 /**
  * Função auxiliar para extrair dados de funcionário de uma linha CSV.

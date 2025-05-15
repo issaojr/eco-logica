@@ -1,9 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include "estados/login/estado_msg_logout_falha.h"
-#include "ui/ui_comum.h"
-#include "ui/login/ui_tela_msg_login.h"
-#include "session.h"
+
 
 // Funções específicas deste estado
 static int inicializar(void) {

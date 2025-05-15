@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "ui/ui_comum.h"
 
 /* Código de opção genérico; -1 para inválido */
 typedef enum {

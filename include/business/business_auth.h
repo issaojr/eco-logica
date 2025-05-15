@@ -2,6 +2,11 @@
 #define BUSINESS_AUTH_H
 
 #include <stdbool.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include "persistencia/funcionario_dao.h"
+#include "session.h"
 
 /**
  * Verifica se a combinação matrícula e senha é válida.

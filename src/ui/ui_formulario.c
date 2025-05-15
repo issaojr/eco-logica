@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
 #include "ui/ui_formulario.h"
-#include "ui/ui_comum.h"
 
 // Função auxiliar para validar e-mail
 static bool validar_email(const char* email) {

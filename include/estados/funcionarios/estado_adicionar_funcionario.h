@@ -2,8 +2,15 @@
 #ifndef ESTADO_ADICIONAR_FUNCIONARIO_H
 #define ESTADO_ADICIONAR_FUNCIONARIO_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "estados/estado.h"
-
+#include "ui/funcionarios/ui_tela_cadastro_funcionarios.h"
+#include "ui/ui_comum.h"
+#include "ui/ui_formulario.h"
+#include "business/business_funcionario.h"
+#include "session.h"
 
 /**
  * Cria uma instância do estado para adicionar funcionário

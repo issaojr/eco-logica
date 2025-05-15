@@ -1,6 +1,7 @@
 #ifndef FABRICA_ESTADOS_H
 #define FABRICA_ESTADOS_H
 
+#include <stdlib.h>
 #include "estados/estado.h"
 
 /**

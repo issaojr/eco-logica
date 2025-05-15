@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "estados/industrias/estado_listar_industrias.h"
-#include "ui/industrias/ui_tela_cadastro_industrias.h"
-#include "ui/ui_comum.h"
 
 /* funções internas do estado */
 static int inicializar(void) {
@@ -12,7 +7,7 @@ static int inicializar(void) {
 }
 
 static estado_aplicacao processar(size_t entrada) {
-    ui_exibir_lista_industrias(); // exibe a lista de indústrias
+    //ui_exibir_lista_industrias(); // exibe a lista de indústrias
     return ESTADO_CADASTRO_INDUSTRIAS; 
 }
 

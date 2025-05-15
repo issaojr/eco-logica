@@ -1,9 +1,4 @@
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdio.h>
 #include "business/business_auth.h"
-#include "persistencia/funcionario_dao.h"
-#include "session.h"
 
 /**
  * @brief Autentica um funcionário com base na matrícula e senha, e inicia a sessão.

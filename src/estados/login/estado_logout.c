@@ -1,8 +1,6 @@
-#include <stdlib.h>
-#include <stdio.h>
+
 #include "estados/login/estado_logout.h"
-#include "session.h"
-#include "ui/ui_comum.h"
+
 
 static int inicializar(void) {
     return 0;

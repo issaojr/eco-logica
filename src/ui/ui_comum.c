@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdbool.h>
-#include <time.h>
 #include "ui/ui_comum.h"
 
 // Limpa o buffer de entrada
@@ -52,19 +46,33 @@ void ui_exibir_titulo(const char* titulo, const char* subtitulo) {
 }
 
 void ui_exibir_erro(const char* mensagem) {
-    printf("%s[ERRO] %s%s\n", UI_COR_VERMELHO, mensagem, UI_COR_RESET);
+    char mensagem_formatada[150];
+    snprintf(mensagem_formatada, UI_LARGURA_PADRAO, "%s[ERRO] %s%s\n", UI_COR_VERMELHO, mensagem, UI_COR_RESET);
+    printf("%s", mensagem_formatada);
 }
 
 void ui_exibir_sucesso(const char* mensagem) {
-    printf("%s[SUCESSO] %s%s\n", UI_COR_VERDE, mensagem, UI_COR_RESET);
+    char mensagem_formatada[150];
+    snprintf(mensagem_formatada, UI_LARGURA_PADRAO, "%s[SUCESSO] %s%s\n", UI_COR_VERDE, mensagem, UI_COR_RESET);
+    printf("%s", mensagem_formatada);
 }
 
 void ui_exibir_info(const char* mensagem) {
-    printf("%s[INFO] %s%s\n", UI_COR_CIANO_NEGRITO, mensagem, UI_COR_RESET);
+    char mensagem_formatada[150];
+    snprintf(mensagem_formatada, UI_LARGURA_PADRAO, "%s[INFO] %s%s\n", UI_COR_CIANO, mensagem, UI_COR_RESET);
+    printf("%s", mensagem_formatada);
 }
 
 void ui_exibir_to_do(const char* mensagem) {
-    printf("%s[TODO] %s%s\n", UI_COR_LARANJA, mensagem, UI_COR_RESET);
+    char mensagem_formatada[150];
+    snprintf(mensagem_formatada, UI_LARGURA_PADRAO, "%s[TODO] %s%s\n", UI_COR_LARANJA, mensagem, UI_COR_RESET);
+    printf("%s", mensagem_formatada);
+}
+
+void ui_exibir_debug(const char* mensagem) {
+    char mensagem_formatada[150];
+    snprintf(mensagem_formatada, UI_LARGURA_PADRAO, "%s[DEBUG] %s%s\n", UI_COR_CIANO, mensagem, UI_COR_RESET);
+    printf("%s", mensagem_formatada);
 }
 
 char* ui_prompt_selecao_opcao(const char* texto, int limite_min, int limite_max) {
@@ -615,5 +623,13 @@ void ui_converter_para_maiusculo(char* str) {
 
     for (size_t i = 0; str[i] != '\0'; i++) {
         str[i] = (char) toupper((unsigned char) str[i]);
+    }
+}
+
+void ui_converter_para_minusculo(char* str) {
+    if (!str) return;
+
+    for (size_t i = 0; str[i] != '\0'; i++) {
+        str[i] = (char) tolower((unsigned char) str[i]);
     }
 }

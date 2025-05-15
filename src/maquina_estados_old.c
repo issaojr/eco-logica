@@ -1,6 +1,8 @@
 // src/maquina_estados.c
 
 #include "estados/estados.h"
+// debug
+#include "ui/ui_comum.h"
 
 #define UNUSED(x) (void)(x)
 
@@ -161,6 +163,8 @@ const estado_aplicacao transicoes[][MAX_OPCOES_MENU] = {
 estado_aplicacao obter_proximo_estado(estado_aplicacao estado_atual,
                                       size_t indice_opcao)
 {
+    ui_exibir_debug("maquina_estados_old => obter_proximo_estado()");
+
     if (indice_opcao >= MAX_OPCOES_MENU)
         return estado_atual;
     return transicoes[estado_atual][indice_opcao];

@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "persistencia/residuo_dao.h"
-#include <string.h>
 
 bool gravar_residuo_csv(const residuo_t *residuo) {
     // lê todos os registros existentes

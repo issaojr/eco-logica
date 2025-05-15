@@ -1,9 +1,4 @@
 #include "ui/funcionarios/ui_tela_cadastro_funcionarios.h"
-#include "ui/ui_menu.h"
-#include "ui/ui_comum.h"
-#include "ui/funcionarios/ui_form_funcionario.h"
-#include "business/business_crypto.h"
-#include "persistencia/funcionario_dao.h"
 
 void ui_desenhar_tela_cadastro_funcionarios(
     const char *nome_funcionario, 

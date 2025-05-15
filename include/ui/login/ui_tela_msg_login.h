@@ -1,5 +1,9 @@
 #ifndef UI_TELA_MSG_LOGIN_H
 #define UI_TELA_MSG_LOGIN_H
+
+#include <stdlib.h>
+#include <stdio.h>
+#include "ui/login/ui_tela_menu_login.h"
 #include "ui/ui_comum.h"
 #include "session.h"
 

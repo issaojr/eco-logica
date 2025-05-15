@@ -1,10 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
 #include "estados/estado_sobre_projeto.h"
-#include "ui/ui_tela_sobre_projeto.h"
-#include "estados/estado_menu_utils.h"
-#include "ui/ui_comum.h"
 
 // Funções específicas deste estado
 static int inicializar(void) {

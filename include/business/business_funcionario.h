@@ -1,9 +1,13 @@
 #ifndef BUSINESS_FUNCIONARIO_H
 #define BUSINESS_FUNCIONARIO_H
 
-#include "persistencia/funcionario_dao.h" // Garante que funcionario_t está definido
 #include <stddef.h>      // Para size_t
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "ui/ui_comum.h"
+#include "session.h"
+#include "persistencia/funcionario_dao.h"
 
 /**
  * @brief Obtém a lista completa de todos os funcionários cadastrados.

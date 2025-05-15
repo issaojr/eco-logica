@@ -1,6 +1,4 @@
-#include <string.h>
 #include "business/business_crypto.h"
-#include <stdio.h>
 
 void xor_cipher(char* data, char key) {
 	size_t len = strlen(data);

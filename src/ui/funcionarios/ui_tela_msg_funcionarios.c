@@ -1,10 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-
 #include "ui/funcionarios/ui_tela_msg_funcionarios.h"
-#include "ui/login/ui_tela_menu_login.h"
-#include "ui/ui_comum.h"
-
 
 void ui_desenhar_tela_msg_adicionar_funcionario_sucesso(void) {
     ui_desenhar_tela_padrao(

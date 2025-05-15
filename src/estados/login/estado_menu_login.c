@@ -1,11 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
 #include "estados/login/estado_menu_login.h"
-#include "ui/login/ui_tela_menu_login.h"
-#include "estados/estado_menu_utils.h"
-#include "ui/ui_comum.h"
-#include "session.h"
+
 
 funcionario_t *funcionario_autenticado;
 
@@ -25,7 +19,7 @@ static estado_aplicacao processar(size_t entrada) {
     ui_desenhar_tela_menu_login();
 
     // Usar a função utilitária para processar o menu
-    return processar_estado_menu(
+    return estado_processar_estado_menu(
         tela_menu_login_mapa,
         tela_menu_login_mapa_n,
         tela_menu_login_prompt,

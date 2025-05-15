@@ -5,9 +5,14 @@
 #define FUNC_FILE_TEMP "funcionarios_temp.csv"
 #define HASH_KEY ((char)0xAA)
 
+#include <stdio.h>
+#include <string.h> 
+#include <stdlib.h>
 #include <stddef.h>
 #include <stdbool.h>
 #include "estruturas/funcionario.h"
+#include "business/business_crypto.h"
+#include "ui/ui_comum.h"
 
 
 

@@ -1,7 +1,11 @@
 #ifndef ESTADO_SAIR_H
 #define ESTADO_SAIR_H
 
+#include <stdlib.h>
+#include <stdio.h>
 #include "estados/estado.h"
+#include "ui/ui_tela_sair.h"
+#include "session.h"
 
 /**
  * Cria uma instância do estado de saída

@@ -1,6 +1,10 @@
 #ifndef UI_TELA_SOBRE_PROJETO_H
 #define UI_TELA_SOBRE_PROJETO_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include "ui/ui_comum.h"
+
 /**
  * @brief Exibe informações sobre o projeto e a empresa
  */

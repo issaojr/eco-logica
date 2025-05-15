@@ -1,11 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include "estados/login/estado_form_login.h"
-#include "business/business_auth.h"
-#include "ui/ui_comum.h"
-#include "ui/ui_formulario.h"
-#include "ui/login/ui_tela_menu_login.h"
+
 
 // Variáveis específicas deste estado
 static int matricula;

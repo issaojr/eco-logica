@@ -1,5 +1,4 @@
 #include "ui/ui_menu.h"
-#include "ui/ui_comum.h"
 
 /* Macro para calcular o número de elementos de um array estático */
 #define ARRAY_SIZE(a)  (sizeof(a)/sizeof((a)[0]))

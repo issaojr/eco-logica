@@ -1,6 +1,10 @@
 #ifndef ESTADO_MSG_OPERACAO_FUNCIONARIO_H
 #define ESTADO_MSG_OPERACAO_FUNCIONARIO_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "ui/ui_comum.h"
 #include "estados/estado.h"
 
 /**

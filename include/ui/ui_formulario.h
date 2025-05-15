@@ -3,6 +3,11 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include "ui/ui_comum.h"
 
 /**
  * @brief Define os tipos de campos suportados em um formulário

@@ -1,6 +1,13 @@
 #ifndef UI_COMUM_H
 #define UI_COMUM_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
+#include <time.h>
+
 /* Constantes para desenho da interface */
 #define UI_LARGURA_QUADRO 80
 #define UI_LARGURA_PADRAO 80
@@ -82,6 +89,9 @@ void ui_exibir_info(const char* mensagem);
  * @param mensagem Texto da mensagem de TODO
  */
 void ui_exibir_to_do(const char* mensagem);
+
+
+void ui_exibir_debug(const char* mensagem);
 
 /**
  * @brief Exibe um prompt para o usuário selecionar uma opção
@@ -273,5 +283,11 @@ void ui_desenhar_tela_erro(const char* titulo, const char* mensagem);
  * @param str String a ser convertida
  */
 void ui_converter_para_maiusculo(char* str);
+
+/**
+ * @brief Converte uma string para minúsculas
+ * @param str String a ser convertida
+ */
+void ui_converter_para_minusculo(char* str);
 
 #endif // UI_COMUM_H

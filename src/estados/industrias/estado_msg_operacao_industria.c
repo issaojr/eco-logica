@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "estados/industrias/estado_msg_operacao_industria.h"
-#include "ui/ui_comum.h"
 
 /* funções internas do estado */
 static int inicializar(void) {

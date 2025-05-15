@@ -1,37 +1,29 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "estados/industrias/estado_cadastro_industrias.h"
-#include "ui/industrias/ui_tela_cadastro_industrias.h"
-#include "ui/ui_comum.h"
-#include "estados/estado_menu_utils.h"
-#include "session.h"
+
+funcionario_t *funcionario_autenticado;
 
 /* funções internas do estado */
 static int inicializar(void) {
-    // Limpar a tela
-    ui_limpar_tela();
-
-    ui_exibir_titulo("EcoLógica Soluções Ambientais", "Cadastro de Indústrias");
-
-    // Exibe painel de informações do funcionário logado
-    funcionario_t *funcionario = get_funcionario_logado();
-    if (funcionario) {
-        char mat_str[32];
-        snprintf(mat_str, sizeof(mat_str), "%d", funcionario->matricula);
-        ui_desenhar_painel_funcionario(funcionario->nome, mat_str);
-    }
-
-    // Desenhar cabeçalho padrão
-    ui_desenhar_cabecalho("MENU DE CADASTRO DE INDÚSTRIAS");
-
-    printf("\n");
+    // Obter o funcionário logado
+    funcionario_autenticado = get_funcionario_logado();
 
     return 0; // sucesso
 }
 
 static estado_aplicacao processar(size_t entrada) {
-    return processar_estado_menu(
+    if (!funcionario_autenticado) {
+        // [TODO] Criar estado de erro se não houver funcionário logado
+        ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial..."); // [debug]
+        ui_prompt_voltar_inicio("Pressione ENTER para continuar..."); // [debug]
+        return ESTADO_MENU_LOGIN; // Redireciona para o login se não houver funcionário logado
+    }
+
+    // Desenhar tela de menu de cadastro de indústrias
+    ui_desenhar_tela_cadastro_industrias(
+        funcionario_autenticado
+    );
+
+    return estado_processar_estado_menu(
         tela_menu_cadastro_industrias_mapa,
         tela_menu_cadastro_industrias_mapa_n,
         tela_menu_cadastro_industrias_prompt,

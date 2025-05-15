@@ -1,7 +1,13 @@
 #ifndef ESTADO_SOBRE_PROJETO_H
 #define ESTADO_SOBRE_PROJETO_H
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 #include "estados/estado.h" // Para estado_t e estado_aplicacao
+#include "ui/ui_tela_sobre_projeto.h"
+#include "estados/estado_menu_utils.h"
+#include "ui/ui_comum.h"
 
 /**
  * @file estado_sobre_projeto.h

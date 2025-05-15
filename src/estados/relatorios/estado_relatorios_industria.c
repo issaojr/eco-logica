@@ -1,6 +1,5 @@
-#include <stdlib.h>
 #include "estados/relatorios/estado_relatorios_industria.h"
-#include "ui/ui_comum.h"
+
 
 static int inicializar(void) {
     // TODO: limpar tela, exibir título “Relatório por Indústria”, etc.

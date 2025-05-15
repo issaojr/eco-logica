@@ -4,6 +4,9 @@
 #include "estruturas/funcionario.h"
 #include "ui/ui_menu.h"
 #include "ui/ui_comum.h"
+#include "ui/funcionarios/ui_form_funcionario.h"
+#include "business/business_crypto.h"
+#include "persistencia/funcionario_dao.h"
 
 /* mapa de opções e prompt da tela de cadastro de funcionários */
 extern opcao_t ui_menu_cadastro_funcionarios_mapa[];

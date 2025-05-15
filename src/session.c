@@ -1,8 +1,8 @@
-#include "session.h"
-#include "util.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "session.h"
+#include "util.h"
 
 // Estrutura para um item da sessão
 typedef struct session_item {

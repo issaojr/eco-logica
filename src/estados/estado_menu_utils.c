@@ -1,7 +1,4 @@
-#include <stdlib.h>
-#include "estados/estado.h"
-#include "ui/ui_menu.h"
-#include "estados/estados.h"
+#include "estados/estado_menu_utils.h"
 
 /**
  * Função utilitária para processar entrada de estados de menu.
@@ -12,7 +9,7 @@
  * @param estado_atual ID do estado atual (para fallback)
  * @return O próximo estado da aplicação
  */
-estado_aplicacao processar_estado_menu(const opcao_t *mapa, size_t mapa_n, 
+estado_aplicacao estado_processar_estado_menu(const opcao_t *mapa, size_t mapa_n, 
                                        const char *prompt, estado_aplicacao estado_atual) {
     // Exibe o menu e coleta a entrada do usuário
     ui_imprimir_menu(mapa, mapa_n);

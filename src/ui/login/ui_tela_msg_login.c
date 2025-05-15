@@ -1,9 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-
 #include "ui/login/ui_tela_msg_login.h"
-#include "ui/login/ui_tela_menu_login.h"
-#include "ui/ui_comum.h"
 
 void ui_desenhar_tela_msg_login_sucesso(const char *nome_funcionario, const int matricula) {
     ui_desenhar_tela_padrao(

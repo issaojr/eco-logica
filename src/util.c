@@ -1,8 +1,8 @@
-#include "util.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "util.h"
 
 char *get_data_hora_atual(void) {
     // Obter data e hora atual

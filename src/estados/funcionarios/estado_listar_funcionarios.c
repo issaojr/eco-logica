@@ -1,14 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "estados/estado.h"
-#include "estados/estados.h"
 #include "estados/funcionarios/estado_listar_funcionarios.h"
-#include "business/business_funcionario.h"
-#include "persistencia/funcionario_dao.h"
-#include "ui/funcionarios/ui_tela_cadastro_funcionarios.h"
-#include "ui/ui_comum.h"
-#include "session.h"
 
 funcionario_t *funcionario_autenticado = NULL; // Variável global para armazenar o funcionário logado
 funcionario_t funcionarios[MAX_FUNCIONARIOS]; // Array estático

@@ -1,5 +1,3 @@
-#include <stdlib.h>
-#include "estados/estado.h"
 #include "estados/fabrica_estados.h"
 
 /* Estados da Tela de Inicial */

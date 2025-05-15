@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "estados/industrias/estado_excluir_industria.h"
-#include "ui/industrias/ui_tela_cadastro_industrias.h"
-#include "ui/ui_comum.h"
 
 /* funções internas do estado */
 static int inicializar(void) {

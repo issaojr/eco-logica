@@ -1,9 +1,4 @@
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "ui/funcionarios/ui_form_funcionario.h"
-#include "ui/ui_comum.h"
-
 
 void ui_ler_matricula_cadastro_funcionario(int* matricula) {
     char buffer[20];
