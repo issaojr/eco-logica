@@ -11,10 +11,10 @@
 
 /**
  * @file estado_sobre_projeto.h
- * @brief Declarações para o estado de exibição de informações sobre o projeto.
+ * @brief DeclaraÃ§Ãµes para o estado de exibiÃ§Ã£o de informaÃ§Ãµes sobre o projeto.
  * @author Issao Hanaoka Junior
  * @date 2025-05-04
  */
-estado_t* criar_estado_sobre_projeto(void);
+estado_t *criar_estado_sobre_projeto(void);
 
 #endif // ESTADO_SOBRE_PROJETO_H

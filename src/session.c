@@ -4,28 +4,29 @@
 #include "session.h"
 #include "util.h"
 
-// Estrutura para um item da sessão
-typedef struct session_item {
+typedef struct session_item
+{
     char *chave;
-    union {
+    union
+    {
         int valor_int;
         void *valor_ptr;
     } valor;
-    int tipo; // 0 = inteiro, 1 = ponteiro
+    int tipo;
     struct session_item *proximo;
 } session_item_t;
 
-// Variável global para armazenar o usuário logado.
 static funcionario_t *funcionario_autenticado = NULL;
 
-// Lista encadeada para armazenar os itens da sessão
 static session_item_t *sessao_items = NULL;
 
-// Função interna para procurar um item na sessão
-static session_item_t* encontrar_item(const char *chave) {
+static session_item_t *encontrar_item(const char *chave)
+{
     session_item_t *atual = sessao_items;
-    while (atual) {
-        if (strcmp(atual->chave, chave) == 0) {
+    while (atual)
+    {
+        if (strcmp(atual->chave, chave) == 0)
+        {
             return atual;
         }
         atual = atual->proximo;
@@ -33,23 +34,27 @@ static session_item_t* encontrar_item(const char *chave) {
     return NULL;
 }
 
-funcionario_t* get_funcionario_logado(void) {
+funcionario_t *get_funcionario_logado(void)
+{
     return funcionario_autenticado;
 }
 
-void set_funcionario_logado(funcionario_t *func) {
+void set_funcionario_logado(funcionario_t *func)
+{
     funcionario_autenticado = func;
 }
 
-void logout(void) {
-    if (get_funcionario_logado() != NULL) {
+void logout(void)
+{
+    if (get_funcionario_logado() != NULL)
+    {
         free(get_funcionario_logado());
         set_funcionario_logado(NULL);
     }
-    
-    // Limpar todos os itens da sessão
+
     session_item_t *atual = sessao_items;
-    while (atual) {
+    while (atual)
+    {
         session_item_t *proximo = atual->proximo;
         free(atual->chave);
         free(atual);
@@ -58,48 +63,55 @@ void logout(void) {
     sessao_items = NULL;
 }
 
-void session_set_int(const char *chave, int valor) {
-    // Procurar se o item já existe
+void session_set_int(const char *chave, int valor)
+{
     session_item_t *item = encontrar_item(chave);
-    
-    if (item) {
-        // Atualizar o valor
+
+    if (item)
+    {
         item->valor.valor_int = valor;
-        item->tipo = 0; // inteiro
-    } else {
-        // Criar um novo item
+        item->tipo = 0;
+    }
+    else
+    {
         item = malloc(sizeof(session_item_t));
-        if (!item) return;
-        
+        if (!item)
+            return;
+
         item->chave = util_strdup(chave);
         item->valor.valor_int = valor;
-        item->tipo = 0; // inteiro
+        item->tipo = 0;
         item->proximo = sessao_items;
         sessao_items = item;
     }
 }
 
-int session_get_int(const char *chave, int padrao) {
+int session_get_int(const char *chave, int padrao)
+{
     session_item_t *item = encontrar_item(chave);
-    if (item && item->tipo == 0) {
+    if (item && item->tipo == 0)
+    {
         return item->valor.valor_int;
     }
     return padrao;
 }
 
-void session_set_ptr(const char *chave, void *ptr) {
-    // Procurar se o item já existe
+void session_set_ptr(const char *chave, void *ptr)
+{
+
     session_item_t *item = encontrar_item(chave);
-    
-    if (item) {
-        // Atualizar o valor
+
+    if (item)
+    {
         item->valor.valor_ptr = ptr;
-        item->tipo = 1; // ponteiro
-    } else {
-        // Criar um novo item
+        item->tipo = 1;
+    }
+    else
+    {
         item = malloc(sizeof(session_item_t));
-        if (!item) return;
-        
+        if (!item)
+            return;
+
         item->chave = util_strdup(chave);
         item->valor.valor_ptr = ptr;
         item->tipo = 1; // ponteiro
@@ -108,9 +120,11 @@ void session_set_ptr(const char *chave, void *ptr) {
     }
 }
 
-void* session_get_ptr(const char *chave) {
+void *session_get_ptr(const char *chave)
+{
     session_item_t *item = encontrar_item(chave);
-    if (item && item->tipo == 1) {
+    if (item && item->tipo == 1)
+    {
         return item->valor.valor_ptr;
     }
     return NULL;

@@ -11,9 +11,9 @@
 #include "session.h"
 
 /**
- * Cria uma inst‚ncia do estado de menu de login
+ * Cria uma inst√¢ncia do estado de menu de login
  * @return Ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_menu_login(void);
+estado_t *criar_estado_menu_login(void);
 
 #endif // ESTADO_MENU_LOGIN_H

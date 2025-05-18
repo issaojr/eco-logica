@@ -1,55 +1,59 @@
 #include "estados/login/estado_form_login.h"
 
-
-// Variáveis específicas deste estado
-static int matricula;
+// VariÃ¡veis especÃ­ficas deste estado
+static char matricula[8];
 static char senha[64];
 
-// Funções específicas deste estado
-static int inicializar(void) {
-    
-    matricula = 0;
+// FunÃ§Ãµes especÃ­ficas deste estado
+static int inicializar(void)
+{
+
+    // matricula = NULL;
     memset(senha, 0, sizeof(senha));
-    
-    
-    
+
     return 0; // sucesso
 }
 
-static estado_aplicacao processar(size_t entrada) {
+static estado_aplicacao processar(size_t entrada)
+{
     // Desenha a tela de login
     ui_desenhar_tela_form_login();
 
     ui_desenhar_cabecalho("INFORME SUAS CREDENCIAIS");
 
-    // Apresenta formulário de login.
-    // Matrícula e senha são lidas pelas funções de UI
-    ui_ler_matricula(&matricula);
-    ui_ler_senha_segura(senha, sizeof(senha));
+    // Apresenta formulÃ¡rio de login.
+    // MatrÃ­cula e senha sÃ£o lidas pelas funÃ§Ãµes de UI
+    ui_ler_matricula_funcionario(matricula, sizeof(matricula));
+    ui_ler_senha_funcionario(senha, sizeof(senha));
 
-    // O processamento das credenciais é delegado à função de autenticação
+    // O processamento das credenciais Ã© delegado Ã© funÃ§Ã£o de autenticaÃ§Ã£o
     // na camada business (auth.h)
-    // Se a autenticação for bem-sucedida, o funcionário é armazenado na sessão
+    // Se a autenticaÃ§Ã£o for bem-sucedida, o funcionÃ¡rio Ã© armazenado na sessÃ£o
     business_autenticar(matricula, senha);
 
-    // O ESTADO_MSG_LOGIN verifica se o funcionário está logado na sessão
-    // e exibe a mensagem apropriada, seja sucesso ou falha, redirecionando
-    // para o menu principal ou de login, respectivamente.
+    // [TODO] Subistituir este novo estado por ESTADO_MENU_LOGIN ou
+    // ESTADO_MENU_PRINCIPAL, dependendo se o login foi bem-sucedido ou nÃ£o
+    // Se o login for bem-sucedido, desenha a tela de sucesso
+    // Se o login falhar, desenha a tela de erro
     return ESTADO_MSG_LOGIN;
 }
 
-static void finalizar(void) {
-    // Limpa a senha após o uso
+static void finalizar(void)
+{
+    // Limpa a senha apÃ³s o uso
     memset(senha, 0, sizeof(senha));
 }
 
-static estado_aplicacao obter_id(void) {
+static estado_aplicacao obter_id(void)
+{
     return ESTADO_FORM_LOGIN;
 }
 
-estado_t* criar_estado_form_login(void) {
-    estado_t* estado = (estado_t*) malloc(sizeof(estado_t));
-    if (estado) {
+estado_t *criar_estado_form_login(void)
+{
+    estado_t *estado = (estado_t *)malloc(sizeof(estado_t));
+    if (estado)
+    {
         estado->inicializar = inicializar;
         estado->processar = processar;
         estado->finalizar = finalizar;

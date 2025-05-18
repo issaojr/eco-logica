@@ -4,29 +4,30 @@
 #include "estados.h"
 
 /**
- * @brief Interface para estados da aplicação
- * 
- * Esta estrutura define as operações que todos os estados devem implementar
+ * @brief Interface para estados da aplicaÃ§Ã£o
+ *
+ * Esta estrutura define as operaÃ§Ãµes que todos os estados devem implementar
  */
-typedef struct {
+typedef struct
+{
     /**
      * Inicializa o estado atual
-     * @return código de erro (0 = sucesso)
+     * @return cÃ³digo de erro (0 = sucesso)
      */
     int (*inicializar)(void);
-    
+
     /**
-     * Processa uma entrada do usuário no estado atual
-     * @param entrada índice da opção escolhida pelo usuário
-     * @return próximo estado da aplicação
+     * Processa uma entrada do usuÃ¡rio no estado atual
+     * @param entrada Ã­ndice da opÃ§Ã£o escolhida pelo usuÃ¡rio
+     * @return prÃ³ximo estado da aplicaÃ§Ã£o
      */
     estado_aplicacao (*processar)(size_t entrada);
-    
+
     /**
      * Limpa recursos utilizados pelo estado
      */
     void (*finalizar)(void);
-    
+
     /**
      * Retorna o ID do estado
      */
@@ -34,18 +35,18 @@ typedef struct {
 } estado_t;
 
 /**
- * @brief Fábrica de estados
- * 
- * Retorna uma implementação do estado correspondente ao ID
+ * @brief FÃ¡brica de estados
+ *
+ * Retorna uma implementaÃ§Ã£o do estado correspondente ao ID
  * @param id ID do estado desejado
- * @return Ponteiro para estrutura estado_t ou NULL se o estado não existir
+ * @return Ponteiro para estrutura estado_t ou NULL se o estado nÃ£o existir
  */
-estado_t* criar_estado(estado_aplicacao id);
+estado_t *criar_estado(estado_aplicacao id);
 
 /**
  * @brief Libera recursos alocados para o estado
- * @param estado Ponteiro para o estado a ser destruído
+ * @param estado Ponteiro para o estado a ser destruÃ­do
  */
-void destruir_estado(estado_t* estado);
+void destruir_estado(estado_t *estado);
 
 #endif // ESTADO_H

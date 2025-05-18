@@ -9,11 +9,10 @@
 #include "ui/industrias/ui_tela_cadastro_industrias.h"
 #include "ui/ui_comum.h"
 
-
 /**
- * Cria uma instância do estado para editar indústria
+ * Cria uma instÃ¢ncia do estado para editar indÃºstria
  * @return Ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_editar_industria(void);
+estado_t *criar_estado_editar_industria(void);
 
 #endif // ESTADO_EDITAR_INDUSTRIA_H

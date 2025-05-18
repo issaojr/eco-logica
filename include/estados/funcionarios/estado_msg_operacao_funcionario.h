@@ -8,9 +8,9 @@
 #include "estados/estado.h"
 
 /**
- * Cria uma inst‚ncia do estado para exibir mensagem de operaÁ„o em funcion·rio
+ * Cria uma inst√¢ncia do estado para exibir mensagem de opera√ß√£o em funcion√°rio
  * @return Ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_msg_operacao_funcionario(void);
+estado_t *criar_estado_msg_operacao_funcionario(void);
 
 #endif // ESTADO_MSG_OPERACAO_FUNCIONARIO_H

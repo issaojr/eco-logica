@@ -1,31 +1,39 @@
 #include "estados/estado_menu_utils.h"
 
 /**
- * FunÁ„o utilit·ria para processar entrada de estados de menu.
- * 
- * @param mapa Array de opÁıes do menu
- * @param mapa_n Tamanho do array de opÁıes
- * @param prompt Texto do prompt para o usu·rio
+ * Fun√ß√£o utilit√°ria para processar entrada de estados de menu.
+ *
+ * @param mapa Array de op√ß√µes do menu
+ * @param mapa_n Tamanho do array de op√ß√µes
+ * @param prompt Texto do prompt para o usu√°rio
  * @param estado_atual ID do estado atual (para fallback)
- * @return O prÛximo estado da aplicaÁ„o
+ * @return O pr√≥ximo estado da aplica√ß√£o
  */
-estado_aplicacao estado_processar_estado_menu(const opcao_t *mapa, size_t mapa_n, 
-                                       const char *prompt, estado_aplicacao estado_atual) {
-    // Exibe o menu e coleta a entrada do usu·rio
+estado_aplicacao estado_processar_estado_menu(
+    const opcao_t *mapa,
+    size_t mapa_n,
+    const char *(*prompt_fn)(void),
+    estado_aplicacao estado_atual)
+{
+    // Exibe o menu e coleta a entrada do usu√°rio
     ui_imprimir_menu(mapa, mapa_n);
+    const char *prompt = prompt_fn();
     codigo_opcao escolha = ui_ler_opcao(mapa, mapa_n, prompt);
 
-    // Encontra o Ìndice da opÁ„o selecionada
+    // Encontra o √≠ndice da op√ß√£o selecionada
     size_t idx = 0;
-    for (; idx < mapa_n; idx++) {
-        if (mapa[idx].codigo == escolha) break;
+    for (; idx < mapa_n; idx++)
+    {
+        if (mapa[idx].codigo == escolha)
+            break;
     }
 
-    // Se n„o encontrou, permanece no estado atual
-    if (idx >= mapa_n) {
+    // Se n√£o encontrou, permanece no estado atual
+    if (idx >= mapa_n)
+    {
         return estado_atual;
     }
 
-    // Retorna o prÛximo estado com base na opÁ„o selecionada
+    // Retorna o pr√≥ximo estado com base na op√ß√£o selecionada
     return obter_proximo_estado(estado_atual, idx);
 }

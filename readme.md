@@ -16,6 +16,7 @@ O EcoLógica é um sistema desktop desenvolvido em linguagem C com interface de 
 - Cadastro de indústrias clientes (dados completos da empresa)
 - Registro mensal de resíduos tratados
 - Cálculo de custos estimados
+- Verificação automatizada da integridade dos arquivos CSV
 - Geração de relatórios individuais:
   - Total de insumos tratados semestralmente
   - Total de gastos mensais
@@ -24,6 +25,10 @@ O EcoLógica é um sistema desktop desenvolvido em linguagem C com interface de 
   - Indústrias com menor produção no último semestre
   - Aporte financeiro semestral
 - Exportação de relatórios em formato TXT, XLS ou CSV
+
+## Compilação e Testes
+
+O sistema inclui testes automatizados para verificar a integridade dos arquivos CSV. Para mais informações sobre como compilar e executar os testes, consulte a [documentação de compilação](docs/compilacao.md).
 
 ## Licença
 

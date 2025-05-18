@@ -6,9 +6,9 @@
 #include "ui/ui_comum.h"
 
 /**
- * Cria instância do estado para relatórios por indústria
+ * Cria instÃ¢ncia do estado para relatÃ³rios por indÃºstria
  * @return ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_relatorios_industria(void);
+estado_t *criar_estado_relatorios_industria(void);
 
 #endif // ESTADO_RELATORIOS_INDUSTRIA_H

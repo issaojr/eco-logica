@@ -7,30 +7,32 @@
 #include <string.h>
 #include "ui/ui_comum.h"
 
-/* Código de opção genérico; -1 para inválido */
-typedef enum {
+/* CÃ³digo de opÃ§Ã£o genÃºrico; -1 para invÃ¡lido */
+typedef enum
+{
     OPCAO_INVALIDA = -1
 } codigo_opcao;
 
-/* Par código ? mensagem de uma opção de menu */
-typedef struct {
+/* Par cÃ³digo ? mensagem de uma opÃ§Ã£o de menu */
+typedef struct
+{
     codigo_opcao codigo;
     const char *msg;
 } opcao_t;
 
 /**
- * Imprime no stdout todas as opções de 'mapa' (tamanho n):
+ * Imprime no stdout todas as opÃ§Ãµes de 'mapa' (tamanho n):
  *   "%2d) %s\n"
  */
 void ui_imprimir_menu(const opcao_t *mapa, size_t n);
 
 /**
- * Lê do stdin até que o usuário escolha um código presente em 'mapa' (tamanho n).
+ * LÃª do stdin atÃ© que o usuÃ¡rio escolha um cÃ³digo presente em 'mapa' (tamanho n).
  * Exibe o 'prompt' antes da leitura.
  * Retorna OPCAO_INVALIDA em caso de EOF.
  */
 codigo_opcao ui_ler_opcao(const opcao_t *mapa,
-                       size_t n,
-                       const char *prompt);
+                          size_t n,
+                          const char *prompt);
 
 #endif /* UI_MENU_H */

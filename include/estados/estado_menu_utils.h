@@ -7,15 +7,18 @@
 #include "estados/estados.h"
 
 /**
- * Função utilitária para processar entrada de estados de menu.
- * 
- * @param mapa Array de opções do menu
- * @param mapa_n Tamanho do array de opções
- * @param prompt Texto do prompt para o usuário
+ * FunÃ§Ã£o utilitÃ¡ria para processar entrada de estados de menu.
+ *
+ * @param mapa Array de opÃ§Ãµes do menu
+ * @param mapa_n Tamanho do array de opÃ§Ãµes
+ * @param prompt Texto do prompt para o usuÃ¡rio
  * @param estado_atual ID do estado atual (para fallback)
- * @return O próximo estado da aplicação
+ * @return O prÃ³ximo estado da aplicaÃ§Ã£o
  */
-estado_aplicacao estado_processar_estado_menu(const opcao_t *mapa, size_t mapa_n, 
-                                      const char *prompt, estado_aplicacao estado_atual);
+estado_aplicacao estado_processar_estado_menu(
+    const opcao_t *mapa,
+    size_t mapa_n,
+    const char *(*prompt_fn)(void),
+    estado_aplicacao estado_atual);
 
 #endif // ESTADO_MENU_UTILS_H

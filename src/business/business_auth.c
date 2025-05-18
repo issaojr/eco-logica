@@ -1,16 +1,19 @@
 #include "business/business_auth.h"
 
 /**
- * @brief Autentica um funcionário com base na matrícula e senha, e inicia a sessão.
- * @param matricula Matrícula do funcionário.
+ * @brief Autentica um funcionÃ¡rio com base na matrÃ­cula e senha, e inicia a sessÃ£o.
+ * @param matricula MatrÃ­cula do funcionÃ¡rio.
  * @param senha Senha em texto claro.
- * @return true se as credenciais forem válidas, false caso contrário.
+ * @return true se as credenciais forem vÃ¡lidas, false caso contrÃ¡rio.
  */
-bool business_autenticar(int matricula, const char* senha) {
+bool business_autenticar(char *matricula, const char *senha)
+{
 	funcionario_t temp;
-	if (validar_funcionario_csv(matricula, senha, &temp)) {
-		funcionario_t* user = malloc(sizeof(funcionario_t));
-		if (!user) return false;
+	if (validar_funcionario_csv(matricula, senha, &temp))
+	{
+		funcionario_t *user = malloc(sizeof(funcionario_t));
+		if (!user)
+			return false;
 		*user = temp;
 		set_funcionario_logado(user);
 		return true;

@@ -1,15 +1,15 @@
 #include "ui/ui_tela_sobre_projeto.h"
 
-void ui_desenhar_tela_sobre_projeto(void) {
+void ui_desenhar_tela_sobre_projeto(void)
+{
 
     ui_desenhar_tela_padrao(
-        UI_TITULO_PROGRAMA, 
-        UI_SUBTITULO_SOBRE, 
-        NULL, 
-        0
-    );
+        UI_TITULO_PROGRAMA,
+        UI_SUBTITULO_SOBRE,
+        NULL,
+        NULL);
 
-    ui_desenhar_cabecalho("INFORMAÇÕES DO PROJETO");
+    ui_desenhar_cabecalho("INFORMAÃ‡Ã•ES DO PROJETO");
     printf("\n");
 
     ui_exibir_sobre_projeto();
@@ -18,8 +18,9 @@ void ui_desenhar_tela_sobre_projeto(void) {
     ui_prompt_voltar_inicio(NULL);
 }
 
-void ui_exibir_sobre_projeto(void) {
-    ui_exibir_info("EcoLógica Soluções Ambientais - versão acadêmica");
+void ui_exibir_sobre_projeto(void)
+{
+    ui_exibir_info("EcoLÃ³gica SoluÃ§Ãµes Ambientais - versÃ£o acadÃªmica");
     ui_exibir_info("Autor: Issao Hanaoka Junior");
     ui_exibir_info("UNIP - Universidade Paulista");
     ui_exibir_info("PIM IV - Projeto Integrado Multidisciplinar");

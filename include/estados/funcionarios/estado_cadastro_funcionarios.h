@@ -11,11 +11,10 @@
 #include "estados/estado_menu_utils.h"
 #include "session.h"
 
-
 /**
- * Cria uma inst‚ncia do estado para cadastro de funcion·rios
+ * Cria uma inst√¢ncia do estado para cadastro de funcion√°rios
  * @return Ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_cadastro_funcionarios(void);
+estado_t *criar_estado_cadastro_funcionarios(void);
 
 #endif // ESTADO_CADASTRO_FUNCIONARIOS_H

@@ -1,31 +1,33 @@
 #include "ui/ui_tela_menu_principal.h"
 
-void ui_desenhar_tela_menu_principal(const char *nome_funcionario, 
-                                           const int matricula) {
-    
-    // Desenha tela de menu principal
+void ui_desenhar_tela_menu_principal(const char *nome_funcionario,
+                                     const char *matricula)
+{
+
     ui_desenhar_tela_padrao(
-        UI_TITULO_PROGRAMA, 
-        UI_SUBTITULO_PROGRAMA, 
-        nome_funcionario, 
-        matricula
-    );    
+        UI_TITULO_PROGRAMA,
+        UI_SUBTITULO_PROGRAMA,
+        nome_funcionario,
+        matricula);
 }
 
 const opcao_t tela_menu_principal_mapa[] = {
-    { 1, "Cadastro de Funcionário" },
-    { 2, "Cadastro de Indústria" },
-    { 3, "Atualização Mensal de Resíduos" },
-    { 4, "Relatórios por Indústria" },
-    { 5, "Relatórios Globais" },
-    { 6, "Logout" }
-};
+    {1, "Cadastro de FuncionÃ¡rio"},
+    {2, "Cadastro de IndÃºstria"},
+    {3, "AtualizaÃ§Ã£o Mensal de ResÃ­duos"},
+    {4, "RelatÃ³rios por IndÃºstria"},
+    {5, "RelatÃ³rios Globais"},
+    {6, "Logout"}};
 
 const size_t tela_menu_principal_mapa_n =
     sizeof(tela_menu_principal_mapa) / sizeof(tela_menu_principal_mapa[0]);
 
-const char *tela_menu_principal_prompt = PROMPT_OPCOES(1, 6);
+const char *tela_menu_principal_prompt(void)
+{
+    return ui_prompt_opcao(1, tela_menu_principal_mapa_n);
+}
 
-void ui_desenhar_cabecalho_menu_principal(void) {
+void ui_desenhar_cabecalho_menu_principal(void)
+{
     ui_desenhar_cabecalho("MENU PRINCIPAL");
 }

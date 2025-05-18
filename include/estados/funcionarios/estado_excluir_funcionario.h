@@ -5,16 +5,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ui/funcionarios/ui_tela_cadastro_funcionarios.h"
-#include "ui/ui_formulario.h"
 #include "ui/ui_comum.h"
 #include "business/business_funcionario.h"
 #include "session.h"
 #include "estados/estado.h"
 
 /**
- * Cria uma inst‚ncia do estado para excluir funcion·rio
+ * Cria uma inst√¢ncia do estado para excluir funcion√°rio
  * @return Ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_excluir_funcionario(void);
+estado_t *criar_estado_excluir_funcionario(void);
 
 #endif // ESTADO_EXCLUIR_FUNCIONARIO_H

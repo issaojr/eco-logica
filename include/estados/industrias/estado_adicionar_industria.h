@@ -17,9 +17,9 @@ void finalizar(void);
 estado_aplicacao obter_id(void);
 
 /**
- * Cria uma instância do estado para adicionar indústria
+ * Cria uma instÃ¢ncia do estado para adicionar indÃºstria
  * @return Ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_adicionar_industria(void);
+estado_t *criar_estado_adicionar_industria(void);
 
 #endif // ESTADO_ADICIONAR_INDUSTRIA_H

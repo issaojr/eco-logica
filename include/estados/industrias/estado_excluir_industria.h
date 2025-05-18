@@ -10,9 +10,9 @@
 #include "ui/ui_comum.h"
 
 /**
- * Cria uma instância do estado para excluir indústria
+ * Cria uma instÃ¢ncia do estado para excluir indÃºstria
  * @return Ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_excluir_industria(void);
+estado_t *criar_estado_excluir_industria(void);
 
 #endif // ESTADO_EXCLUIR_INDUSTRIA_H

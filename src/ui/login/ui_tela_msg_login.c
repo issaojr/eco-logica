@@ -1,12 +1,14 @@
 #include "ui/login/ui_tela_msg_login.h"
 
-void ui_desenhar_tela_msg_login_sucesso(const char *nome_funcionario, const int matricula) {
+void ui_desenhar_tela_msg_login_sucesso(
+    const char *nome_funcionario,
+    const char *matricula)
+{
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_LOGIN_SUCESSO,
         NULL,
-        0
-    );
+        NULL);
 
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
@@ -16,7 +18,7 @@ void ui_desenhar_tela_msg_login_sucesso(const char *nome_funcionario, const int 
     printf("\n");
 
     printf("Bem-vindo(a), %s!\n", nome_funcionario);
-    printf("Matrícula: %d\n", matricula);
+    printf("MatrÃ­cula: %s\n", matricula);
 
     printf("\n");
     ui_prompt_continuar(NULL);
@@ -24,13 +26,13 @@ void ui_desenhar_tela_msg_login_sucesso(const char *nome_funcionario, const int 
     return;
 }
 
-void ui_desenhar_tela_msg_login_falha(void) {
+void ui_desenhar_tela_msg_login_falha(void)
+{
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_LOGIN_FALHA,
         NULL,
-        0
-    );
+        NULL);
 
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
@@ -40,17 +42,17 @@ void ui_desenhar_tela_msg_login_falha(void) {
     printf("\n");
 
     ui_prompt_voltar_inicio(NULL);
-    
+
     return;
 }
 
-void ui_desenhar_msg_logout_sucesso(void) {
+void ui_desenhar_msg_logout_sucesso(void)
+{
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_LOGIN_SUCESSO,
         NULL,
-        0
-    );
+        NULL);
 
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
@@ -60,17 +62,17 @@ void ui_desenhar_msg_logout_sucesso(void) {
     printf("\n");
 
     ui_prompt_voltar_inicio(NULL);
-    
+
     return;
 }
 
-void ui_desenhar_tela_msg_logout_falha(void) {
+void ui_desenhar_tela_msg_logout_falha(void)
+{
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_LOGIN_FALHA,
         NULL,
-        0
-    );
+        NULL);
 
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
@@ -80,6 +82,6 @@ void ui_desenhar_tela_msg_logout_falha(void) {
     printf("\n");
 
     ui_prompt_voltar_menu_anterior(NULL);
-    
+
     return;
 }

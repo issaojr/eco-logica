@@ -8,9 +8,9 @@
 #include "session.h"
 
 /**
- * Cria uma instância do estado de saída
+ * Cria uma instÃ¢ncia do estado de saÃ­da
  * @return Ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_sair(void);
+estado_t *criar_estado_sair(void);
 
 #endif // ESTADO_SAIR_H

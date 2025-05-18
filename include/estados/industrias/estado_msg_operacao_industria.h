@@ -9,9 +9,9 @@
 #include "ui/ui_comum.h"
 
 /**
- * Cria uma instância do estado para exibir mensagem de operação em indústria
+ * Cria uma instÃ¢ncia do estado para exibir mensagem de operaÃ§Ã£o em indÃºstria
  * @return Ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_msg_operacao_industria(void);
+estado_t *criar_estado_msg_operacao_industria(void);
 
 #endif // ESTADO_MSG_OPERACAO_INDUSTRIA_H

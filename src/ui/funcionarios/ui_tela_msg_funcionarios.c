@@ -1,16 +1,16 @@
 #include "ui/funcionarios/ui_tela_msg_funcionarios.h"
 
-void ui_desenhar_tela_msg_adicionar_funcionario_sucesso(void) {
+void ui_desenhar_tela_msg_adicionar_funcionario_sucesso(void)
+{
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_ADICIONAR_FUNCIONARIO_SUCESSO,
         NULL,
-        0
-    );
+        0);
 
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
-    ui_exibir_sucesso("Funcion·rio adicionado com sucesso!");
+    ui_exibir_sucesso("Funcion√°rio adicionado com sucesso!");
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
     printf("\n");
@@ -21,42 +21,42 @@ void ui_desenhar_tela_msg_adicionar_funcionario_sucesso(void) {
     return;
 }
 
-void ui_desenhar_tela_msg_adicionar_funcionario_falha(void) {
+void ui_desenhar_tela_msg_adicionar_funcionario_falha(void)
+{
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_ADICIONAR_FUNCIONARIO_FALHA,
         NULL,
-        0
-    );
+        0);
 
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
-    ui_exibir_erro("Falha ao adicionar funcion·rio.");
+    ui_exibir_erro("Falha ao adicionar funcion√°rio.");
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
     printf("\n");
 
     ui_prompt_voltar_inicio(NULL);
-    
+
     return;
 }
 
-void ui_desenhar_tela_msg_adicionar_funcionario_ja_existe(void) {
+void ui_desenhar_tela_msg_adicionar_funcionario_ja_existe(void)
+{
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_ADICIONAR_FUNCIONARIO_JA_EXISTE,
         NULL,
-        0
-    );
+        0);
 
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
-    ui_exibir_erro("Funcion·rio j· cadastrado.");
+    ui_exibir_erro("Funcion√°rio j√° cadastrado.");
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
     printf("\n");
 
     ui_prompt_voltar_inicio(NULL);
-    
+
     return;
 }

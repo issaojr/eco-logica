@@ -1,29 +1,101 @@
 #include "business/business_industria.h"
 
-bool cadastrar_industria(const industria_t* industria) {
+int obter_todas_industrias(
+	industria_t *industrias_out,
+	size_t max_industrias,
+	size_t *total_industrias_out)
+{
+	// Delega a chamada para a camada de persistÃªncia
+	if (listar_industrias_csv(
+			industrias_out,
+			max_industrias,
+			total_industrias_out))
+	{
+		return 0; // Sucesso
+	}
+	else
+	{
+		return 1; // Erro
+	}
+}
+
+bool cadastrar_industria(const industria_t *industria)
+{
 	industria_t existente;
-	// Se CNPJ já existe, não cadastra
-	if (validar_industria_csv(industria->cnpj, &existente)) {
+	// Se CNPJ jÃ¡ existe, nÃ£o cadastra
+	if (validar_industria_csv(industria->cnpj, &existente))
+	{
 		return false;
 	}
-	// Insere nova indústria
+	// Insere nova indÃºstria
 	return inserir_industria_csv(industria);
 }
 
-int adicionar_industria(industria_t* industria) {
-	if (!industria) return 1; // Erro: indústria inválida
+int adicionar_industria(industria_t *industria)
+{
+	if (!industria)
+		return 1; // Erro: indÃºstria invÃ¡lida
 
-	// Verifica se a indústria já existe
-	bool existe = validar_industria_csv(industria->cnpj, industria);
+	// Verifica se a indÃºstria jÃ¡ existe
+	bool existe = buscar_industria_csv(industria->cnpj, industria);
 
-	if (existe) {
-		return 2; // Erro: indústria já existe
+	if (existe)
+	{
+		return 2; // Erro: indÃºstria jÃ¡ existe
 	}
 
-	// Delega a chamada para a camada de persistência
-	if (inserir_industria_csv(industria)) {
+	// Delega a chamada para a camada de persistÃªncia
+	if (inserir_industria_csv(industria))
+	{
 		return 0; // Sucesso
-	} else {
+	}
+	else
+	{
 		return 1; // Erro
+	}
+}
+
+int editar_industria(industria_t *industria)
+{
+	if (!industria)
+		return 1; // Erro: indÃºstria invÃ¡lida
+
+	// Delega a chamada para a camada de persistÃªncia
+	if (atualizar_industria_csv(industria))
+	{
+		return 0; // Sucesso
+	}
+	else
+	{
+		return 1; // Erro
+	}
+}
+
+int excluir_industria(const char *cnpj)
+{
+	// Delega a chamada para a camada de persistÃªncia
+	if (excluir_industria_csv(cnpj))
+	{
+		return 0; // Sucesso
+	}
+	else
+	{
+		return 1; // Erro
+	}
+}
+
+int buscar_industria_por_cnpj(const char *cnpj, industria_t *industria_out)
+{
+	if (!cnpj || !industria_out)
+		return 1; // Erro: CNPJ ou ponteiro invÃ¡lido
+
+	// Delega a chamada para a camada de persistÃªncia
+	if (buscar_industria_csv(cnpj, industria_out))
+	{
+		return 0; // Sucesso
+	}
+	else
+	{
+		return 2; // Erro: indÃºstria nÃ£o encontrada
 	}
 }

@@ -1,7 +1,7 @@
 #ifndef RESIDUO_DAO_H
 #define RESIDUO_DAO_H
 
-#define RES_FILE  "residuos.csv"
+#define RES_FILE "residuos.csv"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,8 +11,14 @@
 #include "estruturas/residuo.h"
 
 /**
- * L�/atualiza registro de res�duos para CNPJ, m�s e ano.
+ * Lê/atualiza registro de resíduos para CNPJ, mês e ano.
  */
 bool gravar_residuo_csv(const residuo_t *residuo);
+
+/**
+ * Verifica e corrige problemas nos arquivos CSV de resíduos
+ * @return true se a verificação foi bem sucedida, false caso contrário
+ */
+bool verificar_csv_residuo(void);
 
 #endif // RESIDUO_DAO_H

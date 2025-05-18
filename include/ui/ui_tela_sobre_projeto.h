@@ -6,14 +6,14 @@
 #include "ui/ui_comum.h"
 
 /**
- * @brief Exibe informações sobre o projeto e a empresa
+ * @brief Exibe informaÃ§Ãµes sobre o projeto e a empresa
  */
 void ui_exibir_sobre_projeto(void);
 
 void ui_exibir_agradecimento(void);
 
 /**
- * @brief Desenha a tela de informações sobre o projeto
+ * @brief Desenha a tela de informaÃ§Ãµes sobre o projeto
  */
 void ui_desenhar_tela_sobre_projeto(void);
 

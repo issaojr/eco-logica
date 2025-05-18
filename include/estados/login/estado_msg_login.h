@@ -9,9 +9,9 @@
 #include "ui/ui_comum.h"
 
 /**
- * Cria uma inst‚ncia do estado de mensagem de login bem-sucedido
+ * Cria uma inst√¢ncia do estado de mensagem de login bem-sucedido
  * @return Ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_msg_login_sucesso(void);
+estado_t *criar_estado_msg_login_sucesso(void);
 
 #endif // ESTADO_MSG_LOGIN_SUCESSO_H

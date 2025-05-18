@@ -2,10 +2,11 @@
 #define RESIDUO_H
 
 /**
- * Representa um registro mensal de resíduos para uma indústria.
+ * Representa um registro mensal de resÃ­duos para uma indÃºstria.
  */
-typedef struct {
-    char cnpj[18];  // formato 00.000.000/0000-00
+typedef struct
+{
+    char cnpj[18]; // formato 00.000.000/0000-00
     int mes;
     int ano;
     double quantidade;

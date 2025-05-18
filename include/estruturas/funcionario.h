@@ -2,10 +2,11 @@
 #define FUNCIONARIO_H
 
 /**
- * Representa um funcion·rio autentic·vel.
+ * Representa um funcion√°rio autentic√°vel.
  */
-typedef struct {
-    int matricula;
+typedef struct
+{
+    char matricula[8]; /* 6 + '\n' + '\0' */
     char nome[100];
     char hash_senha[64];
 } funcionario_t;

@@ -1,29 +1,34 @@
 #include "estados/login/estado_msg_logout_falha.h"
 
+// FunÃ§Ãµes especÃ­ficas deste estado
+static int inicializar(void)
+{
 
-// Funções específicas deste estado
-static int inicializar(void) {
-    
     return 0; // sucesso
 }
 
-static estado_aplicacao processar(size_t entrada) {
+static estado_aplicacao processar(size_t entrada)
+{
     // Desenha a tela de mensagem de logout falha
     ui_desenhar_tela_msg_logout_falha();
     return ESTADO_MENU_PRINCIPAL;
 }
 
-static void finalizar(void) {
-    // Não há recursos específicos para liberar neste estado
+static void finalizar(void)
+{
+    // NÃ£o hÃ¡ recursos especÃ­ficos para liberar neste estado
 }
 
-static estado_aplicacao obter_id(void) {
+static estado_aplicacao obter_id(void)
+{
     return ESTADO_MSG_LOGOUT_FALHA;
 }
 
-estado_t* criar_estado_msg_logout_falha(void) {
-    estado_t* estado = (estado_t*) malloc(sizeof(estado_t));
-    if (estado) {
+estado_t *criar_estado_msg_logout_falha(void)
+{
+    estado_t *estado = (estado_t *)malloc(sizeof(estado_t));
+    if (estado)
+    {
         estado->inicializar = inicializar;
         estado->processar = processar;
         estado->finalizar = finalizar;

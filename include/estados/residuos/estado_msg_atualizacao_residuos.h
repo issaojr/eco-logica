@@ -6,9 +6,9 @@
 #include "ui/ui_comum.h"
 
 /**
- * Cria inst‚ncia do estado para exibir mensagem de operaÁ„o de resÌduos
+ * Cria inst√¢ncia do estado para exibir mensagem de opera√ß√£o de res√≠duos
  * @return ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_msg_atualizacao_residuos(void);
+estado_t *criar_estado_msg_atualizacao_residuos(void);
 
 #endif // ESTADO_MSG_ATUALIZACAO_RESIDUOS_H

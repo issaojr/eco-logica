@@ -1,7 +1,7 @@
 #ifndef ESTADO_LISTAR_FUNCIONARIOS_H
 #define ESTADO_LISTAR_FUNCIONARIOS_H
 
-#define MAX_FUNCIONARIOS 100 // Tamanho máximo da lista de funcionários
+#define MAX_FUNCIONARIOS 100 // Tamanho mÃ¡ximo da lista de funcionÃ¡rios
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,12 +13,11 @@
 #include "ui/funcionarios/ui_tela_cadastro_funcionarios.h"
 #include "ui/ui_comum.h"
 #include "session.h"
-#include "estados/estado.h"
 
 /**
- * Cria uma instância do estado para listar funcionários
+ * Cria uma instÃ¢ncia do estado para listar funcionÃ¡rios
  * @return Ponteiro para o estado criado ou NULL em caso de falha
  */
-estado_t* criar_estado_listar_funcionarios(void);
+estado_t *criar_estado_listar_funcionarios(void);
 
 #endif // ESTADO_LISTAR_FUNCIONARIOS_H

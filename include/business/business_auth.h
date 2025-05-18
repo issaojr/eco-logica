@@ -9,11 +9,11 @@
 #include "session.h"
 
 /**
- * Verifica se a combinaÁ„o matrÌcula e senha È v·lida.
- * @param matricula MatrÌcula do funcion·rio.
+ * Verifica se a combina√ß√£o matr√≠cula e senha √© v√°lida.
+ * @param matricula Matr√≠cula do funcion√°rio.
  * @param senha Senha em texto claro.
- * @return true se credenciais v·lidas, false caso contr·rio.
+ * @return true se credenciais v√°lidas, false caso contr√°rio.
  */
-bool business_autenticar(int matricula, const char *senha);
+bool business_autenticar(char *matricula, const char *senha);
 
 #endif // BUSINESS_AUTH_H

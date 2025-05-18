@@ -1,67 +1,97 @@
 #include "business/business_funcionario.h"
 
 /**
- * @brief Obtém a lista completa de todos os funcionários cadastrados.
+ * @brief ObtÃ©m a lista completa de todos os funcionÃ¡rios cadastrados.
  *
- * @param funcionarios_out Ponteiro para o array onde os funcionários serão armazenados.
- * @param max_funcionarios O tamanho máximo do array funcionarios_out.
- * @param total_funcionarios_out Ponteiro para armazenar o número total de funcionários lidos.
+ * @param funcionarios_out Ponteiro para o array onde os funcionÃ¡rios serÃ£o armazenados.
+ * @param max_funcionarios O tamanho mÃ¡ximo do array funcionarios_out.
+ * @param total_funcionarios_out Ponteiro para armazenar o nÃºmero total de funcionÃ¡rios lidos.
  * @return int 1 se a leitura foi bem-sucedida (mesmo que vazia), 0 em caso de erro.
  */
-int obter_todos_funcionarios(funcionario_t* funcionarios_out, size_t max_funcionarios, size_t* total_funcionarios_out) {
-	// Delega a chamada para a camada de persistência
-	if (listar_funcionarios_csv(funcionarios_out, max_funcionarios, total_funcionarios_out)) {
+int obter_todos_funcionarios(
+	funcionario_t *funcionarios_out,
+	size_t max_funcionarios,
+	size_t *total_funcionarios_out)
+{
+	// Delega a chamada para a camada de persistÃªncia
+	if (listar_funcionarios_csv(
+			funcionarios_out,
+			max_funcionarios,
+			total_funcionarios_out))
+	{
 		return 0; // Sucesso
-	} else {
+	}
+	else
+	{
 		return 1; // Erro
 	}
 }
 
-int adicionar_funcionario(funcionario_t* funcionario) {
-	if (!funcionario) return 1; // Erro: funcionário inválido
+int adicionar_funcionario(funcionario_t *funcionario)
+{
+	if (!funcionario)
+		return 1; // Erro: funcionÃ¡rio invÃ¡lido
 
-	// Verifica se o funcionário já existe
+	// Verifica se o funcionÃ¡rio jÃ¡ existe
 	bool existe = buscar_funcionario_csv(funcionario->matricula, funcionario);
 
-	if (existe) {
-		return 2; // Erro: funcionário já existe
+	if (existe)
+	{
+		return 2; // Erro: funcionÃ¡rio jÃ¡ existe
 	}
 
-	// Delega a chamada para a camada de persistência
-	if (inserir_funcionario_csv(funcionario)) {
+	// Delega a chamada para a camada de persistÃªncia
+	if (inserir_funcionario_csv(funcionario))
+	{
 		return 0; // Sucesso
-	} else {
+	}
+	else
+	{
 		return 1; // Erro
 	}
 }
 
-int editar_funcionario(funcionario_t* funcionario) {
-	if (!funcionario) return 1; // Erro: funcionário inválido
+int editar_funcionario(funcionario_t *funcionario)
+{
+	if (!funcionario)
+		return 1; // Erro: funcionÃ¡rio invÃ¡lido
 
-	// Delega a chamada para a camada de persistência
-	if (atualizar_funcionario_csv(funcionario)) {
+	// Delega a chamada para a camada de persistÃªncia
+	if (atualizar_funcionario_csv(funcionario))
+	{
 		return 0; // Sucesso
-	} else {
+	}
+	else
+	{
 		return 1; // Erro
 	}
 }
 
-int excluir_funcionario(int matricula) {
-	// Delega a chamada para a camada de persistência
-	if (excluir_funcionario_csv(matricula)) {
+int excluir_funcionario(char *matricula)
+{
+	// Delega a chamada para a camada de persistÃªncia
+	if (excluir_funcionario_csv(matricula))
+	{
 		return 0; // Sucesso
-	} else {
+	}
+	else
+	{
 		return 1; // Erro
 	}
 }
 
-int buscar_funcionario_por_matricula(int matricula, funcionario_t* funcionario_out) {
-	if (!funcionario_out) return 2; // Erro: ponteiro inválido
-	
-	// Delega a chamada para a camada de persistência
-	if (buscar_funcionario_csv(matricula, funcionario_out)) {
-		return 0; // Sucesso: funcionário encontrado
-	} else {
-		return 1; // Funcionário não encontrado
+int buscar_funcionario_por_matricula(char *matricula, funcionario_t *funcionario_out)
+{
+	if (!funcionario_out)
+		return 2; // Erro: ponteiro invÃ¡lido
+
+	// Delega a chamada para a camada de persistÃªncia
+	if (buscar_funcionario_csv(matricula, funcionario_out))
+	{
+		return 0; // Sucesso: funcionÃ¡rio encontrado
+	}
+	else
+	{
+		return 1; // FuncionÃ¡rio nÃ£o encontrado
 	}
 }

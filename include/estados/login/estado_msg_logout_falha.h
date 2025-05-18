@@ -9,7 +9,7 @@
 #include "session.h"
 
 /**
- * @brief Cria uma inst‚ncia do estado de mensagem de logout bem-sucedido.
+ * @brief Cria uma inst√¢ncia do estado de mensagem de logout bem-sucedido.
  * @return Ponteiro para o estado criado ou NULL em caso de falha.
  */
 estado_t *criar_estado_msg_logout_falha(void);
