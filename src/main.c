@@ -17,9 +17,6 @@ typedef struct
 
 int main(void)
 {
-
-    //system("chcp 65001 > nul");
-    //setlocale(LC_ALL, ".UTF-8");
     set_locale_utf8();
 
     // Verificar a integridade dos arquivos CSV ao iniciar o programa
