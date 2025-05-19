@@ -18,6 +18,8 @@ obj/
 # Diretórios e arquivos gerados durante a compilação
 Debug/
 Release/
+build/
+out/
 *.pdb
 *.ilk
 *.idb
@@ -68,5 +70,5 @@ $RECYCLE.BIN/
 *.rar
 *.7z
 
-# Ignorar pasta de documenta��o
+# Ignorar pasta de documentação
 docs/
