@@ -9,6 +9,12 @@ void ui_limpar_tela(void)
 #endif
 }
 
+void ui_limpar_entrada(void) /* descarta até próximo '\n' */
+{
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 void ui_exibir_separador(char caractere, int largura)
 {
     for (int i = 0; i < largura; i++)
@@ -43,36 +49,36 @@ void ui_exibir_titulo(const char *titulo, const char *subtitulo)
 
 void ui_exibir_erro(const char *mensagem)
 {
-    char mensagem_formatada[150];
-    snprintf(mensagem_formatada, UI_LARGURA_PADRAO, "%s[ERRO] %s%s\n", UI_COR_VERMELHO, mensagem, UI_COR_RESET);
+    char mensagem_formatada[UI_TAMANHO_MAX_MSG];
+    snprintf(mensagem_formatada, UI_TAMANHO_MAX_MSG, "%s[ERRO] %s%s\n", UI_COR_VERMELHO, mensagem, UI_COR_RESET);
     printf("%s", mensagem_formatada);
 }
 
 void ui_exibir_sucesso(const char *mensagem)
 {
-    char mensagem_formatada[150];
-    snprintf(mensagem_formatada, UI_LARGURA_PADRAO, "%s[SUCESSO] %s%s\n", UI_COR_VERDE, mensagem, UI_COR_RESET);
+    char mensagem_formatada[UI_TAMANHO_MAX_MSG];
+    snprintf(mensagem_formatada, UI_TAMANHO_MAX_MSG, "%s[SUCESSO] %s%s\n", UI_COR_VERDE, mensagem, UI_COR_RESET);
     printf("%s", mensagem_formatada);
 }
 
 void ui_exibir_info(const char *mensagem)
 {
-    char mensagem_formatada[150];
-    snprintf(mensagem_formatada, UI_LARGURA_PADRAO, "%s[INFO] %s%s\n", UI_COR_CIANO, mensagem, UI_COR_RESET);
+    char mensagem_formatada[UI_TAMANHO_MAX_MSG];
+    snprintf(mensagem_formatada, UI_TAMANHO_MAX_MSG, "%s[INFO] %s%s\n", UI_COR_CIANO, mensagem, UI_COR_RESET);
     printf("%s", mensagem_formatada);
 }
 
 void ui_exibir_to_do(const char *mensagem)
 {
-    char mensagem_formatada[150];
-    snprintf(mensagem_formatada, UI_LARGURA_PADRAO, "%s[TODO] %s%s\n", UI_COR_LARANJA, mensagem, UI_COR_RESET);
+    char mensagem_formatada[UI_TAMANHO_MAX_MSG];
+    snprintf(mensagem_formatada, UI_TAMANHO_MAX_MSG, "%s[TODO] %s%s\n", UI_COR_LARANJA, mensagem, UI_COR_RESET);
     printf("%s", mensagem_formatada);
 }
 
 void ui_exibir_debug(const char *mensagem)
 {
-    char mensagem_formatada[150];
-    snprintf(mensagem_formatada, UI_LARGURA_PADRAO, "%s[DEBUG] %s%s\n", UI_COR_CIANO, mensagem, UI_COR_RESET);
+    char mensagem_formatada[UI_TAMANHO_MAX_MSG];
+    snprintf(mensagem_formatada, UI_TAMANHO_MAX_MSG, "%s[DEBUG] %s%s\n", UI_COR_CIANO, mensagem, UI_COR_RESET);
     printf("%s", mensagem_formatada);
 }
 
@@ -80,11 +86,8 @@ char *ui_prompt_selecao_opcao(const char *texto, int limite_min, int limite_max)
 {
     static char buffer[128];
 
-    const char *cor_amarela = "\033[1;33m";
-    const char *reset_cor = "\033[0m";
-
     snprintf(buffer, sizeof(buffer), "\n%s%s (%d-%d):%s ",
-             cor_amarela, texto, limite_min, limite_max, reset_cor);
+             UI_COR_PROMPT_OPCAO, texto, limite_min, limite_max, UI_COR_RESET);
 
     return buffer;
 }
@@ -92,7 +95,7 @@ char *ui_prompt_selecao_opcao(const char *texto, int limite_min, int limite_max)
 char *ui_prompt_opcao(int min, int max)
 {
     static char prompt_str[80];
-    snprintf(prompt_str, sizeof(prompt_str), "\n%s>> Escolha uma opção (%d-%d): %s", UI_COR_AMARELO, min, max, UI_COR_RESET);
+    snprintf(prompt_str, sizeof(prompt_str), "\n%s>> Escolha uma opção (%d-%d): %s", UI_COR_PROMPT_OPCAO, min, max, UI_COR_RESET);
     return prompt_str;
 }
 
@@ -100,64 +103,64 @@ void ui_prompt_continuar(const char *mensagem)
 {
     if (mensagem != NULL)
     {
-        printf("%s%s%s\n", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+        printf("%s%s%s\n", UI_COR_PROMPT_OPCAO, mensagem, UI_COR_RESET);
     }
     else
     {
-        printf("%sPressione ENTER para continuar...%s\n", UI_COR_AMARELO, UI_COR_RESET);
+        printf("%sPressione ENTER para continuar...%s\n", UI_COR_PROMPT_CONTINUAR, UI_COR_RESET);
     }
-    getchar();
+    ui_limpar_entrada();
 }
 
 void ui_prompt_voltar_inicio(const char *mensagem)
 {
     if (mensagem != NULL)
     {
-        printf("%s%s%s\n", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+        printf("%s%s%s\n", UI_COR_PROMPT_VOLTAR_INICIO, mensagem, UI_COR_RESET);
     }
     else
     {
-        printf("%sPressione ENTER para voltar ao inácio...%s\n", UI_COR_AMARELO, UI_COR_RESET);
+        printf("%sPressione ENTER para voltar ao início...%s\n", UI_COR_PROMPT_VOLTAR_INICIO, UI_COR_RESET);
     }
-    getchar();
+    ui_limpar_entrada();
 }
 
 void ui_prompt_voltar_menu_principal(const char *mensagem)
 {
     if (mensagem != NULL)
     {
-        printf("%s%s%s\n", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+        printf("%s%s%s\n", UI_COR_PROMPT_VOLTAR_MENU_PRINCIPAL, mensagem, UI_COR_RESET);
     }
     else
     {
-        printf("%sPressione ENTER para voltar ao menu principal...%s\n", UI_COR_AMARELO, UI_COR_RESET);
+        printf("%sPressione ENTER para voltar ao menu principal...%s\n", UI_COR_PROMPT_VOLTAR_MENU_PRINCIPAL, UI_COR_RESET);
     }
-    getchar();
+    ui_limpar_entrada();
 }
 
 void ui_prompt_voltar_menu_anterior(const char *mensagem)
 {
     if (mensagem != NULL)
     {
-        printf("%s%s%s\n", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+        printf("%s%s%s\n", UI_COR_PROMPT_VOLTAR_MENU_ANTERIOR, mensagem, UI_COR_RESET);
     }
     else
     {
-        printf("%sPressione ENTER para voltar ao menu anterior...%s\n", UI_COR_AMARELO, UI_COR_RESET);
+        printf("%sPressione ENTER para voltar ao menu anterior...%s\n", UI_COR_PROMPT_VOLTAR_MENU_ANTERIOR, UI_COR_RESET);
     }
-    getchar();
+    ui_limpar_entrada();
 }
 void ui_prompt_sair(const char *mensagem)
 {
     if (mensagem != NULL)
     {
-        printf("%s%s%s\n", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+        printf("%s%s%s\n", UI_COR_PROMPT_SAIR, mensagem, UI_COR_RESET);
     }
     else
     {
-        printf("%sPressione ENTER para finalizar...%s\n", UI_COR_AMARELO, UI_COR_RESET);
+        printf("%sPressione ENTER para finalizar...%s\n", UI_COR_PROMPT_SAIR, UI_COR_RESET);
     }
-    getchar();
+    ui_limpar_entrada();
 }
 
 void ui_exibir_data_hora()
@@ -178,9 +181,9 @@ void ui_pausar(const char *mensagem)
     }
     else
     {
-        printf("Pressione ENTER para continuar...");
+        printf("%sPressione ENTER para continuar...%s\n", UI_COR_PROMPT_PAUSAR, UI_COR_RESET);
     }
-    getchar();
+    ui_limpar_entrada();
 }
 
 bool ui_confirmar(const char *mensagem)
@@ -189,7 +192,7 @@ bool ui_confirmar(const char *mensagem)
 
     while (1)
     {
-        printf("%s%s (S/N)? %s", UI_COR_AMARELO, mensagem, UI_COR_RESET);
+        printf("%s%s (S/N)? %s", UI_COR_PROMPT_FORM_CONFIRMAR, mensagem, UI_COR_RESET);
 
         if (fgets(resposta, sizeof(resposta), stdin))
         {
@@ -203,20 +206,22 @@ bool ui_confirmar(const char *mensagem)
             if (len == 0)
             {
                 ui_exibir_info("Por favor, responda S para Sim ou N para Não.");
+                printf("\n");
                 continue;
             }
             ui_converter_para_maiusculo(resposta);
-            if (resposta[0] == 'S' || strcmp(resposta, "SIM") == 0)
+            if (strcmp(resposta,"S") == 0 || strcmp(resposta, "SIM") == 0)
             {
                 return true;
             }
-            else if (resposta[0] == 'N' || strcmp(resposta, "NAO") == 0 || strcmp(resposta, "NÃO") == 0)
+            else if (strcmp(resposta,"N") == 0 || strcmp(resposta, "NAO") == 0 || strcmp(resposta, "NÃO") == 0)
             {
                 return false;
             }
             else
             {
                 ui_exibir_erro("Resposta inválida. Por favor, responda S para Sim ou N para Não.");
+                printf("\n");
                 continue;
             }
         }

@@ -8,7 +8,7 @@
  * @param total_funcionarios_out Ponteiro para armazenar o número total de funcionários lidos.
  * @return int 1 se a leitura foi bem-sucedida (mesmo que vazia), 0 em caso de erro.
  */
-int obter_todos_funcionarios(
+bool obter_todos_funcionarios(
 	funcionario_t *funcionarios_out,
 	size_t max_funcionarios,
 	size_t *total_funcionarios_out)
@@ -19,11 +19,11 @@ int obter_todos_funcionarios(
 			max_funcionarios,
 			total_funcionarios_out))
 	{
-		return 0; // Sucesso
+		return true; // Sucesso
 	}
 	else
 	{
-		return 1; // Erro
+		return false; // Erro
 	}
 }
 

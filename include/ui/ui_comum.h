@@ -13,15 +13,29 @@
 #define UI_LARGURA_QUADRO 80
 #define UI_LARGURA_PADRAO 80
 
+/* Constantes para tamanho máximo de strings */
+#define UI_TAMANHO_MAX_MSG 300
+
 /* Cores ANSI para formatação de texto */
 #define UI_COR_RESET "\033[0m"
-#define UI_COR_VERMELHO "\033[31m"
-#define UI_COR_VERDE "\033[32m"
-#define UI_COR_CIANO_NEGRITO "\033[1;36m" //"\033[34m"
-#define UI_COR_AMARELO "\033[33m"
+#define UI_COR_VERMELHO "\033[38;5;197m"
+#define UI_COR_VERDE "\033[38;5;76m"
+#define UI_COR_CIANO_NEGRITO "\033[1;36m" 
+#define UI_COR_AMARELO "\033[38;5;11m"
 #define UI_COR_CIANO "\033[36m"
 #define UI_COR_NEGRITO "\033[1m"
-#define UI_COR_LARANJA "\033[35m"
+#define UI_COR_LARANJA "\033[38;5;214m"
+
+#define UI_COR_PROMPT_OPCAO UI_COR_AMARELO
+#define UI_COR_PROMPT_FORM UI_COR_AMARELO
+#define UI_COR_PROMPT_FORM_CONFIRMAR UI_COR_AMARELO
+#define UI_COR_PROMPT_CONTINUAR UI_COR_LARANJA
+#define UI_COR_PROMPT_VOLTAR_INICIO UI_COR_LARANJA
+#define UI_COR_PROMPT_VOLTAR_MENU_ANTERIOR UI_COR_LARANJA
+#define UI_COR_PROMPT_VOLTAR_MENU_PRINCIPAL UI_COR_LARANJA
+#define UI_COR_PROMPT_SAIR UI_COR_LARANJA
+#define UI_COR_PROMPT_PAUSAR UI_COR_LARANJA
+
 
 /* Título e subtítulos das telas */
 #define UI_TITULO_PROGRAMA "EcoLógica Soluções Ambientais"
@@ -40,6 +54,9 @@
  * @brief Limpa a tela do console
  */
 void ui_limpar_tela(void);
+
+
+void ui_limpar_entrada(void);
 
 /**
  * @brief Exibe um título padronizado para uma tela
@@ -133,47 +150,6 @@ void ui_exibir_data_hora(void);
  * @param mensagem Texto opcional a ser exibido (pode ser NULL para usar mensagem padrão)
  */
 void ui_pausar(const char *mensagem);
-
-// /**
-//  * @brief Lê uma string da entrada padrão com validação de tamanho
-//  * @param prompt Texto do prompt
-//  * @param buffer Buffer para armazenar a string
-//  * @param tamanho Tamanho máximo da string
-//  * @param obrigatorio Se true, não aceita entrada vazia
-//  * @return true se a leitura foi bem-sucedida
-//  */
-// //bool ui_ler_string(const char *prompt, char *buffer, size_t tamanho, bool obrigatorio);
-
-// /**
-//  * @brief Lê um número inteiro da entrada padrão com validação
-//  * @param prompt Texto do prompt
-//  * @param min Valor mínimo permitido
-//  * @param max Valor máximo permitido
-//  * @param padrao Valor padrão caso a entrada seja vazia
-//  * @param obrigatorio Se true, não aceita entrada vazia
-//  * @return O número lido, ou o valor padrão
-//  */
-// //int ui_ler_inteiro(const char *prompt, int min, int max, int padrao, bool obrigatorio);
-
-// /**
-//  * @brief Lê uma data no formato DD/MM/AAAA com validação
-//  * @param prompt Texto do prompt
-//  * @param buffer Buffer para armazenar a data
-//  * @param tamanho Tamanho do buffer
-//  * @param obrigatorio Se true, não aceita entrada vazia
-//  * @return true se a data for válida
-//  */
-// //bool ui_ler_data(const char *prompt, char *buffer, size_t tamanho, bool obrigatorio);
-
-// /**
-//  * @brief Lê um CNPJ com validação
-//  * @param prompt Texto do prompt
-//  * @param buffer Buffer para armazenar o CNPJ
-//  * @param tamanho Tamanho do buffer
-//  * @param obrigatorio Se true, não aceita entrada vazia
-//  * @return true se o CNPJ for válido
-//  */
-// //bool ui_ler_cnpj(const char *prompt, char *buffer, size_t tamanho, bool obrigatorio);
 
 /**
  * @brief Exibe uma interface para confirmação sim/não

@@ -33,6 +33,10 @@ test: $(TEST_TARGETS)
 
 $(TARGET): $(OBJS) | $(BUILD_DIR)
 	$(CC) $(CFLAGS) $^ -o $@
+	@echo "Copiando arquivos CSV para a pasta de build..."
+	cp funcionarios.csv $(BUILD_DIR)
+	cp industrias.csv $(BUILD_DIR)
+	cp residuos.csv $(BUILD_DIR)
 
 # Regra para compilar os testes (exclui main.c)
 $(TEST_DIR)/%: $(OBJ_DIR)/testes/%.o $(filter-out $(OBJ_DIR)/main.o,$(OBJS)) | $(TEST_DIR)

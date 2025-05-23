@@ -24,6 +24,7 @@ static estado_aplicacao processar(size_t entrada)
     // Chamada para business para recuperar a lista de funcionários
     if (!obter_todos_funcionarios(funcionarios, MAX_FUNCIONARIOS, &total_funcionarios))
     {
+        ui_exibir_debug("Erro ao obter todos os funcionários.");
         ui_exibir_erro("Erro ao listar funcionários.");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         return ESTADO_CADASTRO_FUNCIONARIOS;

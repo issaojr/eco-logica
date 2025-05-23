@@ -1,17 +1,21 @@
 #ifndef UI_FORM_H
 #define UI_FORM_H
 
+#define UI_TAMANHO_MAX_PROMPT 256
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <time.h>
+#include <wchar.h>
+#include <locale.h>
+#include <wctype.h>
 #include "ui/ui_comum.h"
 #include "estruturas/industria.h"
 
 void strip_newline(char *s);
-void limpar_entrada(void);
 char *ui_prompt_form_str(const char *prompt_str);
 void transformar_maiusculo(char *s);
 void transformar_minusculo(char *s);

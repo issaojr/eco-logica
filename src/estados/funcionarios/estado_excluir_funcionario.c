@@ -43,7 +43,7 @@ static estado_aplicacao processar(size_t entrada)
 
     /* Verifica se o funcionário está logado, e, caso esteja,
         não permitir a exclusão */
-    if (funcionario_autenticado->matricula == funcionario_selecionado->matricula)
+    if (strcmp(funcionario_autenticado->matricula, funcionario_selecionado->matricula) == 0)
     {
         ui_desenhar_tela_erro("ERRO: EXCLUIR FUNCIONARIO", "Funcionário logado não pode ser excluído.");
         free(funcionario_selecionado);

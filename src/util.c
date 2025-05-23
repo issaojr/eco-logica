@@ -5,6 +5,12 @@
 #include <locale.h>
 #include "util.h"
 
+#ifdef _WIN32
+  #include <windows.h>
+  #include <io.h>
+  #include <fcntl.h>
+#endif
+
 char *get_data_hora_atual(void)
 {
     time_t t = time(NULL);
@@ -31,9 +37,29 @@ char *util_strdup(const char *s)
 
 void set_locale_utf8(void)
 {
+// #ifdef _WIN32
+//     SetConsoleCP(CP_UTF8);
+//     SetConsoleOutputCP(CP_UTF8);
+//     setlocale(LC_CTYPE, ".UTF-8");
+// #else
+//     setlocale(LC_CTYPE, "pt_BR.UTF-8");
+// #endif
+
+// #ifdef _WIN32
+//     // Console em UTF-8
+//     SetConsoleCP(CP_UTF8);
+//     SetConsoleOutputCP(CP_UTF8);
+//     // Se quiser imprimir wchars diretamente:
+//     //_setmode(_fileno(stdout), _O_U16TEXT);
+//     // faz o CRT usar UTF-8 para as funções multibyte
+//     setlocale(LC_CTYPE, ".UTF-8");
+// #else
+//     setlocale(LC_CTYPE, "pt_BR.UTF-8");
+// #endif
+
 #ifdef _WIN32
-    system("chcp 65001 > nul");
-#else
-    setlocale(LC_ALL, "pt_BR.UTF-8");
-#endif
+      SetConsoleCP(CP_UTF8);
+      SetConsoleOutputCP(CP_UTF8);
+    #endif
+    setlocale(LC_CTYPE, "pt_BR.UTF-8");
 }

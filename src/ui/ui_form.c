@@ -8,27 +8,93 @@ void strip_newline(char *s)
         s[n - 1] = '\0';
 }
 
-void limpar_entrada(void) /* descarta até próximo '\n' */
-{
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-    {
-    }
-}
-
 /* ---------- prompt ----------------------------------------------- */
 char *ui_prompt_form_str(const char *prompt_str)
 {
-    static char prompt[150];
-    snprintf(prompt, sizeof(prompt), "%s>> %s: %s", UI_COR_LARANJA, prompt_str, UI_COR_RESET);
+    static char prompt[UI_TAMANHO_MAX_MSG];
+    snprintf(prompt, sizeof(prompt), "%s>> %s: %s", UI_COR_PROMPT_FORM, prompt_str, UI_COR_RESET);
     return prompt;
 }
 
 /* ---------- transformadores--------------------------------------- */
 void transformar_maiusculo(char *s)
 {
-    for (; *s; s++)
-        *s = toupper((unsigned char)*s);
+    // for (; *s; s++)
+    //     *s = toupper((unsigned char)*s);
+
+    // size_t bufsize = sizeof(s);
+
+    // // 1) Descobre quantos wchar_t cabem (sem buffer, só pra medir)
+    // size_t wlen = mbstowcs(NULL, s, 0);
+    // if (wlen == (size_t)-1) return;
+
+    // // 2) Aloca buffer wide
+    // wchar_t *wbuf = malloc((wlen + 1) * sizeof(wchar_t));
+    // if (!wbuf) return;
+
+    // // 3) Converte UTF-8 → wchar_t[]
+    // if (mbstowcs(wbuf, s, wlen + 1) == (size_t)-1) {
+    //     free(wbuf);
+    //     return;
+    // }
+
+    // // 4) Maiúsculiza cada wchar_t
+    // for (size_t i = 0; i < wlen; i++) {
+    //     wbuf[i] = towupper(wbuf[i]);
+    // }
+
+    // // 5) Re-encoda wchar_t[] → UTF-8 num buffer temporário
+    // char *tmp = malloc(bufsize);
+    // if (!tmp) { free(wbuf); return; }
+
+    // size_t mblen = wcstombs(tmp, wbuf, bufsize);
+    // if (mblen == (size_t)-1) {
+    //     free(wbuf);
+    //     free(tmp);
+    //     return;
+    // }
+
+    // // 6) Copia de volta para s
+    // memcpy(s, tmp, mblen + 1);
+    // free(wbuf);
+    // free(tmp);
+    // return;
+
+    // 1) Descobre o tamanho do buffer UTF-8 (incluindo '\0'):
+    size_t buflen = strlen(s) + 1;
+
+    // 2) Mede quantos wchar_t cabem (sem buffer, só pra contar):
+    size_t wlen = mbstowcs(NULL, s, 0);
+    if (wlen == (size_t)-1) 
+        return;  // falha de conversão
+
+    // 3) Aloca buffer wide:
+    wchar_t *wbuf = malloc((wlen + 1) * sizeof(wchar_t));
+    if (!wbuf) 
+        return;
+
+    // 4) Converte UTF-8 → wchar_t[]:
+    mbstowcs(wbuf, s, wlen + 1);
+
+    // 5) Maiúsculiza cada ponto-de-código:
+    for (size_t i = 0; i < wlen; ++i) {
+        wbuf[i] = towupper(wbuf[i]);
+    }
+
+    // 6) Re-converte wchar_t[] → UTF-8 num buffer temporário:
+    char *tmp = malloc(buflen);
+    if (!tmp) {
+        free(wbuf);
+        return;
+    }
+    wcstombs(tmp, wbuf, buflen);
+
+    // 7) Copia de volta para o buffer original:
+    memcpy(s, tmp, buflen);
+
+    free(tmp);
+    free(wbuf);
+
 }
 
 void transformar_minusculo(char *s)
@@ -50,12 +116,71 @@ bool validar_matricula(const char *matricula)
 
 bool validar_nome(const char *nome)
 {
-    if (strlen(nome) < 3)
-        return false;
-    for (int i = 0; nome[i]; ++i)
-        if (!isalpha((unsigned char)nome[i]) && nome[i] != ' ')
-            return false;
-    return true;
+    // if (strlen(nome) < 3)
+    //     return false;
+    // for (int i = 0; nome[i]; ++i)
+    //     if (!isalpha((unsigned char)nome[i]) && nome[i] != ' ')
+    //         return false;
+    // return true;
+    // if (strlen(nome) < 3) return false;
+
+    // const char *p = nome;
+    // wchar_t wc;
+    // int tam;
+
+    // while ((tam = mblen(p, MB_CUR_MAX)) > 0) {
+    //     if ((tam = mbtowc(&wc, p, MB_CUR_MAX)) <= 0) {
+    //         printf("Erro UTF-8 em %.8s\n", p);
+    //         return false;
+    //     }
+    //     if (iswalpha(wc) || wc==' '||wc=='-'||wc=='.'||wc=='\'') {
+    //         p += tam;
+    //         continue;
+    //     }
+    //     printf("Inválido: '%lc' (U+%04X)\n", wc, wc);
+    //     return false;
+    // }
+    // return tam == 0;
+
+    int count_letras = 0;
+    size_t i = 0, n = strlen(nome);
+
+    while (i < n) {
+        unsigned char c = (unsigned char)nome[i];
+
+        if (c < 0x80) {
+            // ASCII
+            if (isalpha(c)) {
+                count_letras++;
+            }
+            else if (c==' ' || c=='-' || c=='\'') {
+                // ok
+            }
+            else {
+                return false;  // dígito ou pontuação proibida
+            }
+            i++;
+        }
+        else {
+            // possível início de multibyte UTF-8
+            int seqlen;
+            if ((c & 0xE0) == 0xC0)      seqlen = 2;
+            else if ((c & 0xF0) == 0xE0) seqlen = 3;
+            else if ((c & 0xF8) == 0xF0) seqlen = 4;
+            else return false;  // byte inválido
+
+            // verifica bytes de continuação: 10xxxxxx
+            for (int j = 1; j < seqlen; j++) {
+                if (i + j >= n || ( (nome[i+j] & 0xC0) != 0x80 ))
+                    return false;
+            }
+            // conta como uma letra “qualquer” (você pode filtrar códigos específicos se quiser)
+            count_letras++;
+            i += seqlen;
+        }
+    }
+
+    return (count_letras >= 3);
 }
 
 bool validar_senha(const char *senha)
@@ -139,6 +264,30 @@ void ui_ler_campo(
     const char *msg_erro,
     void (*transformar)(char *))
 {
+    // do
+    // {
+    //     printf("%s", ui_prompt_form_str(prompt));
+
+    //     if (fgets(buf, (int)sz, stdin) == NULL)
+    //         exit(EXIT_FAILURE);
+
+    //     /* verifica se a linha coube inteira; se não, limpa stdin       */
+    //     size_t len = strlen(buf);
+    //     bool linha_completa = (len > 0 && buf[len - 1] == '\n');
+    //     if (!linha_completa)
+    //         ui_limpar_entrada(); /* descarta até '\n' pendente        */
+
+    //     /* transforma o campo, se necessário */
+    //     if (transformar)
+    //         transformar(buf);
+
+    //     strip_newline(buf);
+
+    //     if (validador(buf))
+    //         return;
+
+    //     ui_exibir_erro(msg_erro);
+    // } while (true);
 
     do
     {
@@ -147,18 +296,19 @@ void ui_ler_campo(
         if (fgets(buf, (int)sz, stdin) == NULL)
             exit(EXIT_FAILURE);
 
-        /* verifica se a linha coube inteira; se não, limpa stdin       */
+        // se não coube tudo, limpa o restante da linha
         size_t len = strlen(buf);
-        bool linha_completa = (len > 0 && buf[len - 1] == '\n');
-        if (!linha_completa)
-            limpar_entrada(); /* descarta até '\n' pendente        */
+        if (len > 0 && buf[len - 1] != '\n')
+            ui_limpar_entrada();
 
-        /* transforma o campo, se necessário */
+        // 1) tira o '\n' que sobrou
+        strip_newline(buf);
+
+        // 2) maiúsculiza via Unicode (sua versão multibyte)
         if (transformar)
             transformar(buf);
 
-        strip_newline(buf);
-
+        // 3) valida já em maiúsculas
         if (validador(buf))
             return;
 
@@ -272,7 +422,7 @@ void ui_ler_bairro_industria(char *b, size_t s)
         "Bairro",
         b,
         s,
-        validar_nao_vazio,
+        validar_nome,
         "Campo obrigatório",
         transformar_maiusculo);
 }
@@ -283,7 +433,7 @@ void ui_ler_cidade_industria(char *b, size_t s)
         "Cidade",
         b,
         s,
-        validar_nao_vazio,
+        validar_nome,
         "Campo obrigatório",
         transformar_maiusculo);
 }

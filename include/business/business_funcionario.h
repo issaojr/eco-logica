@@ -17,7 +17,7 @@
  * @param total_funcionarios_out Ponteiro para armazenar o número total de funcionários lidos.
  * @return int 1 se a leitura foi bem-sucedida (mesmo que vazia), 0 em caso de erro.
  */
-int obter_todos_funcionarios(funcionario_t *funcionarios_out, size_t max_funcionarios, size_t *total_funcionarios_out);
+bool obter_todos_funcionarios(funcionario_t *funcionarios_out, size_t max_funcionarios, size_t *total_funcionarios_out);
 int adicionar_funcionario(funcionario_t *funcionario);
 int editar_funcionario(funcionario_t *funcionario);
 int excluir_funcionario(char *matricula);
