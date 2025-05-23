@@ -37,29 +37,26 @@ char *util_strdup(const char *s)
 
 void set_locale_utf8(void)
 {
-// #ifdef _WIN32
-//     SetConsoleCP(CP_UTF8);
-//     SetConsoleOutputCP(CP_UTF8);
-//     setlocale(LC_CTYPE, ".UTF-8");
-// #else
-//     setlocale(LC_CTYPE, "pt_BR.UTF-8");
-// #endif
-
-// #ifdef _WIN32
-//     // Console em UTF-8
-//     SetConsoleCP(CP_UTF8);
-//     SetConsoleOutputCP(CP_UTF8);
-//     // Se quiser imprimir wchars diretamente:
-//     //_setmode(_fileno(stdout), _O_U16TEXT);
-//     // faz o CRT usar UTF-8 para as funções multibyte
-//     setlocale(LC_CTYPE, ".UTF-8");
-// #else
-//     setlocale(LC_CTYPE, "pt_BR.UTF-8");
-// #endif
-
 #ifdef _WIN32
-      SetConsoleCP(CP_UTF8);
-      SetConsoleOutputCP(CP_UTF8);
-    #endif
-    setlocale(LC_CTYPE, "pt_BR.UTF-8");
+    // No Windows, configuramos o console para UTF-8
+    SetConsoleCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8);
+
+    // Tentamos configurar o locale, mas não é crítico se falhar
+    // pois nossa função transformar_maiusculo não depende do locale
+    setlocale(LC_ALL, ".UTF-8");
+
+    // Tentamos outros locales UTF-8 possíveis no Windows
+    if (strcmp(setlocale(LC_ALL, NULL), "C") == 0) {
+        setlocale(LC_ALL, "en_US.UTF-8");
+    }
+
+    // Não usamos fallback para CP1252, pois queremos manter UTF-8
+#else
+    // Em sistemas Unix/Linux
+    if (setlocale(LC_ALL, "pt_BR.UTF-8") == NULL) {
+        setlocale(LC_ALL, "");
+    }
+#endif
+
 }

@@ -15,6 +15,9 @@
 bin/
 obj/
 
+# Diretórios e arquivos gerados pelo Idea
+.idea/
+
 # Diretórios e arquivos gerados durante a compilação
 Debug/
 Release/

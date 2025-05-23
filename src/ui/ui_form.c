@@ -17,83 +17,63 @@ char *ui_prompt_form_str(const char *prompt_str)
 }
 
 /* ---------- transformadores--------------------------------------- */
+
+/* Esta função manipula diretamente bytes UTF-8 para converter para maiúsculas,
+ * sem depender das configurações de locale do sistema. Isso garante funcionamento
+ * consistente em diferentes ambientes Windows e Linux.
+ */
 void transformar_maiusculo(char *s)
 {
-    // for (; *s; s++)
-    //     *s = toupper((unsigned char)*s);
+    if (!s) return;
 
-    // size_t bufsize = sizeof(s);
+    unsigned char *p = (unsigned char *)s;
 
-    // // 1) Descobre quantos wchar_t cabem (sem buffer, só pra medir)
-    // size_t wlen = mbstowcs(NULL, s, 0);
-    // if (wlen == (size_t)-1) return;
+    while (*p) {
+        // Caracteres ASCII simples
+        if (*p < 128) {
+            *p = toupper(*p);
+            p++;
+            continue;
+        }
 
-    // // 2) Aloca buffer wide
-    // wchar_t *wbuf = malloc((wlen + 1) * sizeof(wchar_t));
-    // if (!wbuf) return;
-
-    // // 3) Converte UTF-8 → wchar_t[]
-    // if (mbstowcs(wbuf, s, wlen + 1) == (size_t)-1) {
-    //     free(wbuf);
-    //     return;
-    // }
-
-    // // 4) Maiúsculiza cada wchar_t
-    // for (size_t i = 0; i < wlen; i++) {
-    //     wbuf[i] = towupper(wbuf[i]);
-    // }
-
-    // // 5) Re-encoda wchar_t[] → UTF-8 num buffer temporário
-    // char *tmp = malloc(bufsize);
-    // if (!tmp) { free(wbuf); return; }
-
-    // size_t mblen = wcstombs(tmp, wbuf, bufsize);
-    // if (mblen == (size_t)-1) {
-    //     free(wbuf);
-    //     free(tmp);
-    //     return;
-    // }
-
-    // // 6) Copia de volta para s
-    // memcpy(s, tmp, mblen + 1);
-    // free(wbuf);
-    // free(tmp);
-    // return;
-
-    // 1) Descobre o tamanho do buffer UTF-8 (incluindo '\0'):
-    size_t buflen = strlen(s) + 1;
-
-    // 2) Mede quantos wchar_t cabem (sem buffer, só pra contar):
-    size_t wlen = mbstowcs(NULL, s, 0);
-    if (wlen == (size_t)-1) 
-        return;  // falha de conversão
-
-    // 3) Aloca buffer wide:
-    wchar_t *wbuf = malloc((wlen + 1) * sizeof(wchar_t));
-    if (!wbuf) 
-        return;
-
-    // 4) Converte UTF-8 → wchar_t[]:
-    mbstowcs(wbuf, s, wlen + 1);
-
-    // 5) Maiúsculiza cada ponto-de-código:
-    for (size_t i = 0; i < wlen; ++i) {
-        wbuf[i] = towupper(wbuf[i]);
+        // UTF-8: primeiro byte de uma sequência multibyte
+        if ((*p & 0xE0) == 0xC0) {  // 2 bytes (110xxxxx)
+            if (p[0] == 0xC3) {  // Latin-1 Supplement em UTF-8
+                switch (p[1]) {
+                    // Minúsculas para maiúsculas
+                case 0xA1: p[1] = 0x81; break; // á -> Á
+                case 0xA0: p[1] = 0x80; break; // à -> À
+                case 0xA2: p[1] = 0x82; break; // â -> Â
+                case 0xA3: p[1] = 0x83; break; // ã -> Ã
+                case 0xA9: p[1] = 0x89; break; // é -> É
+                case 0xA8: p[1] = 0x88; break; // è -> È
+                case 0xAA: p[1] = 0x8A; break; // ê -> Ê
+                case 0xAD: p[1] = 0x8D; break; // í -> Í
+                case 0xAC: p[1] = 0x8C; break; // ì -> Ì
+                case 0xB3: p[1] = 0x93; break; // ó -> Ó
+                case 0xB2: p[1] = 0x92; break; // ò -> Ò
+                case 0xB4: p[1] = 0x94; break; // ô -> Ô
+                case 0xB5: p[1] = 0x95; break; // õ -> Õ
+                case 0xBA: p[1] = 0x9A; break; // ú -> Ú
+                case 0xB9: p[1] = 0x99; break; // ù -> Ù
+                case 0xBB: p[1] = 0x9B; break; // û -> Û
+                case 0xA7: p[1] = 0x87; break; // ç -> Ç
+                }
+            }
+            p += 2;  // Avança 2 bytes
+        }
+        else if ((*p & 0xF0) == 0xE0) {  // 3 bytes (1110xxxx)
+            p += 3;
+        }
+        else if ((*p & 0xF8) == 0xF0) {  // 4 bytes (11110xxx)
+            p += 4;
+        }
+        else {
+            // Byte inválido, avança com segurança
+            p++;
+        }
     }
 
-    // 6) Re-converte wchar_t[] → UTF-8 num buffer temporário:
-    char *tmp = malloc(buflen);
-    if (!tmp) {
-        free(wbuf);
-        return;
-    }
-    wcstombs(tmp, wbuf, buflen);
-
-    // 7) Copia de volta para o buffer original:
-    memcpy(s, tmp, buflen);
-
-    free(tmp);
-    free(wbuf);
 
 }
 
