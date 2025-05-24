@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <wchar.h>
 #include <stdbool.h>
 #include <time.h>
-#include <stdbool.h>
 
 /* Constantes para desenho da interface */
 #define UI_LARGURA_QUADRO 80
@@ -157,6 +157,11 @@ void ui_pausar(const char *mensagem);
  * @return true para sim, false para não
  */
 bool ui_confirmar(const char *mensagem);
+
+/**
+ *
+ */
+size_t ui_tamanho_str_utf8(const char *s);
 
 /**
  * @brief Desenha o cabeçalho padronizado para telas do sistema

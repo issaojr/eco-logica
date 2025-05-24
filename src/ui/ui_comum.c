@@ -237,22 +237,51 @@ bool ui_confirmar(const char *mensagem)
     }
 }
 
+/**
+ * Retorna o número de caracteres (code-points) em uma string UTF-8,
+ * contando cada byte que **não** comece com bits '10' (continuação).
+ */
+size_t ui_tamanho_str_utf8(const char *s)
+{
+    size_t count = 0;
+    const unsigned char *p = (const unsigned char*)s;
+    while (*p)
+    {
+        /*
+         * se os 2 bits mais significativos NÃO forem '10' (continuação),
+         * é início de code-point
+         */
+        if ((*p & 0xC0) != 0x80)
+            count++;
+        p++;
+    }
+    return count;
+}
+
 void ui_desenhar_cabecalho(const char *titulo)
 {
-    putchar('+');
-    for (int i = 0; i < UI_LARGURA_QUADRO - 2; i++)
-        putchar('-');
-    puts("+");
+    size_t largura_titulo = ui_tamanho_str_utf8(titulo);
+    int espacos_totais = (UI_LARGURA_PADRAO - largura_titulo - 2);
+    int espacos_iniciais = espacos_totais / 2;
+    int espacos_finais = espacos_iniciais + (espacos_totais % 2);
 
-    int espacos = (UI_LARGURA_QUADRO - strlen(titulo) - 2) / 2;
+    /* Desenha linha superior */
+    ui_desenhar_linha_simples();
     putchar('|');
-    for (int i = 0; i < espacos; i++)
+    /* Desenha espaços iniciais */
+    for (int i = 0; i < espacos_iniciais; i++)
         putchar(' ');
-    printf("%s", titulo);
-    for (int i = 0; i < UI_LARGURA_QUADRO - 2 - espacos - strlen(titulo); i++)
-        putchar(' ');
-    puts("|");
 
+    /* Escreve título */
+    printf("%s", titulo);
+
+    /* Desenha espaços finais */
+    for (int i = 0; i < espacos_finais; i++)
+        putchar(' ');
+
+    putchar('|');
+    printf("\n");
+    /* Desenha linha inferior */
     ui_desenhar_linha_simples();
 }
 
