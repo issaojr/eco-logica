@@ -2,7 +2,6 @@
 
 void ui_desenhar_tela_sobre_projeto(void)
 {
-
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_SOBRE,

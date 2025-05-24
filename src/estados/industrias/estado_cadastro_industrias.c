@@ -16,9 +16,9 @@ static estado_aplicacao processar(size_t entrada)
     if (!funcionario_autenticado)
     {
         // [TODO] Criar estado de erro se não houver funcionário logado
-        ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial..."); 
-        ui_prompt_voltar_inicio("Pressione ENTER para continuar...");                         
-        return ESTADO_MENU_LOGIN;                                                             
+        ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
+        ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
+        return ESTADO_MENU_LOGIN;
     }
 
     // Desenhar tela de menu de cadastro de indústrias

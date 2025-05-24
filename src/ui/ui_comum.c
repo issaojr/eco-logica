@@ -95,7 +95,8 @@ char *ui_prompt_selecao_opcao(const char *texto, int limite_min, int limite_max)
 char *ui_prompt_opcao(int min, int max)
 {
     static char prompt_str[80];
-    snprintf(prompt_str, sizeof(prompt_str), "\n%s>> Escolha uma opção (%d-%d): %s", UI_COR_PROMPT_OPCAO, min, max, UI_COR_RESET);
+    snprintf(prompt_str, sizeof(prompt_str), "\n%s>> Escolha uma opção (%d-%d): %s", UI_COR_PROMPT_OPCAO, min, max,
+             UI_COR_RESET);
     return prompt_str;
 }
 
@@ -133,7 +134,8 @@ void ui_prompt_voltar_menu_principal(const char *mensagem)
     }
     else
     {
-        printf("%sPressione ENTER para voltar ao menu principal...%s\n", UI_COR_PROMPT_VOLTAR_MENU_PRINCIPAL, UI_COR_RESET);
+        printf("%sPressione ENTER para voltar ao menu principal...%s\n", UI_COR_PROMPT_VOLTAR_MENU_PRINCIPAL,
+               UI_COR_RESET);
     }
     ui_limpar_entrada();
 }
@@ -146,10 +148,12 @@ void ui_prompt_voltar_menu_anterior(const char *mensagem)
     }
     else
     {
-        printf("%sPressione ENTER para voltar ao menu anterior...%s\n", UI_COR_PROMPT_VOLTAR_MENU_ANTERIOR, UI_COR_RESET);
+        printf("%sPressione ENTER para voltar ao menu anterior...%s\n", UI_COR_PROMPT_VOLTAR_MENU_ANTERIOR,
+               UI_COR_RESET);
     }
     ui_limpar_entrada();
 }
+
 void ui_prompt_sair(const char *mensagem)
 {
     if (mensagem != NULL)
@@ -210,11 +214,11 @@ bool ui_confirmar(const char *mensagem)
                 continue;
             }
             ui_converter_para_maiusculo(resposta);
-            if (strcmp(resposta,"S") == 0 || strcmp(resposta, "SIM") == 0)
+            if (strcmp(resposta, "S") == 0 || strcmp(resposta, "SIM") == 0)
             {
                 return true;
             }
-            else if (strcmp(resposta,"N") == 0 || strcmp(resposta, "NAO") == 0 || strcmp(resposta, "NÃO") == 0)
+            else if (strcmp(resposta, "N") == 0 || strcmp(resposta, "NAO") == 0 || strcmp(resposta, "NÃO") == 0)
             {
                 return false;
             }

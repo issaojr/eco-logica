@@ -9,7 +9,6 @@ static int inicializar(void)
 
 static estado_aplicacao processar(size_t entrada)
 {
-
     printf("DEBUG: Tela de saída\n");
     getchar();
     ui_desenhar_tela_sair();
@@ -28,7 +27,7 @@ static estado_aplicacao obter_id(void)
 
 estado_t *criar_estado_sair(void)
 {
-    estado_t *estado = (estado_t *)malloc(sizeof(estado_t));
+    estado_t *estado = (estado_t*)malloc(sizeof(estado_t));
     if (estado)
     {
         estado->inicializar = inicializar;

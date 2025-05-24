@@ -4,7 +4,8 @@
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 int ui_opcoes_min(opcao_t *mapa, size_t n)
-{ /* Retorna o menor código de opção do mapa. */
+{
+    /* Retorna o menor código de opção do mapa. */
     int min = mapa[0].codigo;
 
     for (size_t i = 1; i < n; i++)
@@ -18,7 +19,8 @@ int ui_opcoes_min(opcao_t *mapa, size_t n)
 }
 
 int ui_opcoes_max(opcao_t *mapa, size_t n)
-{ /* Retorna o maior código de opção do mapa. */
+{
+    /* Retorna o maior código de opção do mapa. */
     int max = mapa[0].codigo;
 
     for (size_t i = 1; i < n; i++)

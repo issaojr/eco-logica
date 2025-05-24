@@ -3,7 +3,6 @@
 void ui_desenhar_tela_menu_principal(const char *nome_funcionario,
                                      const char *matricula)
 {
-
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_PROGRAMA,
@@ -17,7 +16,8 @@ const opcao_t tela_menu_principal_mapa[] = {
     {3, "Atualização Mensal de Resíduos"},
     {4, "Relatórios por Indústria"},
     {5, "Relatórios Globais"},
-    {6, "Logout"}};
+    {6, "Logout"}
+};
 
 const size_t tela_menu_principal_mapa_n =
     sizeof(tela_menu_principal_mapa) / sizeof(tela_menu_principal_mapa[0]);

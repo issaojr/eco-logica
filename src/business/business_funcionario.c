@@ -15,9 +15,9 @@ bool obter_todos_funcionarios(
 {
 	// Delega a chamada para a camada de persistência
 	if (listar_funcionarios_csv(
-			funcionarios_out,
-			max_funcionarios,
-			total_funcionarios_out))
+		funcionarios_out,
+		max_funcionarios,
+		total_funcionarios_out))
 	{
 		return true; // Sucesso
 	}

@@ -7,9 +7,9 @@ int obter_todas_industrias(
 {
 	// Delega a chamada para a camada de persistência
 	if (listar_industrias_csv(
-			industrias_out,
-			max_industrias,
-			total_industrias_out))
+		industrias_out,
+		max_industrias,
+		total_industrias_out))
 	{
 		return 0; // Sucesso
 	}

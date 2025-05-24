@@ -7,7 +7,6 @@ static char senha[64];
 // Funções específicas deste estado
 static int inicializar(void)
 {
-
     // matricula = NULL;
     memset(senha, 0, sizeof(senha));
 
@@ -51,7 +50,7 @@ static estado_aplicacao obter_id(void)
 
 estado_t *criar_estado_form_login(void)
 {
-    estado_t *estado = (estado_t *)malloc(sizeof(estado_t));
+    estado_t *estado = (estado_t*)malloc(sizeof(estado_t));
     if (estado)
     {
         estado->inicializar = inicializar;

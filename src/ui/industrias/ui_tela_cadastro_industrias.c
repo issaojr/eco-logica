@@ -4,7 +4,7 @@ const size_t TAMANHO_SEPARADOR_TAB_INDUSTRIA = 188;
 
 void ui_desenhar_tela_cadastro_industrias(
     const funcionario_t *funcionario_autenticado)
-{ 
+{
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_CADASTRO_INDUSTRIAS,
@@ -17,7 +17,8 @@ const opcao_t tela_menu_cadastro_industrias_mapa[] = {
     {2, "Adicionar Indústria"},
     {3, "Editar Indústria"},
     {4, "Excluir Indústria"},
-    {5, "Voltar"}};
+    {5, "Voltar"}
+};
 
 const size_t tela_menu_cadastro_industrias_mapa_n =
     sizeof(tela_menu_cadastro_industrias_mapa) / sizeof(tela_menu_cadastro_industrias_mapa[0]);
@@ -88,10 +89,10 @@ void ui_exibir_lista_industrias(
     printf("%-15s %-31s %-30s %-30s %-8s %-15s %-31s %-20s\n",
            "CNPJ", "Razão Social", "Nome Fantasia",
            "Cidade", "Estado", "Data Abertura", "Nome Responsável", "Email Responsável");
-    
+
     /* Linha separadora com comprimento adequado */
     ui_exibir_separador('-', TAMANHO_SEPARADOR_TAB_INDUSTRIA);
-    
+
     /* Exibição dos dados com formatação alinhada */
     for (size_t i = 0; i < *total_industrias_out; i++)
     {
@@ -110,7 +111,7 @@ void ui_exibir_lista_industrias(
                industrias_out[i].nome_responsavel,
                industrias_out[i].email_responsavel);
     }
-    
+
     /* Linha separadora de fechamento */
     ui_exibir_separador('-', TAMANHO_SEPARADOR_TAB_INDUSTRIA);
 }

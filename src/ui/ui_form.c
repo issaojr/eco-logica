@@ -26,55 +26,82 @@ void transformar_maiusculo(char *s)
 {
     if (!s) return;
 
-    unsigned char *p = (unsigned char *)s;
+    unsigned char *p = (unsigned char*)s;
 
-    while (*p) {
+    while (*p)
+    {
         // Caracteres ASCII simples
-        if (*p < 128) {
+        if (*p < 128)
+        {
             *p = toupper(*p);
             p++;
             continue;
         }
 
         // UTF-8: primeiro byte de uma sequência multibyte
-        if ((*p & 0xE0) == 0xC0) {  // 2 bytes (110xxxxx)
-            if (p[0] == 0xC3) {  // Latin-1 Supplement em UTF-8
-                switch (p[1]) {
-                    // Minúsculas para maiúsculas
-                case 0xA1: p[1] = 0x81; break; // á -> Á
-                case 0xA0: p[1] = 0x80; break; // à -> À
-                case 0xA2: p[1] = 0x82; break; // â -> Â
-                case 0xA3: p[1] = 0x83; break; // ã -> Ã
-                case 0xA9: p[1] = 0x89; break; // é -> É
-                case 0xA8: p[1] = 0x88; break; // è -> È
-                case 0xAA: p[1] = 0x8A; break; // ê -> Ê
-                case 0xAD: p[1] = 0x8D; break; // í -> Í
-                case 0xAC: p[1] = 0x8C; break; // ì -> Ì
-                case 0xB3: p[1] = 0x93; break; // ó -> Ó
-                case 0xB2: p[1] = 0x92; break; // ò -> Ò
-                case 0xB4: p[1] = 0x94; break; // ô -> Ô
-                case 0xB5: p[1] = 0x95; break; // õ -> Õ
-                case 0xBA: p[1] = 0x9A; break; // ú -> Ú
-                case 0xB9: p[1] = 0x99; break; // ù -> Ù
-                case 0xBB: p[1] = 0x9B; break; // û -> Û
-                case 0xA7: p[1] = 0x87; break; // ç -> Ç
+        if ((*p & 0xE0) == 0xC0)
+        {
+            // 2 bytes (110xxxxx)
+            if (p[0] == 0xC3)
+            {
+                // Latin-1 Supplement em UTF-8
+                switch (p[1])
+                {
+                // Minúsculas para maiúsculas
+                case 0xA1: p[1] = 0x81;
+                    break; // á -> Á
+                case 0xA0: p[1] = 0x80;
+                    break; // à -> À
+                case 0xA2: p[1] = 0x82;
+                    break; // â -> Â
+                case 0xA3: p[1] = 0x83;
+                    break; // ã -> Ã
+                case 0xA9: p[1] = 0x89;
+                    break; // é -> É
+                case 0xA8: p[1] = 0x88;
+                    break; // è -> È
+                case 0xAA: p[1] = 0x8A;
+                    break; // ê -> Ê
+                case 0xAD: p[1] = 0x8D;
+                    break; // í -> Í
+                case 0xAC: p[1] = 0x8C;
+                    break; // ì -> Ì
+                case 0xB3: p[1] = 0x93;
+                    break; // ó -> Ó
+                case 0xB2: p[1] = 0x92;
+                    break; // ò -> Ò
+                case 0xB4: p[1] = 0x94;
+                    break; // ô -> Ô
+                case 0xB5: p[1] = 0x95;
+                    break; // õ -> Õ
+                case 0xBA: p[1] = 0x9A;
+                    break; // ú -> Ú
+                case 0xB9: p[1] = 0x99;
+                    break; // ù -> Ù
+                case 0xBB: p[1] = 0x9B;
+                    break; // û -> Û
+                case 0xA7: p[1] = 0x87;
+                    break; // ç -> Ç
                 }
             }
-            p += 2;  // Avança 2 bytes
+            p += 2; // Avança 2 bytes
         }
-        else if ((*p & 0xF0) == 0xE0) {  // 3 bytes (1110xxxx)
+        else if ((*p & 0xF0) == 0xE0)
+        {
+            // 3 bytes (1110xxxx)
             p += 3;
         }
-        else if ((*p & 0xF8) == 0xF0) {  // 4 bytes (11110xxx)
+        else if ((*p & 0xF8) == 0xF0)
+        {
+            // 4 bytes (11110xxx)
             p += 4;
         }
-        else {
+        else
+        {
             // Byte inválido, avança com segurança
             p++;
         }
     }
-
-
 }
 
 void transformar_minusculo(char *s)
@@ -96,62 +123,43 @@ bool validar_matricula(const char *matricula)
 
 bool validar_nome(const char *nome)
 {
-    // if (strlen(nome) < 3)
-    //     return false;
-    // for (int i = 0; nome[i]; ++i)
-    //     if (!isalpha((unsigned char)nome[i]) && nome[i] != ' ')
-    //         return false;
-    // return true;
-    // if (strlen(nome) < 3) return false;
-
-    // const char *p = nome;
-    // wchar_t wc;
-    // int tam;
-
-    // while ((tam = mblen(p, MB_CUR_MAX)) > 0) {
-    //     if ((tam = mbtowc(&wc, p, MB_CUR_MAX)) <= 0) {
-    //         printf("Erro UTF-8 em %.8s\n", p);
-    //         return false;
-    //     }
-    //     if (iswalpha(wc) || wc==' '||wc=='-'||wc=='.'||wc=='\'') {
-    //         p += tam;
-    //         continue;
-    //     }
-    //     printf("Inválido: '%lc' (U+%04X)\n", wc, wc);
-    //     return false;
-    // }
-    // return tam == 0;
-
     int count_letras = 0;
     size_t i = 0, n = strlen(nome);
 
-    while (i < n) {
+    while (i < n)
+    {
         unsigned char c = (unsigned char)nome[i];
 
-        if (c < 0x80) {
+        if (c < 0x80)
+        {
             // ASCII
-            if (isalpha(c)) {
+            if (isalpha(c))
+            {
                 count_letras++;
             }
-            else if (c==' ' || c=='-' || c=='\'') {
+            else if (c == ' ' || c == '-' || c == '\'')
+            {
                 // ok
             }
-            else {
-                return false;  // dígito ou pontuação proibida
+            else
+            {
+                return false; // dígito ou pontuação proibida
             }
             i++;
         }
-        else {
+        else
+        {
             // possível início de multibyte UTF-8
             int seqlen;
-            if ((c & 0xE0) == 0xC0)      seqlen = 2;
+            if ((c & 0xE0) == 0xC0) seqlen = 2;
             else if ((c & 0xF0) == 0xE0) seqlen = 3;
             else if ((c & 0xF8) == 0xF0) seqlen = 4;
-            else return false;  // byte inválido
+            else return false; // byte inválido
 
             // verifica bytes de continuação: 10xxxxxx
-            for (int j = 1; j < seqlen; j++) {
-                if (i + j >= n || ( (nome[i+j] & 0xC0) != 0x80 ))
+            for (int j = 1; j < seqlen; j++)
+            {
+                if (i + j >= n || ((nome[i + j] & 0xC0) != 0x80))
                     return false;
             }
             // conta como uma letra “qualquer” (você pode filtrar códigos específicos se quiser)
@@ -201,8 +209,8 @@ bool validar_cep(const char *cep)
 bool validar_uf(const char *uf)
 {
     return strlen(uf) == 2 &&
-           isalpha((unsigned char)uf[0]) &&
-           isalpha((unsigned char)uf[1]);
+        isalpha((unsigned char)uf[0]) &&
+        isalpha((unsigned char)uf[1]);
 }
 
 bool validar_telefone(const char *tel)
@@ -293,7 +301,8 @@ void ui_ler_campo(
             return;
 
         ui_exibir_erro(msg_erro);
-    } while (true);
+    }
+    while (true);
 }
 
 void ui_ler_matricula_funcionario(char *matricula, size_t tamanho)

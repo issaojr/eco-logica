@@ -4,7 +4,6 @@ void ui_desenhar_tela_cadastro_funcionarios(
     const char *nome_funcionario,
     const char *matricula)
 {
-
     // Desenha tela de menu de cadastro de funcionários
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
@@ -18,7 +17,8 @@ opcao_t ui_menu_cadastro_funcionarios_mapa[] = {
     {2, "Adicionar Funcionário"},
     {3, "Editar Funcionário"},
     {4, "Excluir Funcionário"},
-    {5, "Voltar"}};
+    {5, "Voltar"}
+};
 
 size_t ui_menu_cadastro_funcionarios_mapa_n =
     sizeof(ui_menu_cadastro_funcionarios_mapa) / sizeof(ui_menu_cadastro_funcionarios_mapa[0]);
@@ -66,7 +66,6 @@ void ui_exibir_lista_funcionarios(
     size_t max_funcionarios,
     size_t *total_funcionarios_out)
 {
-
     printf(UI_COR_NEGRITO "Matrícula   Nome\n" UI_COR_RESET);
     printf("-------------------------------\n");
     for (size_t i = 0; i < *total_funcionarios_out; i++)
@@ -143,7 +142,6 @@ void ui_desenhar_form_editar_funcionario(
     funcionario_t *funcionario_antes_out,
     funcionario_t *funcionario_depois_out)
 {
-
     /* Fase 2 - Formulário para editar funcionário */
 
     /* Redesenhar tela */

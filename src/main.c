@@ -20,7 +20,8 @@ int main(void)
     set_locale_utf8();
 
     // Verificar a integridade dos arquivos CSV ao iniciar o programa
-    if (!verificar_arquivos_csv()) {
+    if (!verificar_arquivos_csv())
+    {
         printf("Aviso: Houve problemas ao verificar a integridade dos arquivos CSV.\n");
         printf("Pressione ENTER para continuar mesmo assim...");
         getchar();

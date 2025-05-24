@@ -172,7 +172,6 @@ bool buscar_funcionario_csv(const char *matricula_str, funcionario_t *out_funcio
     {
         if (extrair_dados_funcionario_csv(line, &funcionario_temp))
         {
-
             if (strcmp(funcionario_temp.matricula, matricula_str) == 0)
             {
                 *out_funcionario = funcionario_temp;
@@ -190,7 +189,6 @@ bool buscar_funcionario_csv(const char *matricula_str, funcionario_t *out_funcio
 
 bool listar_funcionarios_csv(funcionario_t *funcionarios, size_t tamanho_max, size_t *qtd_funcionarios)
 {
-
     if (!funcionarios || !qtd_funcionarios)
         return false;
     *qtd_funcionarios = 0;
@@ -441,12 +439,13 @@ bool verificar_csv_funcionario(void)
 
     // Se o arquivo for muito grande, não tenta carregar tudo na memória
     if (file_size > 1024 * 1024 * 10)
-    { // 10MB
+    {
+        // 10MB
         fclose(f_orig);
         return false;
     }
 
-    char *buffer = (char *)malloc(file_size + 1);
+    char *buffer = (char*)malloc(file_size + 1);
     if (!buffer)
     {
         fclose(f_orig);
@@ -467,7 +466,7 @@ bool verificar_csv_funcionario(void)
         const char *cabecalho = "MATRICULA,NOME,HASH_SENHA\n";
         size_t novo_tamanho = strlen(cabecalho) + bytes_read + 1;
 
-        novo_conteudo = (char *)malloc(novo_tamanho);
+        novo_conteudo = (char*)malloc(novo_tamanho);
         if (!novo_conteudo)
         {
             free(buffer);
@@ -492,7 +491,7 @@ bool verificar_csv_funcionario(void)
         else
         {
             // Criar um novo buffer apenas para adicionar quebra de linha
-            novo_conteudo = (char *)malloc(bytes_read + 2);
+            novo_conteudo = (char*)malloc(bytes_read + 2);
             if (!novo_conteudo)
             {
                 free(buffer);

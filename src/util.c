@@ -6,9 +6,9 @@
 #include "util.h"
 
 #ifdef _WIN32
-  #include <windows.h>
-  #include <io.h>
-  #include <fcntl.h>
+#include <windows.h>
+#include <io.h>
+#include <fcntl.h>
 #endif
 
 char *get_data_hora_atual(void)
@@ -47,7 +47,8 @@ void set_locale_utf8(void)
     setlocale(LC_ALL, ".UTF-8");
 
     // Tentamos outros locales UTF-8 possíveis no Windows
-    if (strcmp(setlocale(LC_ALL, NULL), "C") == 0) {
+    if (strcmp(setlocale(LC_ALL, NULL), "C") == 0)
+    {
         setlocale(LC_ALL, "en_US.UTF-8");
     }
 
@@ -58,5 +59,4 @@ void set_locale_utf8(void)
         setlocale(LC_ALL, "");
     }
 #endif
-
 }

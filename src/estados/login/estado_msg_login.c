@@ -5,7 +5,6 @@ funcionario_t *funcionario_autenticado;
 // Funções específicas deste estado
 static int inicializar(void)
 {
-
     return 0; // sucesso
 }
 
@@ -40,7 +39,7 @@ static estado_aplicacao obter_id(void)
 
 estado_t *criar_estado_msg_login_sucesso(void)
 {
-    estado_t *estado = (estado_t *)malloc(sizeof(estado_t));
+    estado_t *estado = (estado_t*)malloc(sizeof(estado_t));
     if (estado)
     {
         estado->inicializar = inicializar;

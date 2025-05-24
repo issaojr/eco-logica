@@ -7,11 +7,13 @@
 typedef struct session_item
 {
     char *chave;
+
     union
     {
         int valor_int;
         void *valor_ptr;
     } valor;
+
     int tipo;
     struct session_item *proximo;
 } session_item_t;
@@ -98,7 +100,6 @@ int session_get_int(const char *chave, int padrao)
 
 void session_set_ptr(const char *chave, void *ptr)
 {
-
     session_item_t *item = encontrar_item(chave);
 
     if (item)

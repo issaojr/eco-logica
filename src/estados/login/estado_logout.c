@@ -32,7 +32,7 @@ static estado_aplicacao obter_id(void)
 
 estado_t *criar_estado_logout(void)
 {
-    estado_t *estado = (estado_t *)malloc(sizeof(estado_t));
+    estado_t *estado = (estado_t*)malloc(sizeof(estado_t));
     if (estado)
     {
         estado->inicializar = inicializar;

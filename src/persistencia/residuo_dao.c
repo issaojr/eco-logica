@@ -53,19 +53,19 @@ bool gravar_residuo_csv(const residuo_t *residuo)
             if (cnt >= cap)
             {
                 cap = cap ? cap * 2 : 8;
-/*
-                Alteração sugerida:
+                /*
+                                Alteração sugerida:
 
--                 arr = realloc(arr, cap * sizeof(residuo_t));
-+                 void *temp_ptr = realloc(arr, cap * sizeof(residuo_t));
-+                 if (!temp_ptr)
-+                 {
-+                     free(arr);
-+                     fclose(f);
-+                     return false;
-+                 }
-+                 arr = temp_ptr;
-*/
+                -                 arr = realloc(arr, cap * sizeof(residuo_t));
+                +                 void *temp_ptr = realloc(arr, cap * sizeof(residuo_t));
+                +                 if (!temp_ptr)
+                +                 {
+                +                     free(arr);
+                +                     fclose(f);
+                +                     return false;
+                +                 }
+                +                 arr = temp_ptr;
+                */
                 arr = realloc(arr, cap * sizeof(residuo_t));
             }
             arr[cnt++] = temp;
@@ -178,12 +178,13 @@ bool verificar_csv_residuo(void)
 
     // Se o arquivo for muito grande, não tenta carregar tudo na memória
     if (file_size > 1024 * 1024 * 10)
-    { // 10MB
+    {
+        // 10MB
         fclose(f_orig);
         return false;
     }
 
-    char *buffer = (char *)malloc(file_size + 1);
+    char *buffer = (char*)malloc(file_size + 1);
     if (!buffer)
     {
         fclose(f_orig);
@@ -204,7 +205,7 @@ bool verificar_csv_residuo(void)
         const char *cabecalho = "CNPJ,MES,ANO,QUANTIDADE,CUSTO\n";
         size_t novo_tamanho = strlen(cabecalho) + bytes_read + 1;
 
-        novo_conteudo = (char *)malloc(novo_tamanho);
+        novo_conteudo = (char*)malloc(novo_tamanho);
         if (!novo_conteudo)
         {
             free(buffer);
@@ -229,7 +230,7 @@ bool verificar_csv_residuo(void)
         else
         {
             // Criar um novo buffer apenas para adicionar quebra de linha
-            novo_conteudo = (char *)malloc(bytes_read + 2);
+            novo_conteudo = (char*)malloc(bytes_read + 2);
             if (!novo_conteudo)
             {
                 free(buffer);

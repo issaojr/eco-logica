@@ -20,7 +20,7 @@
 #define UI_COR_RESET "\033[0m"
 #define UI_COR_VERMELHO "\033[38;5;197m"
 #define UI_COR_VERDE "\033[38;5;76m"
-#define UI_COR_CIANO_NEGRITO "\033[1;36m" 
+#define UI_COR_CIANO_NEGRITO "\033[1;36m"
 #define UI_COR_AMARELO "\033[38;5;11m"
 #define UI_COR_CIANO "\033[36m"
 #define UI_COR_NEGRITO "\033[1m"

@@ -258,7 +258,10 @@ bool inserir_industria_csv(const industria_t *industria)
     if (!f_read)
     {
         // Escrever cabeçalho e verificar se foi escrito corretamente
-        if (fprintf(f, "CNPJ,RAZAO_SOCIAL,NOME_FANTASIA,TELEFONE,LOGRADOURO,NUMERO,BAIRRO,CIDADE,ESTADO,CEP,DATA_ABERTURA,NOME_RESPONSAVEL,EMAIL_RESPONSAVEL\n") < 0)
+        if (fprintf(
+                f,
+                "CNPJ,RAZAO_SOCIAL,NOME_FANTASIA,TELEFONE,LOGRADOURO,NUMERO,BAIRRO,CIDADE,ESTADO,CEP,DATA_ABERTURA,NOME_RESPONSAVEL,EMAIL_RESPONSAVEL\n")
+            < 0)
         {
             // Erro ao escrever cabeçalho
             fclose(f);
@@ -568,7 +571,10 @@ bool verificar_csv_industria(void)
         }
 
         // Escrever cabeçalho
-        if (fprintf(f_new, "CNPJ,RAZAO_SOCIAL,NOME_FANTASIA,TELEFONE,LOGRADOURO,NUMERO,BAIRRO,CIDADE,ESTADO,CEP,DATA_ABERTURA,NOME_RESPONSAVEL,EMAIL_RESPONSAVEL\n") < 0)
+        if (fprintf(
+                f_new,
+                "CNPJ,RAZAO_SOCIAL,NOME_FANTASIA,TELEFONE,LOGRADOURO,NUMERO,BAIRRO,CIDADE,ESTADO,CEP,DATA_ABERTURA,NOME_RESPONSAVEL,EMAIL_RESPONSAVEL\n")
+            < 0)
         {
             fclose(f_new);
             return false;
@@ -597,12 +603,13 @@ bool verificar_csv_industria(void)
 
     // Se o arquivo for muito grande, não tenta carregar tudo na memória
     if (file_size > 1024 * 1024 * 10)
-    { // 10MB
+    {
+        // 10MB
         fclose(f_orig);
         return false;
     }
 
-    char *buffer = (char *)malloc(file_size + 1);
+    char *buffer = (char*)malloc(file_size + 1);
     if (!buffer)
     {
         fclose(f_orig);
@@ -620,10 +627,11 @@ bool verificar_csv_industria(void)
 
     if (!tem_cabecalho && bytes_read > 0)
     {
-        const char *cabecalho = "CNPJ,RAZAO_SOCIAL,NOME_FANTASIA,TELEFONE,LOGRADOURO,NUMERO,BAIRRO,CIDADE,ESTADO,CEP,DATA_ABERTURA,NOME_RESPONSAVEL,EMAIL_RESPONSAVEL\n";
+        const char *cabecalho =
+            "CNPJ,RAZAO_SOCIAL,NOME_FANTASIA,TELEFONE,LOGRADOURO,NUMERO,BAIRRO,CIDADE,ESTADO,CEP,DATA_ABERTURA,NOME_RESPONSAVEL,EMAIL_RESPONSAVEL\n";
         size_t novo_tamanho = strlen(cabecalho) + bytes_read + 1;
 
-        novo_conteudo = (char *)malloc(novo_tamanho);
+        novo_conteudo = (char*)malloc(novo_tamanho);
         if (!novo_conteudo)
         {
             free(buffer);
@@ -648,7 +656,7 @@ bool verificar_csv_industria(void)
         else
         {
             // Criar um novo buffer apenas para adicionar quebra de linha
-            novo_conteudo = (char *)malloc(bytes_read + 2);
+            novo_conteudo = (char*)malloc(bytes_read + 2);
             if (!novo_conteudo)
             {
                 free(buffer);
