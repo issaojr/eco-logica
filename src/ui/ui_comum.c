@@ -27,11 +27,13 @@ void ui_exibir_separador(char caractere, int largura)
 void ui_exibir_titulo(const char *titulo, const char *subtitulo)
 {
     int largura = UI_LARGURA_PADRAO;
+    size_t largura_titulo = ui_tamanho_str_utf8(titulo);
+    size_t largura_subtitulo = ui_tamanho_str_utf8(subtitulo);
 
     // Borda superior
     ui_exibir_separador('=', largura);
     // Título centralizado
-    int espacos = (largura - strlen(titulo)) / 2;
+    int espacos = (largura - largura_titulo) / 2;
     printf("%*s%s%s%s%*s\n",
            espacos, "",
            UI_COR_NEGRITO, titulo, UI_COR_RESET,
@@ -39,7 +41,7 @@ void ui_exibir_titulo(const char *titulo, const char *subtitulo)
     // Subtítulo, se fornecido
     if (subtitulo != NULL && *subtitulo != '\0')
     {
-        espacos = (largura - strlen(subtitulo)) / 2;
+        espacos = (largura - largura_subtitulo) / 2;
         printf("%*s%s%*s\n", espacos, "", subtitulo, espacos, "");
     }
 
