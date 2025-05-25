@@ -190,20 +190,6 @@ void ui_desenhar_rodape(void);
 void desenhar_caixa_mensagem(const char *mensagem, int tipo);
 
 /**
- * @brief Desenha um painel com dados do funcionário
- * @param funcionario Nome do funcionário
- * @param matricula Matrícula ou ID do funcionário
- */
-void ui_desenhar_painel_funcionario(const char *funcionario, const char *matricula);
-
-/**
- * @brief Desenha um painel com dados do funcionário selecionado
- * @param funcionario Nome do funcionário
- * @param matricula Matrícula ou ID do funcionário
- */
-void ui_desenhar_painel_funcionario_selecionado(const char *funcionario, char *matricula);
-
-/**
  * @brief Desenha parte superior de uma tela de menu padrão
  * @param titulo Título da tela
  * @param subtitulo Subtítulo da tela

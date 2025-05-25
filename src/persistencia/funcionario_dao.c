@@ -43,9 +43,9 @@ static bool extrair_dados_funcionario_csv(char *linha, funcionario_t *funcionari
     return true;
 }
 
-bool validar_funcionario_csv(const char *matricula_str, const char *senha, funcionario_t *out_funcionario)
+bool validar_funcionario_csv(const char *matricula_str, const char *hash_senha, funcionario_t *out_funcionario)
 {
-    if (!matricula_str || !senha)
+    if (!matricula_str || !hash_senha)
         return false;
     FILE *f = fopen(FUNC_FILE, "r");
     if (!f)
@@ -70,11 +70,7 @@ bool validar_funcionario_csv(const char *matricula_str, const char *senha, funci
             continue;
         }
 
-        // Compute hash of input senha
-        char hash[64];
-        hash_senha(senha, hash, HASH_KEY);
-
-        if (strcmp(hash, funcionario_temp.hash_senha) == 0)
+        if (strcmp(hash_senha, funcionario_temp.hash_senha) == 0)
         {
             // Credenciais válidas
             if (out_funcionario)

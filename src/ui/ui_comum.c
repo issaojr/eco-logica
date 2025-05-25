@@ -356,31 +356,6 @@ void desenhar_caixa_mensagem(const char *mensagem, int tipo)
     ui_desenhar_rodape();
 }
 
-void ui_desenhar_painel_funcionario(const char *funcionario, const char *matricula)
-{
-    char linha[UI_LARGURA_QUADRO - 3];
-    ui_desenhar_linha_simples();
-    snprintf(linha, sizeof(linha), "Funcionário: %s", funcionario);
-    printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
-    snprintf(linha, sizeof(linha), "Matrícula: %s", matricula);
-    printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
-    ui_desenhar_rodape();
-}
-
-void ui_desenhar_painel_funcionario_selecionado(const char *funcionario, char *matricula)
-{
-    char linha[UI_LARGURA_QUADRO - 3];
-    ui_desenhar_linha_simples();
-    snprintf(linha, sizeof(linha), "=> Funcionário Selecionado");
-    printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
-    ui_desenhar_linha_simples();
-    snprintf(linha, sizeof(linha), "Funcionário: %s", funcionario);
-    printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
-    snprintf(linha, sizeof(linha), "Matrícula: %s", matricula);
-    printf("| %-*s |\n", UI_LARGURA_QUADRO - 4, linha);
-    ui_desenhar_rodape();
-}
-
 void ui_desenhar_linha_funcionario(const char *funcionario, const char *matricula)
 {
     char linha[UI_LARGURA_PADRAO];

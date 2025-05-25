@@ -22,19 +22,52 @@ static estado_aplicacao processar(size_t entrada)
         funcionario_autenticado->matricula);
 
     funcionario_t *novo_funcionario = malloc(sizeof(funcionario_t));
+    if (!novo_funcionario)
+    {
+        /* [TODO] Criar tela de erro para alocação de memória */
+        ui_exibir_erro("Erro ao alocar memória para funcionário.");
+        return ESTADO_CADASTRO_FUNCIONARIOS;
+    }
+    /* preenche a estrutura com valores padrão */
+    memset(novo_funcionario, 0, sizeof(funcionario_t));
 
     // Exibe o formulário de adicionar funcionário
-    ui_desenhar_form_adicionar_funcionario(novo_funcionario);
+    ui_desenhar_tela_adicionar_funcionario(novo_funcionario);
+    ui_desenhar_form_buscar_funcionario(novo_funcionario);
 
+    /* Faz a busca pela matrícula, para garantir que não há funcionário
+    anteriormente cadastrado */
+    bool funcionario_encontrado = buscar_funcionario_por_matricula(
+        novo_funcionario->matricula,
+        novo_funcionario);
+    
+    if (funcionario_encontrado)
+    {
+        ui_desenhar_tela_erro("ERRO AO ADICIONAR FUNCIONÁRIO", "Funcionário já cadastrado.");
+        free(novo_funcionario);
+        return ESTADO_CADASTRO_FUNCIONARIOS;
+    }
+
+    /* Caso não seja encontrada a matrícula no cadastro, o form prossegue */
+    ui_desenhar_form_adicionar_funcionario(novo_funcionario);
+    
     int resultado = adicionar_funcionario(novo_funcionario);
 
     /* limpa a memória alocada */
     free(novo_funcionario);
 
-    estado_t *novo_estado = criar_estado(ESTADO_MSG_CADASTRO_FUNCIONARIO);
-    estado_aplicacao proximo = novo_estado->processar(resultado);
+    if (resultado == 0)
+    {
+        /* Cadastro bem-sucedido */
+        ui_desenhar_tela_sucesso("CADASTRO DE FUNCIONÁRIO BEM-SUCEDIDO", "Funcionário cadastrado com sucesso.");
+    }
+    else
+    {
+        /* Erro ao cadastrar */
+        ui_desenhar_tela_erro("CADASTRO DE FUNCIONÁRIO FALHOU", "Erro ao cadastrar funcionário.");
+    }
 
-    return proximo;
+    return ESTADO_CADASTRO_FUNCIONARIOS;
 }
 
 static void finalizar(void)

@@ -24,41 +24,36 @@ static estado_aplicacao processar(size_t entrada)
 
     /* Alocar memória para o funcionário selecionado */
     funcionario_t *funcionario_selecionado = malloc(sizeof(funcionario_t));
-
     if (!funcionario_selecionado)
     {
         /* [TODO] Criar tela de erro para alocação de memória */
         ui_exibir_erro("Erro ao alocar memória para funcionário.");
         return ESTADO_CADASTRO_FUNCIONARIOS;
     }
+    /* Preenche a estrutura com valores padrão */
+    memset(funcionario_selecionado, 0, sizeof(funcionario_t));
 
     /* Desenhar tela de busca para excluir funcionário */
     ui_desenhar_tela_excluir_buscar_funcionario(funcionario_selecionado);
 
     /* Busca o funcionário pelo número de matrícula */
-    int resultado = buscar_funcionario_por_matricula(funcionario_selecionado->matricula, funcionario_selecionado);
+    bool funcionario_encontrado = buscar_funcionario_por_matricula(funcionario_selecionado->matricula, funcionario_selecionado);
     printf("\n");
+
+    /* Caso o funcionário não seja encontrado, mostrar tela de erro
+        e voltar ao menu anterior */
+    if (!funcionario_encontrado)
+    {
+        ui_desenhar_tela_erro("ERRO: EXCLUIR FUNCIONARIO", "Funcionário não encontrado.");
+        free(funcionario_selecionado);
+        return ESTADO_CADASTRO_FUNCIONARIOS;
+    }
 
     /* Verifica se o funcionário está logado, e, caso esteja,
         não permitir a exclusão */
     if (strcmp(funcionario_autenticado->matricula, funcionario_selecionado->matricula) == 0)
     {
         ui_desenhar_tela_erro("ERRO: EXCLUIR FUNCIONARIO", "Funcionário logado não pode ser excluído.");
-        free(funcionario_selecionado);
-        return ESTADO_CADASTRO_FUNCIONARIOS;
-    }
-
-    /* Caso o funcionário não seja encontrado, mostrar tela de erro
-        e voltar ao menu anterior */
-    if (resultado == 1)
-    {
-        ui_desenhar_tela_erro("ERRO: EXCLUIR FUNCIONARIO", "Funcionário não encontrado.");
-        free(funcionario_selecionado);
-        return ESTADO_CADASTRO_FUNCIONARIOS;
-    }
-    else if (resultado == 2)
-    {
-        ui_desenhar_tela_erro("ERRO: EXCLUIR FUNCIONARIO", "Erro ao buscar funcionário.");
         free(funcionario_selecionado);
         return ESTADO_CADASTRO_FUNCIONARIOS;
     }

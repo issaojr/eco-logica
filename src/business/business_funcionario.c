@@ -80,18 +80,10 @@ int excluir_funcionario(char *matricula)
 	}
 }
 
-int buscar_funcionario_por_matricula(char *matricula, funcionario_t *funcionario_out)
+bool buscar_funcionario_por_matricula(char *matricula, funcionario_t *funcionario_out)
 {
 	if (!funcionario_out)
-		return 2; // Erro: ponteiro inválido
+		return false; // Erro: ponteiro inválido
 
-	// Delega a chamada para a camada de persistência
-	if (buscar_funcionario_csv(matricula, funcionario_out))
-	{
-		return 0; // Sucesso: funcionário encontrado
-	}
-	else
-	{
-		return 1; // Funcionário não encontrado
-	}
+	return buscar_funcionario_csv(matricula, funcionario_out);
 }

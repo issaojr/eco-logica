@@ -14,6 +14,9 @@
 #include <wctype.h>
 #include "ui/ui_comum.h"
 #include "estruturas/industria.h"
+#include "estruturas/funcionario.h"
+#include "business/business_crypto.h"
+#include "persistencia/funcionario_dao.h"
 
 void strip_newline(char *s);
 char *ui_prompt_form_str(const char *prompt_str);
@@ -36,6 +39,8 @@ void ui_ler_campo(const char *prompt,
 void ui_ler_matricula_funcionario(char *matricula, size_t tamanho);
 void ui_ler_nome_funcionario(char *nome, size_t tamanho);
 void ui_ler_senha_funcionario(char *senha, size_t tamanho);
+void ui_converter_str_hash(char *senha, size_t tamanho);
+void ui_exibir_form_funcionario(funcionario_t *novo_funcionario_out);
 void ui_ler_cnpj_industria(char *b, size_t s);
 void ui_ler_razao_social_industria(char *b, size_t s);
 void ui_ler_nome_fantasia_industria(char *b, size_t s);

@@ -27,8 +27,8 @@ int excluir_funcionario(char *matricula);
  *
  * @param matricula Número de matrícula do funcionário a ser buscado.
  * @param funcionario_out Ponteiro para a estrutura onde os dados do funcionário serão armazenados.
- * @return int 0 se encontrado com sucesso, 1 se não encontrado, 2 se erro.
+ * @return true se o funcionário foi encontrado, false caso contrário.
  */
-int buscar_funcionario_por_matricula(char *matricula, funcionario_t *funcionario_out);
+bool buscar_funcionario_por_matricula(char *matricula, funcionario_t *funcionario_out);
 
 #endif // BUSINESS_FUNCIONARIO_H

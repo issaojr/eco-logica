@@ -24,6 +24,15 @@ static estado_aplicacao processar(size_t entrada)
 
     funcionario_t *funcionario_antes = malloc(sizeof(funcionario_t));
     funcionario_t *funcionario_depois = malloc(sizeof(funcionario_t));
+    if (!funcionario_antes || !funcionario_depois)
+    {
+        ui_desenhar_tela_erro("ERRO AO EDITAR FUNCIONÁRIO", "Erro ao alocar memória.");
+        free(funcionario_antes);
+        free(funcionario_depois);
+        return ESTADO_CADASTRO_FUNCIONARIOS;
+    }
+    memset(funcionario_antes, 0, sizeof(funcionario_t));
+    memset(funcionario_depois, 0, sizeof(funcionario_t));
 
     /*
      * Apresenta primeiro form apenas para leitura de matrícula
@@ -33,13 +42,13 @@ static estado_aplicacao processar(size_t entrada)
     ui_desenhar_tela_editar_buscar_funcionario(funcionario_antes);
 
     // Busca o funcionário pelo número de matrícula
-    int resultado = buscar_funcionario_por_matricula(funcionario_antes->matricula, funcionario_antes);
+    bool funcionario_encontrado = buscar_funcionario_por_matricula(funcionario_antes->matricula, funcionario_antes);
 
     printf("\n");
 
     /* Caso o funcionário não seja encontrado, mostrar tela de erro
         e voltar ao menu anterior */
-    if (resultado == 1)
+    if (!funcionario_encontrado)
     {
         ui_desenhar_tela_erro("ERRO AO EDITAR FUNCIONARIO",
                               "Funcionário não encontrado.");
@@ -47,19 +56,10 @@ static estado_aplicacao processar(size_t entrada)
         free(funcionario_depois);
         return ESTADO_CADASTRO_FUNCIONARIOS;
     }
-    else if (resultado == 2)
-    {
-        ui_desenhar_tela_erro("ERRO: EDITAR FUNCIONARIO", "Erro ao buscar funcionário.");
-        free(funcionario_antes);
-        free(funcionario_depois);
-        return ESTADO_CADASTRO_FUNCIONARIOS;
-    }
     else
     {
         // Exibe o painel do funcionário encontrado
-        ui_desenhar_painel_funcionario_selecionado(
-            funcionario_antes->nome,
-            funcionario_antes->matricula);
+        ui_desenhar_painel_funcionario_selecionado(funcionario_antes);
     }
 
     /* Copia a matrícula do funcionário encontrado para o novo funcionário */
@@ -75,11 +75,7 @@ static estado_aplicacao processar(size_t entrada)
         funcionario_depois);
 
     /* Caso esteja tudo certo, substituir a antiga entrada pela nova */
-    resultado = editar_funcionario(funcionario_depois);
-
-    /* Limpa a memória alocada */
-    free(funcionario_antes);
-    free(funcionario_depois);
+    const int resultado = editar_funcionario(funcionario_depois);
 
     /* Verifica se a edição foi bem-sucedida */
     if (resultado == 0)
@@ -89,20 +85,20 @@ static estado_aplicacao processar(size_t entrada)
         // atualiza a sessão
         if (strcmp(funcionario_autenticado->matricula, funcionario_depois->matricula) == 0)
         {
-            set_funcionario_logado(funcionario_depois);
+            /* Copias os novos dados, para atualizar adequadamente o funcionario autenticado na sessão */
+            memcpy(funcionario_autenticado, funcionario_depois, sizeof(funcionario_t));
         }
         ui_desenhar_tela_sucesso("EDIÇÃO DE FUNCIONÁRIO BEM-SUCEDIDA", "Funcionário editado com sucesso.");
     }
-    else if (resultado == 1)
+    else
     {
         // Erro ao editar
         ui_desenhar_tela_erro("EDIÇÃO DE FUNCIONÁRIO FALHOU", "Erro ao editar funcionário.");
     }
-    else if (resultado == 2)
-    {
-        // Funcionário não encontrado
-        ui_desenhar_tela_erro("EDIção DE FUNCIONÁRIO FALHOU", "Funcionário não encontrado.");
-    }
+
+    /* Limpa a memória alocada */
+    free(funcionario_antes);
+    free(funcionario_depois);
 
     return ESTADO_CADASTRO_FUNCIONARIOS;
 }

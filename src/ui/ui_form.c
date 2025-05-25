@@ -308,6 +308,10 @@ void ui_ler_campo(
 
         strip_newline(buf);
 
+        trim(buf);
+
+        colapsar_espacos(buf);
+
         if (transformar)
             transformar(buf);
 
@@ -350,6 +354,25 @@ void ui_ler_senha_funcionario(char *senha, size_t tamanho)
         validar_senha,
         "Senha deve ter pelo menos 6 caracteres alfanuméricos",
         NULL);
+
+    ui_converter_str_hash(senha, tamanho);
+}
+
+void ui_converter_str_hash(char *senha, size_t tamanho)
+{
+    char hash[64];
+    hash_senha(senha, hash, HASH_KEY);
+    
+    strncpy(senha, hash, tamanho);
+    senha[tamanho - 1] = '\0'; /* Garantir terminação nula */
+}
+
+void ui_exibir_form_funcionario(funcionario_t *f)
+{
+    //ui_ler_matricula_funcionario(f->matricula, sizeof(f->matricula));
+    ui_ler_nome_funcionario(f->nome, sizeof(f->nome));
+
+    ui_ler_senha_funcionario(f->hash_senha, sizeof(f->hash_senha));
 }
 
 /* ---------- leitores específicos de industria ----------------------- */
@@ -501,7 +524,7 @@ void ui_ler_email_responsavel_industria(char *b, size_t s)
 /* ---------- formulário completo ---------------------------------- */
 void ui_exibir_form_industria(industria_t *i)
 {
-    // ui_ler_cnpj_industria(i->cnpj, sizeof i->cnpj);
+    /* O CNPJ deve ser lido à parte */
     ui_ler_razao_social_industria(i->razao_social, sizeof i->razao_social);
     ui_ler_nome_fantasia_industria(i->nome_fantasia, sizeof i->nome_fantasia);
     ui_ler_telefone_industria(i->telefone, sizeof i->telefone);
