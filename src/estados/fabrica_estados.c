@@ -33,11 +33,9 @@
 
 /* Estados de Resíduos */
 #include "estados/residuos/estado_atualizacao_residuos.h"
-#include "estados/residuos/estado_msg_atualizacao_residuos.h"
 
 /* Estados de Relatórios */
 #include "estados/relatorios/estado_relatorios_globais.h"
-#include "estados/relatorios/estado_relatorios_industria.h"
 
 estado_t *criar_estado(estado_aplicacao id)
 {
@@ -89,8 +87,6 @@ estado_t *criar_estado(estado_aplicacao id)
         return criar_estado_msg_cadastro_industria();
     case ESTADO_ATUALIZACAO_RESIDUOS:
         return criar_estado_atualizacao_residuos();
-    case ESTADO_MSG_ATUALIZACAO_RESIDUOS:
-        return criar_estado_msg_atualizacao_residuos();
     case ESTADO_RELATORIOS_INDUSTRIA:
         return criar_estado_relatorios_industria();
     case ESTADO_RELATORIOS_GLOBAIS:

@@ -6,7 +6,7 @@
  */
 typedef struct
 {
-    char cnpj[18]; // formato 00.000.000/0000-00
+    char cnpj[16]; /* 14 + '\n' + '\0' */
     int mes;
     int ano;
     double quantidade;

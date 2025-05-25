@@ -37,7 +37,6 @@ estado_t *criar_estado_msg_cadastro_industria(void);
 
 // Estados de atualização de residuos e mensagens
 estado_t *criar_estado_atualizacao_residuos(void);
-estado_t *criar_estado_msg_atualizacao_residuos(void);
 
 // Estados de relatórios
 estado_t *criar_estado_relatorios_industria(void);

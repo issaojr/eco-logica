@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include "estados/estado.h"
 #include "ui/ui_comum.h"
+#include "business/business_residuos.h"
+#include "business/business_industria.h"
+#include "estruturas/residuo.h"
+#include "estruturas/industria.h"
+#include "session.h"
 
 /**
  * Cria instância do estado para atualização de resíduos
