@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "estados/estado.h"
+#include "business/business_industria.h"
 #include "ui/industrias/ui_tela_cadastro_industrias.h"
 #include "ui/ui_comum.h"
 

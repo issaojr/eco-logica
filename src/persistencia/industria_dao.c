@@ -5,22 +5,22 @@ static bool extrair_dados_industria_csv(char *linha, industria_t *industria)
     if (!linha || !industria)
         return false;
 
-    // Fazer uma cópia da linha para evitar problemas com strtok
+    /* Fazer uma cópia da linha para evitar problemas com strtok */
     char linha_backup[TAMANHO_LINHA_IND];
     strncpy(linha_backup, linha, sizeof(linha_backup) - 1);
     linha_backup[sizeof(linha_backup) - 1] = '\0';
 
-    // Extração segura dos dados
+    /* Extração segura dos dados */
     char *tok = strtok(linha_backup, ",");
     if (!tok)
         return false;
+    trim_crlf(tok); /* tira CR/LF e copia para o struct */
     strncpy(industria->cnpj, tok, sizeof(industria->cnpj) - 1);
     industria->cnpj[sizeof(industria->cnpj) - 1] = '\0';
 
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
-    // tira CR/LF e copia para o struct
     trim_crlf(tok);
 
     strncpy(industria->razao_social, tok, sizeof(industria->razao_social) - 1);
@@ -29,7 +29,6 @@ static bool extrair_dados_industria_csv(char *linha, industria_t *industria)
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
-    // tira CR/LF e copia para o struct
     trim_crlf(tok);
     strncpy(industria->nome_fantasia, tok, sizeof(industria->nome_fantasia) - 1);
     industria->nome_fantasia[sizeof(industria->nome_fantasia) - 1] = '\0';
@@ -37,7 +36,6 @@ static bool extrair_dados_industria_csv(char *linha, industria_t *industria)
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
-    // tira CR/LF e copia para o struct
     trim_crlf(tok);
     strncpy(industria->telefone, tok, sizeof(industria->telefone) - 1);
     industria->telefone[sizeof(industria->telefone) - 1] = '\0';
@@ -45,7 +43,6 @@ static bool extrair_dados_industria_csv(char *linha, industria_t *industria)
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
-    // tira CR/LF e copia para o struct
     trim_crlf(tok);
     strncpy(industria->logradouro, tok, sizeof(industria->logradouro) - 1);
     industria->logradouro[sizeof(industria->logradouro) - 1] = '\0';
@@ -53,7 +50,6 @@ static bool extrair_dados_industria_csv(char *linha, industria_t *industria)
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
-    // tira CR/LF e copia para o struct
     trim_crlf(tok);
     strncpy(industria->numero, tok, sizeof(industria->numero) - 1);
     industria->numero[sizeof(industria->numero) - 1] = '\0';
@@ -61,7 +57,6 @@ static bool extrair_dados_industria_csv(char *linha, industria_t *industria)
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
-    // tira CR/LF e copia para o struct
     trim_crlf(tok);
     strncpy(industria->bairro, tok, sizeof(industria->bairro) - 1);
     industria->bairro[sizeof(industria->bairro) - 1] = '\0';
@@ -69,7 +64,6 @@ static bool extrair_dados_industria_csv(char *linha, industria_t *industria)
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
-    // tira CR/LF e copia para o struct
     trim_crlf(tok);
 
     strncpy(industria->cidade, tok, sizeof(industria->cidade) - 1);
@@ -327,15 +321,7 @@ bool buscar_industria_csv(const char *cnpj, industria_t *out_industria)
     bool encontrado = false;
     industria_t industria_temp;
 
-    // Copiar cabeçalho para o arquivo temporário
-    if (fgets(line, sizeof(line), f))
-    {
-        if (fputs(line, f) == EOF)
-        {
-            fclose(f);
-            return false;
-        }
-    }
+    fgets(line, sizeof(line), f);
 
     while (fgets(line, sizeof(line), f))
     {

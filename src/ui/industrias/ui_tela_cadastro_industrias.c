@@ -163,6 +163,36 @@ void ui_desenhar_form_editar_industria(
     ui_exibir_form_industria(industria_depois_out);
 }
 
+void ui_desenhar_tela_excluir_buscar_industria(industria_t *industria_antes_out)
+{
+    ui_desenhar_cabecalho("INFORME O CNPJ DA INDÚSTRIA PARA EXCLUSÃO");
+    printf("\n");
+
+    /**
+     * Fase 1 - Formulário para buscar indústria por CNPJ
+     * Apresentar prompt para número de CNPJ
+     * Ler CNPJ da indústria
+     * */
+    ui_desenhar_form_ler_cnpj_industria(industria_antes_out);
+}
+
+bool ui_desenhar_tela_excluir_confirmar_industria(
+    const industria_t *industria_selecionada,
+    const funcionario_t *funcionario_autenticado)
+{
+    ui_desenhar_tela_cadastro_industrias(funcionario_autenticado);
+    ui_desenhar_cabecalho("CONFIRMAÇÃO DE EXCLUSÃO DE INDÚSTRIA");
+    printf("\n");
+
+    /* Exibe o painel da indústria encontrada */
+    ui_desenhar_painel_industria_selecionada(industria_selecionada);
+
+    printf("\n");
+    /* Pergunta se o usuário deseja realmente excluir a indústria */
+    return ui_confirmar("Deseja realmente excluir esta indústria?");
+}
+
+
 void ui_desenhar_painel_industria_selecionada(const industria_t *industria)
 {
     const size_t l = UI_LARGURA_QUADRO;
