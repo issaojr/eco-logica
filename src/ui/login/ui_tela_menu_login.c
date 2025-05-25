@@ -12,7 +12,7 @@ void ui_desenhar_tela_menu_login(void)
 
     ui_exibir_data_hora();
 
-    ui_exibir_info("Bem-Vindo(a)! Por favor, faça login para mais opções.");
+    ui_exibir_info("Bem-Vindo(a)! Por favor, faça login para acessar mais opções.");
     printf("\n");
 }
 

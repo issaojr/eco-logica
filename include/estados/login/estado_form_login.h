@@ -9,6 +9,7 @@
 #include "ui/ui_comum.h"
 #include "ui/ui_form.h"
 #include "ui/login/ui_tela_menu_login.h"
+#include "session.h"
 
 /**
  * Cria uma instancia do estado de formulario de login

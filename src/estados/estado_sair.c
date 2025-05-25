@@ -2,15 +2,11 @@
 
 static int inicializar(void)
 {
-    printf("DEBUG: Tela de saída\n");
-    getchar();
     return 0;
 }
 
 static estado_aplicacao processar(size_t entrada)
 {
-    printf("DEBUG: Tela de saída\n");
-    getchar();
     ui_desenhar_tela_sair();
 
     return ESTADO_SAIR;
@@ -18,6 +14,7 @@ static estado_aplicacao processar(size_t entrada)
 
 static void finalizar(void)
 {
+    return;
 }
 
 static estado_aplicacao obter_id(void)

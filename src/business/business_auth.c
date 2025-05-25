@@ -11,11 +11,11 @@ bool business_autenticar(char *matricula, const char *senha)
 	funcionario_t temp;
 	if (validar_funcionario_csv(matricula, senha, &temp))
 	{
-		funcionario_t *user = malloc(sizeof(funcionario_t));
-		if (!user)
+		funcionario_t *funcionario_autenticado = malloc(sizeof(funcionario_t));
+		if (!funcionario_autenticado)
 			return false;
-		*user = temp;
-		set_funcionario_logado(user);
+		*funcionario_autenticado = temp;
+		set_funcionario_logado(funcionario_autenticado);
 		return true;
 	}
 	return false;

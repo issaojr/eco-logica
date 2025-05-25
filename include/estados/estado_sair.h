@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "estados/estado.h"
-#include "ui/ui_tela_sair.h"
+#include "ui/ui_comum.h"
 #include "session.h"
 
 /**

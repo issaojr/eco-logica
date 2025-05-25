@@ -66,6 +66,13 @@ void ui_exibir_sucesso(const char *mensagem)
     printf("%s", mensagem_formatada);
 }
 
+void ui_exibir_agradecimento(const char *mensagem)
+{
+    char mensagem_formatada[UI_TAMANHO_MAX_MSG];
+    snprintf(mensagem_formatada, UI_TAMANHO_MAX_MSG, "%s%s%s\n", UI_COR_VERDE, mensagem, UI_COR_RESET);
+    printf("%s", mensagem_formatada);
+}
+
 void ui_exibir_info(const char *mensagem)
 {
     char mensagem_formatada[UI_TAMANHO_MAX_MSG];
@@ -426,6 +433,7 @@ void ui_desenhar_tela_sucesso(const char *titulo, const char *mensagem)
 
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
+    printf("\n");
     ui_exibir_sucesso(mensagem);
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
@@ -442,12 +450,34 @@ void ui_desenhar_tela_erro(const char *titulo, const char *mensagem)
 
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
+    printf("\n");
     ui_exibir_erro(mensagem);
     printf("\n");
     ui_exibir_separador('*', UI_LARGURA_PADRAO);
     printf("\n");
 
     ui_prompt_voltar_menu_anterior(NULL);
+}
+
+void ui_desenhar_tela_sair(void)
+{
+    const char *titulo = "Ecológica - Sistema de Gestão de Resíduos";
+    const char *mensagem= "Agradecemos por usar o nosso Sistema!";
+    ui_limpar_tela();
+
+    ui_exibir_titulo(titulo, NULL);
+
+    printf("\n");
+    ui_exibir_separador('*', UI_LARGURA_PADRAO);
+    printf("\n");
+    ui_exibir_agradecimento(mensagem);
+    printf("\n");
+    ui_exibir_separador('*', UI_LARGURA_PADRAO);
+    printf("\n");
+
+    ui_prompt_sair(NULL);
+
+    ui_limpar_tela();
 }
 void ui_desenhar_linha_painel(
     const char *label,
@@ -460,7 +490,15 @@ void ui_desenhar_linha_painel(
     size_t largura_label = ui_tamanho_str_utf8(label);
     size_t largura_value = ui_tamanho_str_utf8(value);
     size_t num_espacos = largura_total - largura_label - largura_value - 4;
-    char espacos[num_espacos + 1];         // +1 para o terminador '\0'
+    /* Um espaço excedente no final para o caractere de fechamento */
+    size_t espaco_total = num_espacos + 1;
+    char *espacos = malloc(espaco_total * sizeof(char)); 
+    if (!espacos)
+    {
+        ui_exibir_erro("Erro ao alocar memória para espaços.");
+        return;
+    }
+
     for (size_t i = 0; i < num_espacos; i++)
         espacos[i] = ' ';
     espacos[num_espacos] = '\0';           // fecha a string
@@ -470,6 +508,9 @@ void ui_desenhar_linha_painel(
 
     snprintf(linha, sizeof(linha), "%s %s %s%s%s", c_inicial, label, value, espacos, c_final);
     printf("%s\n", linha);
+
+    /* Libera a memória alocada */
+    free(espacos);
 }
 
 

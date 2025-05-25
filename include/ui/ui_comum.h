@@ -94,6 +94,12 @@ void ui_exibir_sucesso(const char *mensagem);
 void ui_exibir_info(const char *mensagem);
 
 /**
+ * @brief Exibe uma mensagem de agradecimento
+ * @param mensagem Texto da mensagem de agradecimento
+ */
+void ui_exibir_agradecimento(const char *mensagem);
+
+/**
  * @brief Exibe uma mensagem de TODO (a fazer)
  * @param mensagem Texto da mensagem de TODO
  */
@@ -240,6 +246,8 @@ void ui_desenhar_tela_sucesso(const char *titulo, const char *mensagem);
  * @note Esta função limpa a tela antes de exibir a mensagem
  */
 void ui_desenhar_tela_erro(const char *titulo, const char *mensagem);
+
+void ui_desenhar_tela_sair(void);
 
 void ui_desenhar_linha_painel(
     const char *label,

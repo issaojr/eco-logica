@@ -32,7 +32,7 @@ int main(void)
     estado_t *estado_atual = NULL;
     entrada_estado_t entrada = {0, NULL};
 
-    while (id_estado_atual != ESTADO_SAIR)
+    while (true)
     {
         estado_atual = criar_estado(id_estado_atual);
         if (!estado_atual)
@@ -61,11 +61,14 @@ int main(void)
 
         destruir_estado(estado_atual);
 
+        if (id_estado_atual == ESTADO_SAIR && id_proximo_estado == ESTADO_SAIR)
+        {
+            break;
+        }        
+
         id_estado_atual = id_proximo_estado;
     }
 
     logout();
-
-    puts("Saindo do sistema...");
     return 0;
 }

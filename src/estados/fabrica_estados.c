@@ -9,9 +9,6 @@
 #include "estados/login/estado_form_login.h"
 #include "estados/login/estado_logout.h"
 #include "estados/login/estado_menu_login.h"
-#include "estados/login/estado_msg_login.h"
-#include "estados/login/estado_msg_logout_falha.h"
-#include "estados/login/estado_msg_logout_sucesso.h"
 
 /* Estados de Funcionários */
 #include "estados/funcionarios/estado_adicionar_funcionario.h"
@@ -19,8 +16,6 @@
 #include "estados/funcionarios/estado_editar_funcionario.h"
 #include "estados/funcionarios/estado_excluir_funcionario.h"
 #include "estados/funcionarios/estado_listar_funcionarios.h"
-#include "estados/funcionarios/estado_msg_cadastro_funcionario.h"
-#include "estados/funcionarios/estado_msg_operacao_funcionario.h"
 
 /* Estados de Indústrias */
 #include "estados/industrias/estado_adicionar_industria.h"
@@ -28,8 +23,6 @@
 #include "estados/industrias/estado_editar_industria.h"
 #include "estados/industrias/estado_excluir_industria.h"
 #include "estados/industrias/estado_listar_industrias.h"
-#include "estados/industrias/estado_msg_cadastro_industria.h"
-#include "estados/industrias/estado_msg_operacao_industria.h"
 
 /* Estados de Resíduos */
 #include "estados/residuos/estado_atualizacao_residuos.h"
@@ -47,14 +40,8 @@ estado_t *criar_estado(estado_aplicacao id)
         return criar_estado_form_login();
     case ESTADO_SOBRE_PROJETO:
         return criar_estado_sobre_projeto();
-    case ESTADO_MSG_LOGIN:
-        return criar_estado_msg_login_sucesso();
     case ESTADO_LOGOUT:
         return criar_estado_logout();
-    case ESTADO_MSG_LOGOUT_FALHA:
-        return criar_estado_msg_logout_falha();
-    case ESTADO_MSG_LOGOUT_SUCESSO:
-        return criar_estado_msg_logout_sucesso();
     case ESTADO_MENU_PRINCIPAL:
         return criar_estado_menu_principal();
     case ESTADO_CADASTRO_FUNCIONARIOS:
@@ -67,10 +54,6 @@ estado_t *criar_estado(estado_aplicacao id)
         return criar_estado_editar_funcionario();
     case ESTADO_EXCLUIR_FUNCIONARIO:
         return criar_estado_excluir_funcionario();
-    case ESTADO_MSG_OPERACAO_FUNCIONARIO:
-        return criar_estado_msg_operacao_funcionario();
-    case ESTADO_MSG_CADASTRO_FUNCIONARIO:
-        return criar_estado_msg_cadastro_funcionario();
     case ESTADO_CADASTRO_INDUSTRIAS:
         return criar_estado_cadastro_industrias();
     case ESTADO_LISTAR_INDUSTRIAS:
@@ -81,10 +64,6 @@ estado_t *criar_estado(estado_aplicacao id)
         return criar_estado_editar_industria();
     case ESTADO_EXCLUIR_INDUSTRIA:
         return criar_estado_excluir_industria();
-    case ESTADO_MSG_OPERACAO_INDUSTRIA:
-        return criar_estado_msg_operacao_industria();
-    case ESTADO_MSG_CADASTRO_INDUSTRIA:
-        return criar_estado_msg_cadastro_industria();
     case ESTADO_ATUALIZACAO_RESIDUOS:
         return criar_estado_atualizacao_residuos();
     case ESTADO_RELATORIOS_INDUSTRIA:
