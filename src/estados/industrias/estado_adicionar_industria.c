@@ -2,12 +2,12 @@
 #include "estados/industrias/estado_adicionar_industria.h"
 
 /* funções internas do estado */
-int inicializar(void)
+static int inicializar(void)
 {
     return 0; // sucesso
 }
 
-estado_aplicacao processar(size_t entrada)
+static estado_aplicacao processar(size_t entrada)
 {
     // Obter o funcionário logado
     funcionario_t *funcionario_autenticado = get_funcionario_logado();
@@ -33,8 +33,22 @@ estado_aplicacao processar(size_t entrada)
         return ESTADO_CADASTRO_INDUSTRIAS; // Retorna ao estado de cadastro de indústrias
     }
 
-    // Exibe o formulário de adicionar indústria
+    // Exibe o formulário para adicionar indústria, iniciando pelo CNPJ
     ui_desenhar_form_adicionar_industria(nova_industria);
+
+    /* Deve verificar se a indústria já existe no cadastro */
+    bool industria_existe = buscar_industria_por_cnpj(nova_industria->cnpj, nova_industria);
+
+    if (industria_existe)
+    {
+        free(nova_industria);
+        ui_exibir_erro("Este CNPJ já está cadastrado.");
+        ui_prompt_voltar_menu_anterior(NULL);
+        return ESTADO_CADASTRO_INDUSTRIAS; // Retorna ao estado de cadastro de indústrias
+    }
+
+    /* Exibe restante do formulário, caso CNPJ não esteja cadastrado */
+    ui_exibir_form_industria(nova_industria);
 
     /*
      * Regra de negócio:
@@ -60,12 +74,12 @@ estado_aplicacao processar(size_t entrada)
     return ESTADO_CADASTRO_INDUSTRIAS;
 }
 
-void finalizar(void)
+static void finalizar(void)
 {
     // TODO: liberar recursos alocados (se houver)
 }
 
-estado_aplicacao obter_id(void)
+static estado_aplicacao obter_id(void)
 {
     return ESTADO_ADICIONAR_INDUSTRIA;
 }

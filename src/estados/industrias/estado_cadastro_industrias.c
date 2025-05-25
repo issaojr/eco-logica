@@ -1,6 +1,6 @@
 #include "estados/industrias/estado_cadastro_industrias.h"
 
-funcionario_t *funcionario_autenticado;
+static funcionario_t *funcionario_autenticado = NULL;
 
 /* funções internas do estado */
 static int inicializar(void)

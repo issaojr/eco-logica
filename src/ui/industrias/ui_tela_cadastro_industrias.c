@@ -52,6 +52,7 @@ void ui_desenhar_lista_industrias(
     ui_prompt_voltar_menu_anterior(NULL);
 }
 
+/* deprecated */
 void ui_exibir_form_adicionar_industria(void)
 {
     ui_limpar_tela();
@@ -126,5 +127,61 @@ void ui_desenhar_form_adicionar_industria(industria_t *nova_industria_out)
     ui_desenhar_cabecalho("ADICIONAR INDÚSTRIA");
     printf("\n");
 
-    ui_exibir_form_industria(nova_industria_out);
+    /* Lê primeiramente a chave CNPJ, para verificação de pré-cadastro */
+    ui_desenhar_form_ler_cnpj_industria(nova_industria_out);
 }
+
+void ui_desenhar_tela_editar_buscar_industria(industria_t *industria_antes_out)
+{
+    ui_desenhar_cabecalho("EDIÇÃO: BUSCA DE INDÚSTRIA");
+    printf("\n");
+
+    /**
+     * Fase 1 - Formulário para buscar indústria por CNPJ
+     * Apresentar prompt para número de CNPJ
+     * Ler CNPJ da indústria
+     * */
+    ui_desenhar_form_ler_cnpj_industria(industria_antes_out);
+}
+
+void ui_desenhar_form_editar_industria(
+    const funcionario_t *funcionario_autenticado,
+    industria_t *industria_antes_out,
+    industria_t *industria_depois_out)
+{
+    /* Fase 2 - Formulário para editar indústria */
+
+    /* Redesenhar tela */
+    ui_desenhar_tela_cadastro_industrias(funcionario_autenticado);
+
+    /* Desenhar painel para indústria selecionada */
+    ui_desenhar_painel_industria_selecionada(industria_antes_out);
+
+    ui_desenhar_cabecalho("EDIÇÃO DE INDÚSTRIA");
+    printf("\n");
+
+    ui_exibir_form_industria(industria_depois_out);
+}
+
+void ui_desenhar_painel_industria_selecionada(const industria_t *industria)
+{
+    const size_t l = UI_LARGURA_QUADRO;
+    ui_desenhar_linha_simples();
+    ui_desenhar_linha_painel("=>", "Indústria Selecionada", "|","|", l);
+    ui_desenhar_linha_simples();
+    ui_desenhar_linha_painel("CNPJ:", industria->cnpj, "|","|", l);
+    ui_desenhar_linha_painel("Razão Social:", industria->razao_social, "|","|", l);
+    ui_desenhar_linha_painel("Nome Fantasia:", industria->nome_fantasia, "|","|", l);
+    ui_desenhar_linha_painel("Telefone:", industria->telefone, "|","|", l);
+    ui_desenhar_linha_painel("Logradouro:", industria->logradouro, "|","|", l);
+    ui_desenhar_linha_painel("Número:", industria->numero, "|","|", l);
+    ui_desenhar_linha_painel("Bairro:", industria->bairro, "|","|", l);
+    ui_desenhar_linha_painel("Cidade:", industria->cidade, "|","|", l);
+    ui_desenhar_linha_painel("Estado:", industria->estado, "|","|", l);
+    ui_desenhar_linha_painel("CEP:", industria->cep, "|","|", l);
+    ui_desenhar_linha_painel("Data de abertura:", industria->data_abertura, "|","|", l);
+    ui_desenhar_linha_painel("Nome do responsável:", industria->nome_responsavel, "|","|", l);
+    ui_desenhar_linha_painel("E-mail do responsável:", industria->email_responsavel, "|","|", l);
+    ui_desenhar_rodape();
+}
+

@@ -11,10 +11,10 @@
 #include "ui/ui_comum.h"
 #include "session.h"
 
-int inicializar(void);
-estado_aplicacao processar(size_t entrada);
-void finalizar(void);
-estado_aplicacao obter_id(void);
+//int inicializar(void);
+//estado_aplicacao processar(size_t entrada);
+//void finalizar(void);
+//estado_aplicacao obter_id(void);
 
 /**
  * Cria uma instância do estado para adicionar indústria

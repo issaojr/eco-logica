@@ -20,6 +20,7 @@ static bool extrair_dados_funcionario_csv(char *linha, funcionario_t *funcionari
     char *tok = strtok(linha_backup, ",");
     if (!tok)
         return false;
+    trim_crlf(tok);
     // Armazenar matrícula como string
     strncpy(funcionario->matricula, tok, sizeof(funcionario->matricula) - 1);
     funcionario->matricula[sizeof(funcionario->matricula) - 1] = '\0';
@@ -27,6 +28,7 @@ static bool extrair_dados_funcionario_csv(char *linha, funcionario_t *funcionari
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
+    trim_crlf(tok);
     // Garantir terminação nula
     strncpy(funcionario->nome, tok, sizeof(funcionario->nome) - 1);
     funcionario->nome[sizeof(funcionario->nome) - 1] = '\0';
@@ -34,6 +36,7 @@ static bool extrair_dados_funcionario_csv(char *linha, funcionario_t *funcionari
     tok = strtok(NULL, ",\n");
     if (!tok)
         return false;
+    trim_crlf(tok);
     // Garantir terminação nula
     strncpy(funcionario->hash_senha, tok, sizeof(funcionario->hash_senha) - 1);
     funcionario->hash_senha[sizeof(funcionario->hash_senha) - 1] = '\0';

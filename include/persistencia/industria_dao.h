@@ -13,6 +13,7 @@
 #include <string.h>
 #include "estruturas/industria.h"
 #include "ui/ui_comum.h"
+#include "util.h"
 
 /**
  * Valida se uma indústria com dado CNPJ existe na base CSV.

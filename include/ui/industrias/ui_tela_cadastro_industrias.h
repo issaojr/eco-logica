@@ -34,6 +34,9 @@ void ui_desenhar_form_ler_cnpj_industria(
 void ui_desenhar_form_adicionar_industria(
     industria_t *nova_industria_out);
 
+void ui_desenhar_tela_editar_buscar_industria(
+    industria_t *industria_antes_out);
+
 /**
  * @brief Exibe a lista de indústrias cadastradas.
  */
@@ -63,5 +66,15 @@ void ui_exibir_form_editar_industria(void);
  * @brief Exibe o formulário para ADICIONAR uma indústria.
  */
 void ui_exibir_form_adicionar_industria(void);
+
+void ui_desenhar_tela_editar_buscar_industria(industria_t *industria_antes_out);
+
+void ui_desenhar_form_editar_industria(
+    const funcionario_t *funcionario_autenticado,
+    industria_t *industria_antes_out,
+    industria_t *industria_depois_out);
+
+void ui_desenhar_painel_industria_selecionada(
+    const industria_t *industria_selecionada);
 
 #endif /* UI_TELA_MENU_CADASTRO_INDUSTRIAS_H */

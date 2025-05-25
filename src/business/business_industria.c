@@ -84,18 +84,11 @@ int excluir_industria(const char *cnpj)
 	}
 }
 
-int buscar_industria_por_cnpj(const char *cnpj, industria_t *industria_out)
+bool buscar_industria_por_cnpj(const char *cnpj, industria_t *industria_out)
 {
-	if (!cnpj || !industria_out)
-		return 1; // Erro: CNPJ ou ponteiro inválido
+	if (!cnpj || !industria_out) return false;
 
-	// Delega a chamada para a camada de persistência
-	if (buscar_industria_csv(cnpj, industria_out))
-	{
-		return 0; // Sucesso
-	}
-	else
-	{
-		return 2; // Erro: indústria não encontrada
-	}
+	if (!buscar_industria_csv(cnpj, industria_out)) return false;
+
+	return true;
 }

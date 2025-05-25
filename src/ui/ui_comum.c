@@ -1,5 +1,6 @@
 #include "ui/ui_comum.h"
 
+
 void ui_limpar_tela(void)
 {
 #ifdef _WIN32
@@ -454,6 +455,29 @@ void ui_desenhar_tela_erro(const char *titulo, const char *mensagem)
 
     ui_prompt_voltar_menu_anterior(NULL);
 }
+void ui_desenhar_linha_painel(
+    const char *label,
+    const char *value,
+    const char *c_inicial,
+    const char *c_final,
+    size_t largura_total)
+{
+    char linha[256];
+    size_t largura_label = ui_tamanho_str_utf8(label);
+    size_t largura_value = ui_tamanho_str_utf8(value);
+    size_t num_espacos = largura_total - largura_label - largura_value - 4;
+    char espacos[num_espacos + 1];         // +1 para o terminador '\0'
+    for (size_t i = 0; i < num_espacos; i++)
+        espacos[i] = ' ';
+    espacos[num_espacos] = '\0';           // fecha a string
+
+    //for (int i = 0; i < num_espacos; i++)
+        //sprintf(espacos + i, " ");
+
+    snprintf(linha, sizeof(linha), "%s %s %s%s%s", c_inicial, label, value, espacos, c_final);
+    printf("%s\n", linha);
+}
+
 
 void ui_converter_para_maiusculo(char *str)
 {

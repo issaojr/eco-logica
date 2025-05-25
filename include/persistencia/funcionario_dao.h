@@ -15,6 +15,7 @@
 #include "estruturas/funcionario.h"
 #include "business/business_crypto.h"
 #include "ui/ui_comum.h"
+#include "util.h"
 
 /**
  * Valida se existe um funcionário com matrícula e senha hash na base CSV.

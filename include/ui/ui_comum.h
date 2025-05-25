@@ -8,6 +8,7 @@
 #include <wchar.h>
 #include <stdbool.h>
 #include <time.h>
+#include "estruturas/industria.h"
 
 /* Constantes para desenho da interface */
 #define UI_LARGURA_QUADRO 80
@@ -251,6 +252,13 @@ void ui_desenhar_tela_sucesso(const char *titulo, const char *mensagem);
  * @note Esta função limpa a tela antes de exibir a mensagem
  */
 void ui_desenhar_tela_erro(const char *titulo, const char *mensagem);
+
+void ui_desenhar_linha_painel(
+    const char *label,
+    const char *value,
+    const char *c_inicial,
+    const char *c_final,
+    size_t largura_total);
 
 /**
  * @brief Converte uma string para maiúsculas

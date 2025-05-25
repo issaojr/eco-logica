@@ -46,7 +46,7 @@ int excluir_industria(const char *cnpj);
  * @return 0 se sucesso, 1 se erro, 2 se não existe.
  */
 
-int buscar_industria_por_cnpj(const char *cnpj, industria_t *industria_out);
+bool buscar_industria_por_cnpj(const char *cnpj, industria_t *industria_out);
 
 /**
  * Obtém a lista completa de todas as indústrias cadastradas.

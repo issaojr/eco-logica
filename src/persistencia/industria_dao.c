@@ -20,48 +20,64 @@ static bool extrair_dados_industria_csv(char *linha, industria_t *industria)
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
+    // tira CR/LF e copia para o struct
+    trim_crlf(tok);
+
     strncpy(industria->razao_social, tok, sizeof(industria->razao_social) - 1);
     industria->razao_social[sizeof(industria->razao_social) - 1] = '\0';
 
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
+    // tira CR/LF e copia para o struct
+    trim_crlf(tok);
     strncpy(industria->nome_fantasia, tok, sizeof(industria->nome_fantasia) - 1);
     industria->nome_fantasia[sizeof(industria->nome_fantasia) - 1] = '\0';
 
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
+    // tira CR/LF e copia para o struct
+    trim_crlf(tok);
     strncpy(industria->telefone, tok, sizeof(industria->telefone) - 1);
     industria->telefone[sizeof(industria->telefone) - 1] = '\0';
 
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
+    // tira CR/LF e copia para o struct
+    trim_crlf(tok);
     strncpy(industria->logradouro, tok, sizeof(industria->logradouro) - 1);
     industria->logradouro[sizeof(industria->logradouro) - 1] = '\0';
 
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
+    // tira CR/LF e copia para o struct
+    trim_crlf(tok);
     strncpy(industria->numero, tok, sizeof(industria->numero) - 1);
     industria->numero[sizeof(industria->numero) - 1] = '\0';
 
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
+    // tira CR/LF e copia para o struct
+    trim_crlf(tok);
     strncpy(industria->bairro, tok, sizeof(industria->bairro) - 1);
     industria->bairro[sizeof(industria->bairro) - 1] = '\0';
 
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
+    // tira CR/LF e copia para o struct
+    trim_crlf(tok);
 
     strncpy(industria->cidade, tok, sizeof(industria->cidade) - 1);
     industria->cidade[sizeof(industria->cidade) - 1] = '\0';
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
+    trim_crlf(tok);
 
     strncpy(industria->estado, tok, sizeof(industria->estado) - 1);
     industria->estado[sizeof(industria->estado) - 1] = '\0';
@@ -69,6 +85,7 @@ static bool extrair_dados_industria_csv(char *linha, industria_t *industria)
 
     if (!tok)
         return false;
+    trim_crlf(tok);
 
     strncpy(industria->cep, tok, sizeof(industria->cep) - 1);
     industria->cep[sizeof(industria->cep) - 1] = '\0';
@@ -76,6 +93,7 @@ static bool extrair_dados_industria_csv(char *linha, industria_t *industria)
 
     if (!tok)
         return false;
+    trim_crlf(tok);
 
     strncpy(industria->data_abertura, tok, sizeof(industria->data_abertura) - 1);
     industria->data_abertura[sizeof(industria->data_abertura) - 1] = '\0';
@@ -83,12 +101,14 @@ static bool extrair_dados_industria_csv(char *linha, industria_t *industria)
 
     if (!tok)
         return false;
+    trim_crlf(tok);
 
     strncpy(industria->nome_responsavel, tok, sizeof(industria->nome_responsavel) - 1);
     industria->nome_responsavel[sizeof(industria->nome_responsavel) - 1] = '\0';
     tok = strtok(NULL, ",");
     if (!tok)
         return false;
+    trim_crlf(tok);
     strncpy(industria->email_responsavel, tok, sizeof(industria->email_responsavel) - 1);
     industria->email_responsavel[sizeof(industria->email_responsavel) - 1] = '\0';
     return true;

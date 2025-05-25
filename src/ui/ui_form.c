@@ -208,9 +208,26 @@ bool validar_cep(const char *cep)
 
 bool validar_uf(const char *uf)
 {
-    return strlen(uf) == 2 &&
-        isalpha((unsigned char)uf[0]) &&
-        isalpha((unsigned char)uf[1]);
+    /* precisa ter exatamente 2 chars */
+    if (strlen(uf) != 2)
+        return false;
+
+    const char s[3] = { uf[0], uf[1], '\0' };
+
+    /* lista de UFs válidas */
+    static const char *lista_ufs[] = {
+        "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS",
+        "MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC",
+        "SP","SE","TO"
+    };
+
+    /* busca na lista */
+    for (size_t i = 0; i < sizeof(lista_ufs)/sizeof(lista_ufs[0]); i++) {
+        if (strcmp(s, lista_ufs[i]) == 0)
+            return true;
+    }
+
+    return false;
 }
 
 bool validar_telefone(const char *tel)
@@ -229,18 +246,44 @@ bool validar_email(const char *e)
     return arroba && ponto && arroba < ponto && ponto[1] != '\0';
 }
 
+static bool is_bissexto(int y)
+{
+    return (y % 4 == 0 && (y % 100 != 0 || y % 400 == 0));
+}
+
 bool validar_data(const char *data) /* dd/mm/aaaa */
 {
     if (strlen(data) != 10 || data[2] != '/' || data[5] != '/')
         return false;
+
     int d = atoi(data);
     int m = atoi(data + 3);
     int y = atoi(data + 6);
-    if (d < 1 || d > 31 || m < 1 || m > 12 || y < 1900)
+
+    if (d < 1 || m < 1 || m > 12 || y < 1900)
         return false;
 
-    struct tm t = {.tm_mday = d, .tm_mon = m - 1, .tm_year = y - 1900};
-    return mktime(&t) != -1 && t.tm_mday == d && t.tm_mon == m - 1;
+    /* dias máximos por mês */
+    static const int dias_no_mes[] = {
+        0, 31, /* jan */
+        28, /* fev */
+        31, /* mar */
+        30, /* abr */
+        31, /* mai */
+        30, /* jun */
+        31, /* jul */
+        31, /* ago */
+        30, /* set */
+        31, /* out */
+        30, /* nov */
+        31 /* dez */
+    };
+
+    int max = dias_no_mes[m];
+    if (m == 2 && is_bissexto(y))
+        max = 29;
+
+    return d <= max;
 }
 
 /* ---------- leitor genérico com descarte de "resto de linha" ------ */
@@ -252,31 +295,6 @@ void ui_ler_campo(
     const char *msg_erro,
     void (*transformar)(char *))
 {
-    // do
-    // {
-    //     printf("%s", ui_prompt_form_str(prompt));
-
-    //     if (fgets(buf, (int)sz, stdin) == NULL)
-    //         exit(EXIT_FAILURE);
-
-    //     /* verifica se a linha coube inteira; se não, limpa stdin       */
-    //     size_t len = strlen(buf);
-    //     bool linha_completa = (len > 0 && buf[len - 1] == '\n');
-    //     if (!linha_completa)
-    //         ui_limpar_entrada(); /* descarta até '\n' pendente        */
-
-    //     /* transforma o campo, se necessário */
-    //     if (transformar)
-    //         transformar(buf);
-
-    //     strip_newline(buf);
-
-    //     if (validador(buf))
-    //         return;
-
-    //     ui_exibir_erro(msg_erro);
-    // } while (true);
-
     do
     {
         printf("%s", ui_prompt_form_str(prompt));
@@ -284,19 +302,15 @@ void ui_ler_campo(
         if (fgets(buf, (int)sz, stdin) == NULL)
             exit(EXIT_FAILURE);
 
-        // se não coube tudo, limpa o restante da linha
         size_t len = strlen(buf);
         if (len > 0 && buf[len - 1] != '\n')
             ui_limpar_entrada();
 
-        // 1) tira o '\n' que sobrou
         strip_newline(buf);
 
-        // 2) maiúsculiza via Unicode (sua versão multibyte)
         if (transformar)
             transformar(buf);
 
-        // 3) valida já em maiúsculas
         if (validador(buf))
             return;
 
@@ -434,7 +448,7 @@ void ui_ler_estado_industria(char *b, size_t s)
         b,
         s,
         validar_uf,
-        "UF deve conter 2 letras",
+        "UF inválida",
         transformar_maiusculo);
     b[0] = (char)toupper((unsigned char)b[0]);
     b[1] = (char)toupper((unsigned char)b[1]);
@@ -487,7 +501,7 @@ void ui_ler_email_responsavel_industria(char *b, size_t s)
 /* ---------- formulário completo ---------------------------------- */
 void ui_exibir_form_industria(industria_t *i)
 {
-    ui_ler_cnpj_industria(i->cnpj, sizeof i->cnpj);
+    // ui_ler_cnpj_industria(i->cnpj, sizeof i->cnpj);
     ui_ler_razao_social_industria(i->razao_social, sizeof i->razao_social);
     ui_ler_nome_fantasia_industria(i->nome_fantasia, sizeof i->nome_fantasia);
     ui_ler_telefone_industria(i->telefone, sizeof i->telefone);

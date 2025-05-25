@@ -20,6 +20,7 @@ static estado_aplicacao processar(size_t entrada)
         return ESTADO_MENU_LOGIN;
     }
 
+    /* Tela base - Fase 1 */
     ui_desenhar_tela_cadastro_funcionarios(
         funcionario_autenticado->nome,
         funcionario_autenticado->matricula);
@@ -27,6 +28,11 @@ static estado_aplicacao processar(size_t entrada)
     funcionario_t *funcionario_antes = malloc(sizeof(funcionario_t));
     funcionario_t *funcionario_depois = malloc(sizeof(funcionario_t));
 
+    /*
+     * Apresenta primeiro form apenas para leitura de matrícula
+     * Somente prossegue para o form completo, caso o funcionário já
+     * exista no cadastro.
+     */
     ui_desenhar_tela_editar_buscar_funcionario(funcionario_antes);
 
     // Busca o funcionário pelo número de matrícula
@@ -38,7 +44,8 @@ static estado_aplicacao processar(size_t entrada)
         e voltar ao menu anterior */
     if (resultado == 1)
     {
-        ui_desenhar_tela_erro("ERRO: EDITAR FUNCIONARIO", "Funcionário não encontrado.");
+        ui_desenhar_tela_erro("ERRO AO EDITAR FUNCIONARIO",
+                              "Funcionário não encontrado.");
         free(funcionario_antes);
         free(funcionario_depois);
         return ESTADO_CADASTRO_FUNCIONARIOS;
@@ -59,7 +66,6 @@ static estado_aplicacao processar(size_t entrada)
     }
 
     /* Copia a matrícula do funcionário encontrado para o novo funcionário */
-    // funcionario_depois->matricula = funcionario_antes->matricula;
     strncpy(funcionario_depois->matricula, funcionario_antes->matricula,
             sizeof(funcionario_depois->matricula) - 1);
     funcionario_depois->matricula[sizeof(funcionario_depois->matricula) - 1] = '\0';
@@ -84,16 +90,16 @@ static estado_aplicacao processar(size_t entrada)
         // Edição bem-sucedida
         // caso a matrícula do funcionario atualizado seja a mesma do funcionario autenticado
         // atualiza a sessão
-        if (funcionario_autenticado->matricula == funcionario_depois->matricula)
+        if (strcmp(funcionario_autenticado->matricula, funcionario_depois->matricula) == 0)
         {
             set_funcionario_logado(funcionario_depois);
         }
-        ui_desenhar_tela_sucesso("EDIção DE FUNCIONÁRIO BEM-SUCEDIDA", "Funcionário editado com sucesso.");
+        ui_desenhar_tela_sucesso("EDIÇÃO DE FUNCIONÁRIO BEM-SUCEDIDA", "Funcionário editado com sucesso.");
     }
     else if (resultado == 1)
     {
         // Erro ao editar
-        ui_desenhar_tela_erro("EDIção DE FUNCIONÁRIO FALHOU", "Erro ao editar funcionário.");
+        ui_desenhar_tela_erro("EDIÇÃO DE FUNCIONÁRIO FALHOU", "Erro ao editar funcionário.");
     }
     else if (resultado == 2)
     {
