@@ -1,18 +1,14 @@
 #include "estados/estado_menu_principal.h"
 
-funcionario_t *funcionario_autenticado;
-
 // Funções específicas deste estado
 static int inicializar(void)
 {
-    // Obter o funcionário logado
-    funcionario_autenticado = get_funcionario_logado();
-
     return 0; // sucesso
 }
 
 static estado_aplicacao processar(size_t entrada)
 {
+    funcionario_t *funcionario_autenticado = get_funcionario_logado();
     if (!funcionario_autenticado)
     {
         // [TODO] Criar estado de erro se não houver funcionário logado

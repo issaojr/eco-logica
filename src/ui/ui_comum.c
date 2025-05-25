@@ -1,12 +1,11 @@
 #include "ui/ui_comum.h"
 
-
 void ui_limpar_tela(void)
 {
 #ifdef _WIN32
-    system("cls");
+    if (!UI_DEBUG) system("cls");
 #else
-    system("clear");
+    if (!UI_DEBUG) system("clear");
 #endif
 }
 
@@ -28,6 +27,9 @@ void ui_exibir_separador(char caractere, int largura)
 void ui_exibir_titulo(const char *titulo, const char *subtitulo)
 {
     int largura = UI_LARGURA_PADRAO;
+    /* Garante ponteiros não nulos e strings válidas */
+    if (!titulo) titulo = "";
+    if (!subtitulo) subtitulo = "";
     size_t largura_titulo = ui_tamanho_str_utf8(titulo);
     size_t largura_subtitulo = ui_tamanho_str_utf8(subtitulo);
 
@@ -241,22 +243,39 @@ bool ui_confirmar(const char *mensagem)
 }
 
 /**
- * Retorna o número de caracteres (code-points) em uma string UTF-8,
- * contando cada byte que **não** comece com bits '10' (continuação).
+ * Retorna o número de caracteres (code-points) em uma string UTF-8.
+ * Cada byte que NÃO começa com os bits '10' (ou seja, não é byte de continuação)
+ * é contado como início de um novo caractere.
+ *
+ * Protege contra ponteiros NULL e strings malformadas (não terminadas).
+ * Limita o processamento a 'maxlen' bytes para evitar loops infinitos em casos anormais.
+ *
+ * Parâmetros:
+ *   s - ponteiro para string UTF-8 (pode ser NULL)
+ *
+ * Retorno:
+ *   Número de caracteres (code-points) válidos na string, ou 0 se inválida.
  */
 size_t ui_tamanho_str_utf8(const char *s)
 {
     size_t count = 0;
+    if (s == NULL)
+        return 0;
+    /**
+     * Garante que o ponteiro não aponta para lixo
+     * Se o ponteiro não for NULL, mas a string não está terminada, pode travar
+     * Por isso, limite de segurança para evitar loop infinito 
+     */
     const unsigned char *p = (const unsigned char*)s;
-    while (*p)
+    size_t maxlen = 4096; /* limite de segurança para strings anormais */
+    size_t checked = 0;
+    while (p && *p && checked < maxlen)
     {
-        /*
-         * se os 2 bits mais significativos NÃO forem '10' (continuação),
-         * é início de code-point
-         */
+        /* Se os 2 bits mais significativos NÃO forem '10' (continuação), é início de code-point */
         if ((*p & 0xC0) != 0x80)
             count++;
         p++;
+        checked++;
     }
     return count;
 }

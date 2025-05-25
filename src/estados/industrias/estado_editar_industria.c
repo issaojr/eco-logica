@@ -1,7 +1,5 @@
 #include "estados/industrias/estado_editar_industria.h"
 
-#include "business/business_industria.h"
-
 /* funções internas do estado */
 static int inicializar(void)
 {
@@ -36,20 +34,25 @@ static estado_aplicacao processar(size_t entrada)
 
     const bool industria_existe = buscar_industria_por_cnpj(industria_antes->cnpj, industria_antes);
 
+    if (UI_DEBUG)
+    {
+        printf("DEBUG: CNPJ buscado: %s\n", industria_antes->cnpj);
+        printf("DEBUG: Indústria encontrada: %s\n", industria_existe ? "Sim" : "Não");
+    }
+
     printf("\n");
 
     /* Caso a indústria não seja encontrada, mostrar tela de erro e voltar ao menu anterior */
     if (!industria_existe)
     {
-        ui_desenhar_tela_erro("ERRO AO EDITAR INDÚSTRIA",
-                              "Indústria não encontrada.");
+        ui_desenhar_tela_erro("ERRO AO EDITAR INDÚSTRIA", "Indústria não encontrada.");
         free(industria_antes);
         free(industria_depois);
-        return ESTADO_CADASTRO_FUNCIONARIOS;
+        return ESTADO_CADASTRO_INDUSTRIAS;
     }
 
     /* Exibe nova tela base, agora com o restante do form - Fase 2 */
-    ui_desenhar_form_editar_industria(funcionario_autenticado, industria_antes, industria_antes);
+    //ui_desenhar_form_editar_industria(funcionario_autenticado, industria_antes, industria_depois);
 
     /* Copia a matrícula do industria encontrada para a nova industria */
     strncpy(industria_depois->cnpj, industria_antes->cnpj,

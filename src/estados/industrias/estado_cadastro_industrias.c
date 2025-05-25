@@ -1,18 +1,14 @@
 #include "estados/industrias/estado_cadastro_industrias.h"
 
-static funcionario_t *funcionario_autenticado = NULL;
-
 /* funções internas do estado */
 static int inicializar(void)
 {
-    // Obter o funcionário logado
-    funcionario_autenticado = get_funcionario_logado();
-
     return 0; // sucesso
 }
 
 static estado_aplicacao processar(size_t entrada)
 {
+    funcionario_t *funcionario_autenticado = get_funcionario_logado();
     if (!funcionario_autenticado)
     {
         // [TODO] Criar estado de erro se não houver funcionário logado

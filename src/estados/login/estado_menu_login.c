@@ -1,26 +1,22 @@
 #include "estados/login/estado_menu_login.h"
 
-funcionario_t *funcionario_autenticado;
-
-// Funções específicas deste estado
+/* Funções específicas deste estado */
 static int inicializar(void)
 {
-    // Obter o funcionário logado
-    funcionario_autenticado = get_funcionario_logado();
-
     return 0; // sucesso
 }
 
 static estado_aplicacao processar(size_t entrada)
 {
+    funcionario_t *funcionario_autenticado = get_funcionario_logado();
     if (funcionario_autenticado)
     {
-        return ESTADO_MENU_PRINCIPAL; // Redireciona para o menu principal se já estiver logado
+        return ESTADO_MENU_PRINCIPAL; /* // Redireciona para o menu principal se já estiver logado */
     }
 
     ui_desenhar_tela_menu_login();
 
-    // Usar a função utilitária para processar o menu
+    /* // Usar a função utilitária para processar o menu */
     return estado_processar_estado_menu(
         tela_menu_login_mapa,
         tela_menu_login_mapa_n,
@@ -30,7 +26,7 @@ static estado_aplicacao processar(size_t entrada)
 
 static void finalizar(void)
 {
-    // Não há recursos específicos para liberar neste estado
+    /* // Não há recursos específicos para liberar neste estado */
 }
 
 static estado_aplicacao obter_id(void)

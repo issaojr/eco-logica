@@ -17,6 +17,8 @@
 /* Constantes para tamanho máximo de strings */
 #define UI_TAMANHO_MAX_MSG 300
 
+#define UI_DEBUG 0
+
 /* Cores ANSI para formatação de texto */
 #define UI_COR_RESET "\033[0m"
 #define UI_COR_VERMELHO "\033[38;5;197m"

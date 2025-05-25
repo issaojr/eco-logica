@@ -1,27 +1,25 @@
 #include "estados/login/estado_msg_login.h"
 
-funcionario_t *funcionario_autenticado;
-
-// Funções específicas deste estado
+/* // Funções específicas deste estado */
 static int inicializar(void)
 {
-    return 0; // sucesso
+    return 0;
 }
 
 static estado_aplicacao processar(size_t entrada)
 {
-    // Obter informações do usuário logado para personalizar a mensagem
-    funcionario_autenticado = get_funcionario_logado();
+    /* // Obter informações do usuário logado para personalizar a mensagem */
+    funcionario_t *funcionario_autenticado = get_funcionario_logado();
 
     if (funcionario_autenticado)
     {
-        // Desenha a tela de mensagem de login com sucesso
+        /* // Desenha a tela de mensagem de login com sucesso */
         ui_desenhar_tela_msg_login_sucesso(funcionario_autenticado->nome, funcionario_autenticado->matricula);
         return ESTADO_MENU_PRINCIPAL;
     }
     else
     {
-        // Se não houver funcionário logado, exibe mensagem de falha
+        /* // Se não houver funcionário logado, exibe mensagem de falha */
         ui_desenhar_tela_msg_login_falha();
         return ESTADO_MENU_LOGIN;
     }
@@ -29,7 +27,7 @@ static estado_aplicacao processar(size_t entrada)
 
 static void finalizar(void)
 {
-    // Não há recursos específicos para liberar neste estado
+    /* // Não há recursos específicos para liberar neste estado */
 }
 
 static estado_aplicacao obter_id(void)

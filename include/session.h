@@ -19,33 +19,4 @@ void set_funcionario_logado(funcionario_t *func);
  */
 void logout(void);
 
-/**
- * @brief Armazena um valor inteiro na sessão.
- * @param chave Nome da chave para identificar o valor
- * @param valor Valor inteiro a ser armazenado
- */
-void session_set_int(const char *chave, int valor);
-
-/**
- * @brief Recupera um valor inteiro da sessão.
- * @param chave Nome da chave que identifica o valor
- * @param padrao Valor padrão a retornar caso a chave não exista
- * @return O valor associado é chave ou o valor padrão
- */
-int session_get_int(const char *chave, int padrao);
-
-/**
- * @brief Armazena um ponteiro na sessão.
- * @param chave Nome da chave para identificar o ponteiro
- * @param ptr Ponteiro a ser armazenado
- */
-void session_set_ptr(const char *chave, void *ptr);
-
-/**
- * @brief Recupera um ponteiro da sessão.
- * @param chave Nome da chave que identifica o ponteiro
- * @return O ponteiro associado é chave ou NULL
- */
-void *session_get_ptr(const char *chave);
-
 #endif // SESSION_H

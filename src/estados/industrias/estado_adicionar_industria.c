@@ -1,4 +1,3 @@
-
 #include "estados/industrias/estado_adicionar_industria.h"
 
 /* funções internas do estado */
