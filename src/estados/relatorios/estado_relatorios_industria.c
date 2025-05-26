@@ -1,5 +1,8 @@
 #include "estados/relatorios/estado_relatorios_industria.h"
 
+static industria_t *i;
+static residuo_t *r;
+
 static int inicializar(void)
 {
     return 0;
@@ -7,9 +10,33 @@ static int inicializar(void)
 
 static estado_aplicacao processar(size_t entrada)
 {
-    // TODO: processar seleção de indústria e gerar relatório
-    ui_exibir_to_do("[TODO] Implementar estado_relatorios_industria.c");
-    ui_pausar("Pressione ENTER para continuar...");
+    // TODO: Desenhar a tela básica
+
+    // TODO: Form para ler CNPJ da indústria
+
+    // TODO: Validar CNPJ e armazenar em 'i'
+
+    // TODO: Mostrar em painel resumo da indústria
+
+    // TODO: Mostrar menu de opções de relatórios:
+    // 1. Listar resíduos por semestralmente
+    // 2. Listar totais de gastos mensais
+
+    // TODO: Dependendo da opção escolhida, chamar a função correspondente
+    // Caso 1: Listar resíduos semestralmente
+    // - Recuperar lista de resíduos da indústria
+    // - Exibir relatório com resíduos por semestre
+    // Caso 2: Listar totais de gastos mensais
+    // - Recuperar lista de resíduos da indústria
+    // - Exibir relatório com totais de gastos mensais
+
+    // TODO: Apresentar menu de opções:
+    // 1. Exportar relatório para CSV
+    // 2. Exportar relatório para XLS
+    // 3. Exportar relatório para TXT
+    // 4. Voltar para o menu principal
+
+
     return ESTADO_MENU_PRINCIPAL;
 }
 
