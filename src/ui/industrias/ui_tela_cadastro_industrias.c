@@ -3,7 +3,7 @@
 const size_t TAMANHO_SEPARADOR_TAB_INDUSTRIA = 188;
 
 void ui_desenhar_tela_cadastro_industrias(
-    const funcionario_t *funcionario_autenticado)
+    funcionario_t *funcionario_autenticado)
 {
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
@@ -17,8 +17,7 @@ const opcao_t tela_menu_cadastro_industrias_mapa[] = {
     {2, "Adicionar Indústria"},
     {3, "Editar Indústria"},
     {4, "Excluir Indústria"},
-    {5, "Voltar"}
-};
+    {5, "Voltar"}};
 
 const size_t tela_menu_cadastro_industrias_mapa_n =
     sizeof(tela_menu_cadastro_industrias_mapa) / sizeof(tela_menu_cadastro_industrias_mapa[0]);
@@ -35,7 +34,7 @@ void ui_desenhar_lista_industrias(
 {
     ui_limpar_tela();
 
-    const char *cabecalho = "LISTA DE INDÚSTRIAS";
+    char *cabecalho = "LISTA DE INDÚSTRIAS";
 
     /* Desenha tela de lista de indústrias */
     ui_desenhar_cabecalho(cabecalho);
@@ -84,7 +83,7 @@ void ui_exibir_lista_industrias(
 {
     /* Definindo larguras para cada coluna da tabela */
     /* printf(UI_COR_NEGRITO "%-15s %-25s %-25s %-15s %-25s %-8s %-20s %-20s %-8s %-10s %-15s %-25s %-30s\n" UI_COR_RESET,
-           "CNPJ", "Razão Social", "Nome Fantasia", "Telefone", "Logradouro", "Número", 
+           "CNPJ", "Razão Social", "Nome Fantasia", "Telefone", "Logradouro", "Número",
            "Bairro", "Cidade", "Estado", "CEP", "Data Abertura", "Nome Responsável", "Email Responsável");*/
 
     printf("%-15s %-31s %-30s %-30s %-8s %-15s %-31s %-20s\n",
@@ -101,13 +100,13 @@ void ui_exibir_lista_industrias(
                industrias_out[i].cnpj,
                industrias_out[i].razao_social,
                industrias_out[i].nome_fantasia,
-               //industrias_out[i].telefone,
-               //industrias_out[i].logradouro,
-               //industrias_out[i].numero,
-               //industrias_out[i].bairro,
+               // industrias_out[i].telefone,
+               // industrias_out[i].logradouro,
+               // industrias_out[i].numero,
+               // industrias_out[i].bairro,
                industrias_out[i].cidade,
                industrias_out[i].estado,
-               //industrias_out[i].cep,
+               // industrias_out[i].cep,
                industrias_out[i].data_abertura,
                industrias_out[i].nome_responsavel,
                industrias_out[i].email_responsavel);
@@ -145,7 +144,7 @@ void ui_desenhar_tela_editar_buscar_industria(industria_t *industria_antes_out)
 }
 
 void ui_desenhar_form_editar_industria(
-    const funcionario_t *funcionario_autenticado,
+    funcionario_t *funcionario_autenticado,
     industria_t *industria_antes_out,
     industria_t *industria_depois_out)
 {
@@ -177,8 +176,8 @@ void ui_desenhar_tela_excluir_buscar_industria(industria_t *industria_antes_out)
 }
 
 bool ui_desenhar_tela_excluir_confirmar_industria(
-    const industria_t *industria_selecionada,
-    const funcionario_t *funcionario_autenticado)
+    industria_t *industria_selecionada,
+    funcionario_t *funcionario_autenticado)
 {
     ui_desenhar_tela_cadastro_industrias(funcionario_autenticado);
     ui_desenhar_cabecalho("CONFIRMAÇÃO DE EXCLUSÃO DE INDÚSTRIA");
@@ -192,26 +191,24 @@ bool ui_desenhar_tela_excluir_confirmar_industria(
     return ui_confirmar("Deseja realmente excluir esta indústria?");
 }
 
-
-void ui_desenhar_painel_industria_selecionada(const industria_t *industria)
+void ui_desenhar_painel_industria_selecionada(industria_t *industria)
 {
     const size_t l = UI_LARGURA_QUADRO;
     ui_desenhar_linha_simples();
-    ui_desenhar_linha_painel("=>", "Indústria Selecionada", "|","|", l);
+    ui_desenhar_linha_painel("=>", "Indústria Selecionada", "|", "|", l);
     ui_desenhar_linha_simples();
-    ui_desenhar_linha_painel("CNPJ:", industria->cnpj, "|","|", l);
-    ui_desenhar_linha_painel("Razão Social:", industria->razao_social, "|","|", l);
-    ui_desenhar_linha_painel("Nome Fantasia:", industria->nome_fantasia, "|","|", l);
-    ui_desenhar_linha_painel("Telefone:", industria->telefone, "|","|", l);
-    ui_desenhar_linha_painel("Logradouro:", industria->logradouro, "|","|", l);
-    ui_desenhar_linha_painel("Número:", industria->numero, "|","|", l);
-    ui_desenhar_linha_painel("Bairro:", industria->bairro, "|","|", l);
-    ui_desenhar_linha_painel("Cidade:", industria->cidade, "|","|", l);
-    ui_desenhar_linha_painel("Estado:", industria->estado, "|","|", l);
-    ui_desenhar_linha_painel("CEP:", industria->cep, "|","|", l);
-    ui_desenhar_linha_painel("Data de abertura:", industria->data_abertura, "|","|", l);
-    ui_desenhar_linha_painel("Nome do responsável:", industria->nome_responsavel, "|","|", l);
-    ui_desenhar_linha_painel("E-mail do responsável:", industria->email_responsavel, "|","|", l);
+    ui_desenhar_linha_painel("CNPJ:", industria->cnpj, "|", "|", l);
+    ui_desenhar_linha_painel("Razão Social:", industria->razao_social, "|", "|", l);
+    ui_desenhar_linha_painel("Nome Fantasia:", industria->nome_fantasia, "|", "|", l);
+    ui_desenhar_linha_painel("Telefone:", industria->telefone, "|", "|", l);
+    ui_desenhar_linha_painel("Logradouro:", industria->logradouro, "|", "|", l);
+    ui_desenhar_linha_painel("Número:", industria->numero, "|", "|", l);
+    ui_desenhar_linha_painel("Bairro:", industria->bairro, "|", "|", l);
+    ui_desenhar_linha_painel("Cidade:", industria->cidade, "|", "|", l);
+    ui_desenhar_linha_painel("Estado:", industria->estado, "|", "|", l);
+    ui_desenhar_linha_painel("CEP:", industria->cep, "|", "|", l);
+    ui_desenhar_linha_painel("Data de abertura:", industria->data_abertura, "|", "|", l);
+    ui_desenhar_linha_painel("Nome do responsável:", industria->nome_responsavel, "|", "|", l);
+    ui_desenhar_linha_painel("E-mail do responsável:", industria->email_responsavel, "|", "|", l);
     ui_desenhar_rodape();
 }
-

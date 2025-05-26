@@ -506,7 +506,7 @@ void ui_desenhar_linha_painel(
     //for (int i = 0; i < num_espacos; i++)
         //sprintf(espacos + i, " ");
 
-    snprintf(linha, sizeof(linha), "%s %s %s%s%s", c_inicial, label, value, espacos, c_final);
+    snprintf(linha, sizeof(linha), "%s %s%s %s%s%s%s%s", c_inicial, UI_COR_TAB_LABEL, label, UI_COR_TAB_VALUE, value, UI_COR_RESET, espacos, c_final);
     printf("%s\n", linha);
 
     /* Libera a memória alocada */

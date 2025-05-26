@@ -144,7 +144,7 @@ void ui_desenhar_tela_editar_buscar_funcionario(
         sizeof(funcionario_antes_out->matricula));
 }
 
-void ui_desenhar_painel_funcionario_selecionado(const funcionario_t *f)
+void ui_desenhar_painel_funcionario_selecionado(funcionario_t *f)
 {
     size_t l = UI_LARGURA_QUADRO;
     ui_desenhar_linha_simples();

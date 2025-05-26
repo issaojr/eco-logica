@@ -49,7 +49,7 @@ void ui_desenhar_form_editar_funcionario(
     funcionario_t *funcionario_antes_out,
     funcionario_t *funcionario_depois_out);
 
-void ui_desenhar_painel_funcionario_selecionado(const funcionario_t *f);
+void ui_desenhar_painel_funcionario_selecionado(funcionario_t *f);
 
 void ui_exibir_form_funcionario(
     funcionario_t *novo_funcionario_out);

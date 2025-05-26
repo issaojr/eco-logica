@@ -8,7 +8,13 @@
 #include "business/business_industria.h"
 #include "estruturas/residuo.h"
 #include "estruturas/industria.h"
+#include "ui/residuos/ui_tela_atualizacao_residuos.h"
 #include "session.h"
+
+/**
+ * Estado de atualização de resíduos
+ */
+bool atualizar_residuo(const residuo_t *r);
 
 /**
  * Cria instância do estado para atualização de resíduos

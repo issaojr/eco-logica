@@ -52,7 +52,6 @@ static estado_aplicacao processar(size_t entrada)
     }
 
     /* Exibe nova tela base, agora com o restante do form - Fase 2 */
-    //ui_desenhar_form_editar_industria(funcionario_autenticado, industria_antes, industria_depois);
 
     /* Copia a matrícula do industria encontrada para a nova industria */
     strncpy(industria_depois->cnpj, industria_antes->cnpj,

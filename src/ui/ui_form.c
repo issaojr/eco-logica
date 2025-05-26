@@ -9,7 +9,7 @@ void strip_newline(char *s)
 }
 
 /* ---------- prompt ----------------------------------------------- */
-char *ui_prompt_form_str(const char *prompt_str)
+char *ui_prompt_form_str(char *prompt_str)
 {
     static char prompt[UI_TAMANHO_MAX_MSG];
     snprintf(prompt, sizeof(prompt), "%s>> %s: %s", UI_COR_PROMPT_FORM, prompt_str, UI_COR_RESET);
@@ -111,7 +111,7 @@ void transformar_minusculo(char *s)
 }
 
 /* ---------- validadores ------------------------------------------ */
-bool validar_matricula(const char *matricula)
+bool validar_matricula(char *matricula)
 {
     if (strlen(matricula) != 6)
         return false;
@@ -121,7 +121,7 @@ bool validar_matricula(const char *matricula)
     return true;
 }
 
-bool validar_nome(const char *nome)
+bool validar_nome(char *nome)
 {
     int count_letras = 0;
     size_t i = 0, n = strlen(nome);
@@ -171,7 +171,7 @@ bool validar_nome(const char *nome)
     return (count_letras >= 3);
 }
 
-bool validar_senha(const char *senha)
+bool validar_senha(char *senha)
 {
     if (strlen(senha) < 6)
         return false;
@@ -181,12 +181,12 @@ bool validar_senha(const char *senha)
     return true;
 }
 
-bool validar_nao_vazio(const char *s)
+bool validar_nao_vazio(char *s)
 {
     return *s != '\0';
 }
 
-bool validar_cnpj(const char *cnpj)
+bool validar_cnpj(char *cnpj)
 {
     if (strlen(cnpj) != 14)
         return false;
@@ -196,7 +196,7 @@ bool validar_cnpj(const char *cnpj)
     return true;
 }
 
-bool validar_cep(const char *cep)
+bool validar_cep(char *cep)
 {
     if (strlen(cep) != 8)
         return false;
@@ -206,7 +206,7 @@ bool validar_cep(const char *cep)
     return true;
 }
 
-bool validar_uf(const char *uf)
+bool validar_uf(char *uf)
 {
     /* precisa ter exatamente 2 chars */
     if (strlen(uf) != 2)
@@ -230,7 +230,7 @@ bool validar_uf(const char *uf)
     return false;
 }
 
-bool validar_telefone(const char *tel)
+bool validar_telefone(char *tel)
 {
     size_t n = 0;
     for (const char *p = tel; *p; ++p)
@@ -239,10 +239,10 @@ bool validar_telefone(const char *tel)
     return n >= 8;
 }
 
-bool validar_email(const char *e)
+bool validar_email(char *e)
 {
-    const char *arroba = strchr(e, '@');
-    const char *ponto = strrchr(e, '.');
+    char *arroba = strchr(e, '@');
+    char *ponto = strrchr(e, '.');
     return arroba && ponto && arroba < ponto && ponto[1] != '\0';
 }
 
@@ -251,7 +251,7 @@ static bool is_bissexto(int y)
     return (y % 4 == 0 && (y % 100 != 0 || y % 400 == 0));
 }
 
-bool validar_data(const char *data) /* dd/mm/aaaa */
+bool validar_data(char *data) /* dd/mm/aaaa */
 {
     if (strlen(data) != 10 || data[2] != '/' || data[5] != '/')
         return false;
@@ -286,13 +286,63 @@ bool validar_data(const char *data) /* dd/mm/aaaa */
     return d <= max;
 }
 
+bool validar_mes(char *mes_str)
+{
+    if (strlen(mes_str) == 0 || strlen(mes_str) > 2)
+        return false;
+    
+    for (size_t i = 0; i < strlen(mes_str); i++)
+        if (!isdigit((unsigned char)mes_str[i]))
+            return false;
+    
+    int mes = atoi(mes_str);
+    return mes >= 1 && mes <= 12;
+}
+
+bool validar_ano(char *ano_str)
+{
+    if (strlen(ano_str) != 4)
+        return false;
+    
+    for (int i = 0; i < 4; i++)
+        if (!isdigit((unsigned char)ano_str[i]))
+            return false;
+    
+    int ano = atoi(ano_str);
+    return ano >= 1900 && ano <= 2100;
+}
+
+bool validar_quantidade(char *quantidade_str)
+{
+    if (strlen(quantidade_str) == 0)
+        return false;
+    
+    char *endptr;
+    double valor = strtod(quantidade_str, &endptr);
+    
+    // Verifica se a conversão foi bem-sucedida e se o valor é positivo
+    return (endptr != quantidade_str && *endptr == '\0' && valor >= 0.0);
+}
+
+bool validar_custo(char *custo_str)
+{
+    if (strlen(custo_str) == 0)
+        return false;
+    
+    char *endptr;
+    double valor = strtod(custo_str, &endptr);
+    
+    // Verifica se a conversão foi bem-sucedida e se o valor é positivo
+    return (endptr != custo_str && *endptr == '\0' && valor >= 0.0);
+}
+
 /* ---------- leitor genérico com descarte de "resto de linha" ------ */
 void ui_ler_campo(
-    const char *prompt,
+    char *prompt,
     char *buf,
     size_t sz,
-    bool (*validador)(const char *),
-    const char *msg_erro,
+    bool (*validador)(char *),
+    char *msg_erro,
     void (*transformar)(char *))
 {
     do
@@ -537,4 +587,73 @@ void ui_exibir_form_industria(industria_t *i)
     ui_ler_data_abertura_industria(i->data_abertura, sizeof i->data_abertura);
     ui_ler_nome_responsavel_industria(i->nome_responsavel, sizeof i->nome_responsavel);
     ui_ler_email_responsavel_industria(i->email_responsavel, sizeof i->email_responsavel);
+}
+
+/* ---------- leitores específicos de resíduos ---------------------- */
+
+void ui_ler_mes_residuos(int *mes, size_t tamanho)
+{
+    char mes_str[4];
+    ui_ler_campo(
+        "Mês (1-12)",
+        mes_str,
+        sizeof(mes_str),
+        validar_mes,
+        "Mês deve ser um número entre 1 e 12",
+        NULL);
+    
+    *mes = atoi(mes_str);
+}
+
+void ui_ler_ano_residuos(int *ano, size_t tamanho)
+{
+    char ano_str[6];
+    ui_ler_campo(
+        "Ano (AAAA)",
+        ano_str,
+        sizeof(ano_str),
+        validar_ano,
+        "Ano deve ter 4 dígitos (ex: 2024)",
+        NULL);
+    
+    *ano = atoi(ano_str);
+}
+
+void ui_ler_quantidade_residuos(double *quantidade, size_t tamanho)
+{
+    char quantidade_str[32];
+    ui_ler_campo(
+        "Quantidade (kg)",
+        quantidade_str,
+        sizeof(quantidade_str),
+        validar_quantidade,
+        "Quantidade deve ser um valor numérico positivo",
+        NULL);
+    
+    *quantidade = strtod(quantidade_str, NULL);
+}
+
+void ui_ler_custo_residuos(double *custo, size_t tamanho)
+{
+    char custo_str[32];
+    ui_ler_campo(
+        "Custo (R$)",
+        custo_str,
+        sizeof(custo_str),
+        validar_custo,
+        "Custo deve ser um valor numérico positivo",
+        NULL);
+    
+    *custo = strtod(custo_str, NULL);
+}
+
+/* ---------- formulário completo - resíduos ---------------------- */
+
+void ui_exibir_form_residuos(residuo_t *r)
+{
+    /* O CNPJ deve ser lido à parte */
+    ui_ler_mes_residuos(&r->mes, sizeof(r->mes));
+    ui_ler_ano_residuos(&r->ano, sizeof(r->ano));
+    ui_ler_quantidade_residuos(&r->quantidade, sizeof(r->quantidade));
+    ui_ler_custo_residuos(&r->custo, sizeof(r->custo));
 }

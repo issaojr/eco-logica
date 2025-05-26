@@ -1,130 +1,141 @@
 #include "persistencia/residuo_dao.h"
 
-bool gravar_residuo_csv(const residuo_t *residuo)
+bool atualizar_residuo_csv(const residuo_t *residuo)
 {
-    residuo_t *arr = NULL;
-    size_t cap = 0, cnt = 0;
-    FILE *f = fopen(RES_FILE, "r");
-    if (f)
+    if (!residuo)
     {
-        char line[256];
-        // Ignorar cabeçalho
-        fgets(line, sizeof(line), f);
-        while (fgets(line, sizeof(line), f))
-        {
-            residuo_t temp;
-            char *tok = strtok(line, ",");
-            if (!tok)
-            {
-                continue;
-            }
-            strncpy(temp.cnpj, tok, sizeof(temp.cnpj));
-            tok = strtok(NULL, ",");
-            if (!tok)
-            {
-                continue;
-            }
-            temp.mes = atoi(tok);
-            tok = strtok(NULL, ",");
-            if (!tok)
-            {
-                continue;
-            }
-            temp.ano = atoi(tok);
-            tok = strtok(NULL, ",");
-            if (!tok)
-            {
-                continue;
-            }
-            temp.quantidade = atof(tok);
-            tok = strtok(NULL, ",\n");
-            if (!tok)
-            {
-                continue;
-            }
-            temp.custo = atof(tok);
-            // atualizar se corresponder
-            if (strcmp(temp.cnpj, residuo->cnpj) == 0 && temp.mes == residuo->mes && temp.ano == residuo->ano)
-            {
-                temp.quantidade = residuo->quantidade;
-                temp.custo = residuo->custo;
-            }
-            // empacotar
-            if (cnt >= cap)
-            {
-                cap = cap ? cap * 2 : 8;
-                /*
-                                Alteração sugerida:
-
-                -                 arr = realloc(arr, cap * sizeof(residuo_t));
-                +                 void *temp_ptr = realloc(arr, cap * sizeof(residuo_t));
-                +                 if (!temp_ptr)
-                +                 {
-                +                     free(arr);
-                +                     fclose(f);
-                +                     return false;
-                +                 }
-                +                 arr = temp_ptr;
-                */
-                arr = realloc(arr, cap * sizeof(residuo_t));
-            }
-            arr[cnt++] = temp;
-        }
-        fclose(f);
-    }
-    // se não encontrou, adiciona novo
-    bool found = false;
-    for (size_t i = 0; i < cnt; ++i)
-    {
-        if (strcmp(arr[i].cnpj, residuo->cnpj) == 0 && arr[i].mes == residuo->mes && arr[i].ano == residuo->ano)
-        {
-            found = true;
-            break;
-        }
-    }
-    if (!found)
-    {
-        if (cnt >= cap)
-        {
-            cap = cap ? cap * 2 : 8;
-            arr = realloc(arr, cap * sizeof(residuo_t));
-        }
-        arr[cnt++] = *residuo;
-    }
-    // reescreve arquivo
-    f = fopen(RES_FILE, "w");
-    if (!f)
-    {
-        free(arr);
         return false;
     }
 
-    // Escrever cabeçalho e verificar se foi escrito corretamente
-    if (fprintf(f, "CNPJ,MES,ANO,QUANTIDADE,CUSTO\n") < 0)
+    residuo_t *registros = NULL;
+    size_t capacidade = 0, contador = 0;
+    bool encontrado = false;
+
+    // Lê todos os registros do arquivo
+    FILE *arquivo = fopen(RES_FILE, "r");
+    if (arquivo)
     {
-        // Erro ao escrever cabeçalho
-        fclose(f);
-        free(arr);
+        char linha[256];
+        // Ignora o cabeçalho
+        if (fgets(linha, sizeof(linha), arquivo))
+        {            while (fgets(linha, sizeof(linha), arquivo))
+            {
+                residuo_t temp;
+                char *token = strtok(linha, ",");
+                if (!token) continue;
+                
+                // Limpa e copia o CNPJ
+                strncpy(temp.cnpj, token, sizeof(temp.cnpj) - 1);
+                temp.cnpj[sizeof(temp.cnpj) - 1] = '\0';
+                
+                // Remove possíveis espaços em branco do CNPJ
+                char *src = temp.cnpj;
+                char *dst = temp.cnpj;
+                while (*src)
+                {
+                    if (*src != ' ' && *src != '\t' && *src != '\n' && *src != '\r')
+                    {
+                        *dst++ = *src;
+                    }
+                    src++;
+                }
+                *dst = '\0';
+                
+                token = strtok(NULL, ",");
+                if (!token) continue;
+                temp.mes = atoi(token);
+                
+                token = strtok(NULL, ",");
+                if (!token) continue;
+                temp.ano = atoi(token);
+                
+                token = strtok(NULL, ",");
+                if (!token) continue;
+                char *endptr;
+                temp.quantidade = strtod(token, &endptr);
+                if (endptr == token) continue; // Conversão falhou
+                
+                token = strtok(NULL, ",\n\r");
+                if (!token) continue;
+                temp.custo = strtod(token, &endptr);
+                if (endptr == token) continue; // Conversão falhou
+                
+                // Verifica se é o registro que deve ser atualizado
+                if (strcmp(temp.cnpj, residuo->cnpj) == 0 && 
+                    temp.mes == residuo->mes && 
+                    temp.ano == residuo->ano)
+                {
+                    temp.quantidade = residuo->quantidade;
+                    temp.custo = residuo->custo;
+                    encontrado = true;
+                }
+                
+                // Expande o array se necessário
+                if (contador >= capacidade)
+                {
+                    capacidade = capacidade ? capacidade * 2 : 8;
+                    void *novo_ptr = realloc(registros, capacidade * sizeof(residuo_t));
+                    if (!novo_ptr)
+                    {
+                        free(registros);
+                        fclose(arquivo);
+                        return false;
+                    }
+                    registros = novo_ptr;
+                }
+                
+                registros[contador++] = temp;
+            }
+        }
+        fclose(arquivo);
+    }
+    
+    // Se não encontrou o registro, adiciona um novo
+    if (!encontrado)
+    {
+        if (contador >= capacidade)
+        {
+            capacidade = capacidade ? capacidade * 2 : 8;
+            void *novo_ptr = realloc(registros, capacidade * sizeof(residuo_t));
+            if (!novo_ptr)
+            {
+                free(registros);
+                return false;
+            }
+            registros = novo_ptr;
+        }
+        registros[contador++] = *residuo;
+    }
+    
+    // Reescreve o arquivo com todos os registros
+    arquivo = fopen(RES_FILE, "w");
+    if (!arquivo)
+    {
+        free(registros);
         return false;
     }
-    // Escrever registros
-    for (size_t i = 0; i < cnt; ++i)
+    
+    // Escreve o cabeçalho
+    if (fprintf(arquivo, "CNPJ,MES,ANO,QUANTIDADE,CUSTO\n") < 0)
     {
-        if (fprintf(f, "%s,%d,%d,%.2f,%.2f\n",
-                    arr[i].cnpj, arr[i].mes, arr[i].ano,
-                    arr[i].quantidade, arr[i].custo) < 0)
+        fclose(arquivo);
+        free(registros);
+        return false;
+    }    // Escreve todos os registros
+    for (size_t i = 0; i < contador; i++)
+    {
+        if (fprintf(arquivo, "%s,%d,%d,%.2f,%.2f\n",
+                    registros[i].cnpj, registros[i].mes, registros[i].ano,
+                    registros[i].quantidade, registros[i].custo) < 0)
         {
-            // Erro ao escrever registro
-            fclose(f);
-            free(arr);
+            fclose(arquivo);
+            free(registros);
             return false;
         }
     }
-
-    // Fechar o arquivo - o sistema operacional se encarregará de garantir
-    // que os dados sejam efetivamente gravados no disco
-    fclose(f);
-    free(arr);
+    
+    fclose(arquivo);
+    free(registros);
     return true;
 }
 

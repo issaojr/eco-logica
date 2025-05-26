@@ -13,7 +13,7 @@
 /**
  * Lê/atualiza registro de resíduos para CNPJ, mês e ano.
  */
-bool gravar_residuo_csv(const residuo_t *residuo);
+bool atualizar_residuo_csv(const residuo_t *residuo);
 
 /**
  * Verifica e corrige problemas nos arquivos CSV de resíduos

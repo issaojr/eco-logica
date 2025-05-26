@@ -21,7 +21,7 @@ extern const char *tela_menu_cadastro_industrias_prompt(void);
  * @param matricula Matrícula do funcionário autenticado
  */
 void ui_desenhar_tela_cadastro_industrias(
-    const funcionario_t *funcionario_autenticado);
+    funcionario_t *funcionario_autenticado);
 
 void ui_desenhar_lista_industrias(
     industria_t *industrias_out,
@@ -70,7 +70,7 @@ void ui_exibir_form_adicionar_industria(void);
 void ui_desenhar_tela_editar_buscar_industria(industria_t *industria_antes_out);
 
 void ui_desenhar_form_editar_industria(
-    const funcionario_t *funcionario_autenticado,
+    funcionario_t *funcionario_autenticado,
     industria_t *industria_antes_out,
     industria_t *industria_depois_out);
 
@@ -81,10 +81,10 @@ void ui_desenhar_form_ler_cnpj_industria(
     industria_t *nova_industria_out);
 
 bool ui_desenhar_tela_excluir_confirmar_industria(
-    const industria_t *industria_selecionada,
-    const funcionario_t *funcionario_autenticado);
+    industria_t *industria_selecionada,
+    funcionario_t *funcionario_autenticado);
 
 void ui_desenhar_painel_industria_selecionada(
-    const industria_t *industria_selecionada);
+    industria_t *industria_selecionada);
 
 #endif /* UI_TELA_MENU_CADASTRO_INDUSTRIAS_H */

@@ -28,6 +28,8 @@
 #define UI_COR_CIANO "\033[36m"
 #define UI_COR_NEGRITO "\033[1m"
 #define UI_COR_LARANJA "\033[38;5;214m"
+#define UI_COR_TAB_LABEL "\033[38;5;248m" /* CINZA CLARO */
+#define UI_COR_TAB_VALUE "\033[38;5;195m" /* AZUL CLARO */
 
 #define UI_COR_PROMPT_OPCAO UI_COR_AMARELO
 #define UI_COR_PROMPT_FORM UI_COR_AMARELO
@@ -46,6 +48,7 @@
 #define UI_SUBTITULO_LOGIN "Formulário de Login"
 #define UI_SUBTITULO_CADASTRO_FUNCIONARIOS "Cadastro de Funcionários"
 #define UI_SUBTITULO_CADASTRO_INDUSTRIAS "Cadastro de Indústrias"
+#define UI_SUBTITULO_ATUALIZACAO_RESIDUOS "Atualização de Resíduos"
 #define UI_SUBTITULO_SOBRE "Sobre o Projeto"
 #define UI_SUBTITULO_LOGIN_SUCESSO "Autenticação Bem-Sucedida"
 #define UI_SUBTITULO_LOGIN_FALHA "Falha na Autenticação"
