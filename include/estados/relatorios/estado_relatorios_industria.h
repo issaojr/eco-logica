@@ -8,10 +8,11 @@
 #include "estruturas/residuo.h"
 #include "business/business_residuos.h"
 #include "business/business_industria.h"
-#include "business/business_relatorios_industria.h"
-#include "ui/relatorios/ui_relatorios_industria.h"
+#include "business/business_relatorios.h"
+#include "ui/relatorios/ui_relatorios.h"
 #include "ui/residuos/ui_tela_atualizacao_residuos.h"
 #include "ui/ui_form.h"
+#include "estruturas/relatorio.h"
 
 /**
  * Cria instância do estado para relatórios por indústria

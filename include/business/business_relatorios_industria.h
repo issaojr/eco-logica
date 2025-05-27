@@ -1,7 +1,0 @@
-#ifndef BUSINESS_RELATORIOS_INDUSTRIA_H
-#define BUSINESS_RELATORIOS_INDUSTRIA_H
-
-#include <stdio.h>
-#include <stdlib.h>
-
-#endif // BUSINESS_RELATORIOS_INDUSTRIA_H
