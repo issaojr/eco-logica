@@ -10,7 +10,9 @@ void ui_desenhar_tela_rel_ind_fase_1(
     funcionario_t *f,
     industria_t *i)
 {
-    ui_exibir_to_do("Implementar desenho da tela de relatórios por indústria fase 1");
+    ui_desenhar_cabecalho("SELECIONE A INDÚSTRIA");
+
+    ui_ler_cnpj_industria(i->cnpj, sizeof(i->cnpj));
 }
 
 /**
@@ -23,7 +25,9 @@ void ui_desenhar_tela_rel_ind_fase_2(
     industria_t *i,
     int *opcao_menu)
 {
-    ui_exibir_to_do("Implementar desenho da tela de relatórios por indústria fase 2");
+    ui_desenhar_painel_ind_resumido(i);
+
+    ui_desenhar_cabecalho("MENU DE RELATÓRIOS POR INDÚSTRIA");
 }
 
 /**
@@ -37,7 +41,33 @@ void ui_desenhar_tela_rel_ind_fase_3(
     relatorio_t *relatorio,
     const char *cabecalho)
 {
-    ui_exibir_to_do("Implementar desenho da tela de relatórios por indústria fase 3");
+    ui_desenhar_painel_ind_resumido(i);
+    ui_desenhar_cabecalho(cabecalho);
+    if (relatorio)
+    {
+        ui_exibir_relatorio(relatorio);
+    }
+    else
+    {
+        ui_exibir_erro("Nenhum relatório disponível.");
+    }
+
+    ui_pausar(NULL);
+}
+
+/*------------------ Menu da tela de relatórios por indústria -----------------------*/
+
+const opcao_t tela_menu_relatorios_industria_mapa[] = {
+    {1, "Listar resíduos por semestre"},
+    {2, "Listar totais de gastos mensais"},
+    {3, "Voltar ao menu principal"}};
+
+const size_t tela_menu_relatorios_industria_mapa_n =
+    sizeof(tela_menu_relatorios_industria_mapa) / sizeof(tela_menu_relatorios_industria_mapa[0]);
+
+const char *tela_menu_relatorios_industria_prompt(void)
+{
+    return ui_prompt_opcao(1, tela_menu_relatorios_industria_mapa_n);
 }
 
 /*----------------- Fases de desenho da tela de relatórios globais ------------------*/
@@ -76,4 +106,61 @@ void ui_desenhar_tela_rel_glb_fase_3(
     int *opcao_menu)
 {
     ui_exibir_to_do("Implementar desenho da tela de relatórios globais fase 3");
+}
+
+/*--------------------- Menu da tela de relatórios globais --------------------------*/
+
+const opcao_t tela_menu_relatorios_globais_mapa[] = {
+    {1, "Listar resíduos por semestre"},
+    {2, "Listar totais de gastos mensais"},
+    {3, "Voltar ao menu principal"}};
+
+const size_t tela_menu_relatorios_globais_mapa_n =
+    sizeof(tela_menu_relatorios_globais_mapa) / sizeof(tela_menu_relatorios_globais_mapa[0]);
+
+const char *tela_menu_relatorios_globais_prompt(void)
+{
+    return ui_prompt_opcao(1, tela_menu_relatorios_globais_mapa_n);
+}
+
+/*----------------------- Menu de exportação de relatório ---------------------------*/
+
+const opcao_t tela_menu_exportacao_relatorio_mapa[] = {
+    {1, "Exportar para CSV"},
+    {2, "Exportar para XLS"},
+    {3, "Exportar para TXT"},
+    {4, "Voltar ao menu principal"}};
+
+const size_t tela_menu_exportacao_relatorio_mapa_n =
+    sizeof(tela_menu_exportacao_relatorio_mapa) / sizeof(tela_menu_exportacao_relatorio_mapa[0]);
+const char *tela_menu_exportacao_relatorio_prompt(void)
+{
+    return ui_prompt_opcao(1, tela_menu_exportacao_relatorio_mapa_n);
+}
+
+/*-------------------------- Exibição de de relatório -------------------------------*/
+
+void ui_exibir_relatorio(
+    relatorio_t *rel)
+{
+    if (!rel || !rel->dados || rel->linhas == 0 || rel->colunas == 0)
+    {
+        ui_exibir_erro("Relatório vazio ou inválido.");
+        return;
+    }
+
+    for (size_t i = 0; i < rel->colunas; i++)
+    {
+        printf("%-20s", rel->cabecalhos[i]);
+    }
+    printf("\n");
+
+    for (size_t i = 0; i < rel->linhas; i++)
+    {
+        for (size_t j = 0; j < rel->colunas; j++)
+        {
+            printf("%-20s", rel->dados[i][j]);
+        }
+        printf("\n");
+    }
 }

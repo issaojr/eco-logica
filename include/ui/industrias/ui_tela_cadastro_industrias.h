@@ -77,9 +77,6 @@ void ui_desenhar_form_editar_industria(
 void ui_desenhar_tela_excluir_buscar_industria(
     industria_t *industria_antes_out);
 
-void ui_desenhar_form_ler_cnpj_industria(
-    industria_t *nova_industria_out);
-
 bool ui_desenhar_tela_excluir_confirmar_industria(
     industria_t *industria_selecionada,
     funcionario_t *funcionario_autenticado);

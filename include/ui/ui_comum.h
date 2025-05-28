@@ -41,7 +41,6 @@
 #define UI_COR_PROMPT_SAIR UI_COR_LARANJA
 #define UI_COR_PROMPT_PAUSAR UI_COR_LARANJA
 
-
 /* Título e subtítulos das telas */
 #define UI_TITULO_PROGRAMA "EcoLógica Soluções Ambientais"
 #define UI_SUBTITULO_PROGRAMA "Sistema de Gestão Ambiental"
@@ -49,6 +48,8 @@
 #define UI_SUBTITULO_CADASTRO_FUNCIONARIOS "Cadastro de Funcionários"
 #define UI_SUBTITULO_CADASTRO_INDUSTRIAS "Cadastro de Indústrias"
 #define UI_SUBTITULO_ATUALIZACAO_RESIDUOS "Atualização de Resíduos"
+#define UI_SUBTITULO_RELATORIOS_INDUSTRIA "Relatórios por Indústria"
+#define UI_SUBTITULO_RELATORIOS_GLOBAIS "Relatórios Globais"
 #define UI_SUBTITULO_SOBRE "Sobre o Projeto"
 #define UI_SUBTITULO_LOGIN_SUCESSO "Autenticação Bem-Sucedida"
 #define UI_SUBTITULO_LOGIN_FALHA "Falha na Autenticação"
@@ -60,7 +61,6 @@
  * @brief Limpa a tela do console
  */
 void ui_limpar_tela(void);
-
 
 void ui_limpar_entrada(void);
 
@@ -233,6 +233,8 @@ void ui_desenhar_tela_relatorio_padrao(
     const char *titulo,
     const char *subtitulo,
     const char *titulo_cabecalho);
+
+void ui_desenhar_painel_ind_resumido(industria_t *i);
 
 /**
  * @brief Desenha uma tela de sucesso

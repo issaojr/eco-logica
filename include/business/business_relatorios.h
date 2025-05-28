@@ -85,4 +85,7 @@ bool relatorio_exportar(
     const char *extensao,
     const char *separador);
 
+void relatorio_liberar(relatorio_t *rel);
+
+
 #endif // BUSINESS_RELATORIOS_H

@@ -144,3 +144,27 @@ bool relatorio_exportar(relatorio_t *rel, const char *nome_base, const char *ext
     printf("Relatório exportado para: %s (%zu linhas)\n", nome_local, rel->linhas);
     return true;
 }
+
+void relatorio_liberar(relatorio_t *rel)
+{
+    if (!rel)
+        return;
+
+    // Liberar cabeçalhos
+    for (size_t i = 0; i < rel->colunas; i++)
+    {
+        free(rel->cabecalhos[i]);
+    }
+    free(rel->cabecalhos);
+
+    // Liberar dados
+    for (size_t i = 0; i < rel->linhas; i++)
+    {
+        for (size_t j = 0; j < rel->colunas; j++)
+        {
+            free(rel->dados[i][j]);
+        }
+        free(rel->dados[i]);
+    }
+    free(rel->dados);
+}

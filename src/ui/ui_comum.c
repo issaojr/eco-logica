@@ -426,6 +426,20 @@ void ui_desenhar_tela_relatorio_padrao(
     printf("\n");
 }
 
+void ui_desenhar_painel_ind_resumido(industria_t *i)
+{
+    const size_t l = UI_LARGURA_QUADRO;
+    ui_desenhar_linha_simples();
+    ui_desenhar_linha_painel("=>", "Indústria Selecionada (Resíduos / Custos)", "|", "|", l);
+    ui_desenhar_linha_simples();
+    ui_desenhar_linha_painel("CNPJ:", i->cnpj, "|", "|", l);
+    ui_desenhar_linha_painel("Razão Social:", i->razao_social, "|", "|", l);
+    ui_desenhar_linha_painel("Nome Fantasia:", i->nome_fantasia, "|", "|", l);
+    ui_desenhar_linha_painel("Cidade:", i->cidade, "|", "|", l);
+    ui_desenhar_linha_painel("Estado:", i->estado, "|", "|", l);
+    ui_desenhar_rodape();
+}
+
 void ui_desenhar_tela_sucesso(const char *titulo, const char *mensagem)
 {
     ui_limpar_tela();

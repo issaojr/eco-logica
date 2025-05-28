@@ -5,11 +5,26 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "ui/ui_comum.h"
+#include "ui/ui_menu.h"
 #include "ui/ui_form.h"
+#include "ui/industrias/ui_tela_cadastro_industrias.h"
 #include "estruturas/industria.h"
 #include "estruturas/residuo.h"
 #include "estruturas/relatorio.h"
 #include "estruturas/funcionario.h"
+
+/* mapa de opções e prompt da tela de relatórios por indústria */
+extern const opcao_t tela_menu_relatorios_industria_mapa[];
+extern const size_t tela_menu_relatorios_industria_mapa_n;
+extern const char *tela_menu_relatorios_industria_prompt(void);
+/* mapa de opções e prompt da tela de relatórios globais */
+extern const opcao_t tela_menu_relatorios_globais_mapa[];
+extern const size_t tela_menu_relatorios_globais_mapa_n;
+extern const char *tela_menu_relatorios_globais_prompt(void);
+/* mapa de opções de exportação de relatórios */
+extern const opcao_t tela_menu_exportacao_relatorio_mapa[];
+extern const size_t tela_menu_exportacao_relatorio_mapa_n;
+extern const char *tela_menu_exportacao_relatorio_prompt(void);
 
 /*------------- Fases de desenho da tela de relatórios por indústria ------------------*/
 
@@ -76,6 +91,14 @@ void ui_desenhar_tela_rel_glb_fase_3 (
     relatorio_t *relatorio,
     const char *cabecalho,
     int *opcao_menu
+);
+
+/**
+ * Exibe o relatório formatado na tela.
+ * @param rel Relatório a ser exibido
+ */
+void ui_exibir_relatorio (
+    relatorio_t *rel
 );
 
 #endif // UI_RELATORIOS_H

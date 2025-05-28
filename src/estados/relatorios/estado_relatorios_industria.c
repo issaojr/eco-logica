@@ -1,52 +1,99 @@
 #include "estados/relatorios/estado_relatorios_industria.h"
 
+static int fase = 0;
+static funcionario_t *f_aut = NULL;
+static industria_t *i = NULL;
+static relatorio_t *relatorio = NULL;
+static codigo_opcao opcao_relatorio = OPCAO_INVALIDA;
+static codigo_opcao opcao_exportacao = OPCAO_INVALIDA;
+
 static int inicializar(void)
 {
+    if (fase == 0)
+    {
+        f_aut = get_funcionario_logado();
+        if (!f_aut)
+        {
+            // Exibir mensagem de erro se não houver funcionário logado
+            ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
+            ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
+            return ESTADO_MENU_LOGIN;
+        }
+
+        i = malloc(sizeof(industria_t));
+        if (!i)
+        {
+            ui_exibir_erro("Erro ao alocar memória para a indústria.");
+            ui_prompt_voltar_menu_principal("Pressione ENTER para voltar ao menu principal...");
+            return ESTADO_MENU_PRINCIPAL;
+        }
+        memset(i, 0, sizeof(industria_t));
+
+        if (!relatorio)
+        {
+            relatorio = malloc(sizeof(relatorio_t));
+            if (!relatorio)
+            {
+                ui_exibir_erro("Erro ao alocar memória para o relatório.");
+                reset_estado_rel_ind();
+                ui_prompt_voltar_menu_principal("Pressione ENTER para voltar ao menu principal...");
+                return ESTADO_MENU_PRINCIPAL;
+            }
+            memset(relatorio, 0, sizeof(relatorio_t));
+        }
+
+        fase = 1;
+    }
     return 0;
 }
 
 static estado_aplicacao processar(size_t entrada)
 {
-    // TODO: Desenhar a tela básica (UI)
+    if (!f_aut)
+    {
+        // Exibir mensagem de erro se não houver funcionário logado
+        ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
+        ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
+        reset_estado_rel_ind();
+        return ESTADO_MENU_LOGIN;
+    }
 
-    // TODO: Form para ler CNPJ da indústria (UI)
+    if (!i)
+    {
+        ui_exibir_erro("Erro ao alocar memória para a indústria.");
+        reset_estado_rel_ind();
+        ui_prompt_voltar_menu_principal("Pressione ENTER para voltar ao menu principal...");
+        return ESTADO_MENU_PRINCIPAL;
+    }
 
-    ui_desenhar_tela_rel_ind_fase_1(NULL, NULL);
+    if (!relatorio)
+    {
+        ui_exibir_erro("Erro ao alocar memória para o relatório.");
+        reset_estado_rel_ind();
+        ui_prompt_voltar_menu_principal("Pressione ENTER para voltar ao menu principal...");
+        return ESTADO_MENU_PRINCIPAL;
+    }
 
-    // TODO: Chamar função de (business) para obter a indústria pelo CNPJ
-    // - Se a indústria não for encontrada, exibir mensagem de erro,
-    // desalocar recursos e voltar ao menu principal
-    // - Se a indústria for encontrada, armazenar em uma variável
+    ui_desenhar_tela_padrao(
+        UI_TITULO_PROGRAMA,
+        UI_SUBTITULO_RELATORIOS_INDUSTRIA,
+        f_aut->nome,
+        f_aut->matricula);
 
-    // TODO: Mostrar em painel resumo da indústria
-
-    // TODO: Mostrar menu de opções de relatórios (UI):
-    // 1. Listar resíduos por semestralmente
-    // 2. Listar totais de gastos mensais
-    // 3. Voltar para o menu principal
-
-    // TODO: Ler opção escolhida pelo usuário (UI)
-    // - caso opção 1 ou 2, chamar a função de (business) correspondente
-    // para obter a estrutura de dados adequada e exibir o relatório,
-    // enviando a indústria como parâmetro
-    // - caso opção 3, desalocar recursos e retornar ao menu principal
-    ui_desenhar_tela_rel_ind_fase_2(NULL, NULL, NULL);
-
-    // TODO: Apresentar menu de opções:
-    // 1. Exportar relatório para CSV
-    // 2. Exportar relatório para XLS
-    // 3. Exportar relatório para TXT
-    // 4. Voltar para o menu principal
-
-    // TODO: Ler opção escolhida pelo usuário (UI)
-    // - caso opção 1, 2 ou 3, chamar a função de (business) correspondente
-    // para exportar o relatório
-    // - caso opção 4, desalocar recursos e retornar ao menu principal
-    ui_desenhar_tela_rel_ind_fase_3(NULL, NULL, NULL, NULL);
-
-    ui_prompt_continuar(NULL);
-
-    return ESTADO_MENU_PRINCIPAL;
+    /* Processar as fases de acordo com o estado atual */
+    switch (fase)
+    {
+    case 1:
+        return estado_fase_1();
+    case 2:
+        return estado_fase_2();
+    case 3:
+        return estado_fase_3();
+    default:
+        ui_exibir_erro("Estado inválido. Retornando ao menu principal.");
+        reset_estado_rel_ind();
+        return ESTADO_MENU_PRINCIPAL;
+    }
 }
 
 static void finalizar(void)
@@ -69,4 +116,169 @@ estado_t *criar_estado_relatorios_industria(void)
     e->finalizar = finalizar;
     e->obter_id = obter_id;
     return e;
+}
+
+void reset_estado_rel_ind(void)
+{
+    if (i)
+    {
+        free(i);
+        i = NULL;
+    }
+
+    if (relatorio)
+    {
+        relatorio_liberar(relatorio);
+        free(relatorio);
+        relatorio = NULL;
+    }
+
+    opcao_relatorio = OPCAO_INVALIDA;
+    fase = 0;
+}
+
+static estado_aplicacao estado_fase_1(void)
+{
+    /* Desenhar a tela de relatórios por indústria e ler cnpj, fase 1 */
+    ui_desenhar_tela_rel_ind_fase_1(f_aut, i);
+
+    bool industria_encontrada = buscar_industria_por_cnpj(i->cnpj, i);
+    if (!industria_encontrada)
+    {
+        // Exibir mensagem de erro se a indústria não for encontrada
+        ui_exibir_erro("Indústria não encontrada. Verifique o CNPJ e tente novamente.");
+        reset_estado_rel_ind();
+        ui_prompt_voltar_menu_anterior("Pressione ENTER para voltar ao menu principal...");
+        return ESTADO_MENU_PRINCIPAL;
+    }
+    fase = 2; /* Avançar para a próxima fase */
+
+    return ESTADO_RELATORIOS_INDUSTRIA;
+}
+
+static estado_aplicacao estado_fase_2(void)
+{
+    const opcao_t *mapa = tela_menu_relatorios_industria_mapa;
+    size_t mapa_n = tela_menu_relatorios_industria_mapa_n;
+    const char *prompt = tela_menu_relatorios_industria_prompt();
+
+    /* Exibir resumo da indústria e opções de relatórios, fase 2 */
+    ui_desenhar_tela_rel_ind_fase_2(f_aut, i, NULL);
+
+    /* Exibir o menu de opções de relatórios */
+    ui_imprimir_menu(mapa, mapa_n);
+
+    /* Ler opção escolhida pelo usuário */
+    opcao_relatorio = ui_ler_opcao(mapa, mapa_n, prompt);
+
+    if (opcao_relatorio == 3) /* Voltar ao menu principal */
+    {
+        reset_estado_rel_ind();
+        return ESTADO_MENU_PRINCIPAL;
+    }
+
+    fase = 3; /* Avançar para a próxima fase */
+    return ESTADO_RELATORIOS_INDUSTRIA;
+}
+
+static estado_aplicacao estado_fase_3(void)
+{
+    /* Gerar relatório com base na opção escolhida, fase 3 */
+    char *cabecalho = NULL;
+    bool sucesso = false;
+
+    const opcao_t *mapa = tela_menu_exportacao_relatorio_mapa;
+    size_t mapa_n = tela_menu_exportacao_relatorio_mapa_n;
+    const char *prompt = tela_menu_exportacao_relatorio_prompt();
+
+    if (opcao_relatorio == 1)
+    {
+        sucesso = gerar_relatorio_residuos_semestral(i, relatorio);
+        cabecalho = "RELATÓRIO DE RESÍDUOS POR SEMESTRE";
+    }
+    else if (opcao_relatorio == 2)
+    {
+        sucesso = gerar_relatorio_gastos_mensais(i, relatorio);
+        cabecalho = "RELATÓRIO DE TOTAIS DE GASTOS MENSAIS";
+    }
+    else
+    {
+        ui_exibir_erro("Opção inválida. Tente novamente.");
+        ui_pausar(NULL);
+        reset_estado_rel_ind();
+        return ESTADO_MENU_PRINCIPAL;
+    }
+
+    if (!sucesso)
+    {
+        ui_desenhar_tela_erro("Erro ao gerar relatório",
+                              "Não foi possível gerar o relatório solicitado.");
+        reset_estado_rel_ind();
+        return ESTADO_MENU_PRINCIPAL;
+    }
+
+    ui_desenhar_tela_rel_ind_fase_3(
+        f_aut,
+        i,
+        relatorio,
+        cabecalho);
+
+    if (!relatorio || !relatorio->dados || relatorio->linhas == 0 || relatorio->colunas == 0)
+    {
+        ui_exibir_erro("Relatório vazio ou inválido.");
+        ui_pausar(NULL);
+        reset_estado_rel_ind();
+        return ESTADO_MENU_PRINCIPAL;
+    }
+
+    /* Exibir opções de exportação do relatório */
+    ui_imprimir_menu(mapa, mapa_n);
+    /* Ler a opção de exportação escolhida pelo usuário */
+    opcao_exportacao = ui_ler_opcao(mapa, mapa_n, prompt);
+
+    if (opcao_exportacao == 4) /* Voltar ao menu principal */
+    {
+        reset_estado_rel_ind();
+        return ESTADO_MENU_PRINCIPAL;
+    }
+
+    bool sucesso_exportacao = false;
+    char *extensao = NULL;
+    char *separador = ",";
+    // Exportar o relatório de acordo com a opção escolhida
+    switch ((int)opcao_exportacao)
+    {
+    case 1: /* Exportar para CSV */
+        extensao = "csv";
+        break;
+    case 2: /* Exportar para XLS */
+        extensao = "xls";
+        break;
+    case 3: /* Exportar para TXT */
+        extensao = "txt";
+        separador = "\t"; /* Usar tabulação como separador para TXT */
+        break;
+
+    default:
+        break;
+    }
+
+    sucesso_exportacao = relatorio_exportar(relatorio, "relatorio", extensao, separador);
+
+    if (sucesso_exportacao)
+    {
+        ui_desenhar_tela_sucesso(
+            "Exportação de Relatório",
+            "Relatório exportado com sucesso!");
+    }
+    else
+    {
+        ui_desenhar_tela_erro(
+            "Erro na Exportação",
+            "Não foi possível exportar o relatório.");
+    }
+
+    reset_estado_rel_ind();
+
+    return ESTADO_MENU_PRINCIPAL;
 }
