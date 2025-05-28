@@ -6,7 +6,10 @@
 #include <stdbool.h>
 #include "persistencia/industria_dao.h"
 #include "persistencia/residuo_dao.h"
+#include "persistencia/relatorio_dao.h"
 #include "estruturas/relatorio.h"
+#include "ui/ui_comum.h"
+#include "util.h"
 
 /*--------------------------RELATÓRIOS GLOBAIS-----------------------------*/
 /**
@@ -49,27 +52,6 @@ bool gerar_relatorio_residuos_semestral(industria_t *i, relatorio_t *relatorio);
 bool gerar_relatorio_gastos_mensais(industria_t *i, relatorio_t *relatorio);
 
 /*----------------------------EXPORTAÇÃO DE RELATÓRIOS-----------------------------*/
-
-/**
- * Verifica se um arquivo existe.
- * @param nome_arquivo - Nome do arquivo a ser verificado.
- * @return true se o arquivo existe, false caso contrário.
- */
-bool arquivo_existe(const char *nome_arquivo);
-
-/**
- * Gera um nome único para o arquivo de relatório, evitando sobrescritas.
- * @param nome_base - Nome base do arquivo.
- * @param saida - Buffer onde o nome único será armazenado.
- * @param tamanho - Tamanho do buffer de saída.
- * @param extensao - Extensão do arquivo (ex: "csv", "txt").
- */
-void gerar_nome_unico(
-    const char *nome_base, 
-    char *saida, 
-    size_t tamanho, 
-    const char *extensao
-);
 
 /**
  * Exporta um relatório para um arquivo com a extensão e separador especificados.

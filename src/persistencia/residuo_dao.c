@@ -1,5 +1,326 @@
 #include "persistencia/residuo_dao.h"
 
+// static bool extrair_dados_residuo_csv(char *linha, residuo_t *residuo)
+// {
+//     if (!linha || !residuo)
+//         return false;
+
+//     /* Fazer uma cópia da linha para evitar problemas com strtok */
+//     char linha_backup[TAMANHO_LINHA_RES];
+//     strncpy(linha_backup, linha, sizeof(linha_backup) - 1);
+//     linha_backup[sizeof(linha_backup) - 1] = '\0';
+
+//     /* Extração segura dos dados */
+//     char *tok = strtok(linha_backup, ",");
+//     if (!tok)
+//         return false;
+//     trim_crlf(tok); /* tira CR/LF e copia para o struct */
+//     strncpy(residuo->cnpj, tok, sizeof(residuo->cnpj) - 1);
+//     residuo->cnpj[sizeof(residuo->cnpj) - 1] = '\0';
+
+//     tok = strtok(NULL, ",");
+//     if (!tok)
+//         return false;
+//     trim_crlf(tok);
+//     residuo->mes = atoi(tok);
+
+//     tok = strtok(NULL, ",");
+//     if (!tok)
+//         return false;
+//     trim_crlf(tok);
+//     residuo->ano = atoi(tok);
+
+//     tok = strtok(NULL, ",");
+//     if (!tok)
+//         return false;
+//     trim_crlf(tok);
+//     char *endptr;
+//     residuo->quantidade = strtod(tok, &endptr);
+//     if (endptr == tok) return false; // Conversão falhou    tok = strtok(NULL, ",\n\r");
+//     if (!tok)
+//         return false;
+//     trim_crlf(tok);
+//     residuo->custo = strtod(tok, &endptr);
+//     if (endptr == tok) return false; // Conversão falhou
+    
+//     return true;
+// }
+
+static bool extrair_dados_residuo_csv(char *linha, residuo_t *residuo)
+{
+    if (!linha || !residuo)
+        return false;
+
+    // Fazer uma cópia da linha para evitar problemas com strtok
+    char linha_backup[TAMANHO_LINHA_RES];
+    strncpy(linha_backup, linha, sizeof(linha_backup) - 1);
+    linha_backup[sizeof(linha_backup) - 1] = '\0';
+
+    char *tok = strtok(linha_backup, ",");
+    if (!tok)
+        return false;
+    trim_crlf(tok);
+    strncpy(residuo->cnpj, tok, sizeof(residuo->cnpj) - 1);
+    residuo->cnpj[sizeof(residuo->cnpj) - 1] = '\0';
+
+    tok = strtok(NULL, ",");
+    if (!tok)
+        return false;
+    trim_crlf(tok);
+    residuo->mes = atoi(tok);
+
+    tok = strtok(NULL, ",");
+    if (!tok)
+        return false;
+    trim_crlf(tok);
+    residuo->ano = atoi(tok);
+
+    tok = strtok(NULL, ",");
+    if (!tok)
+        return false;
+    trim_crlf(tok);
+    char *endptr;
+    residuo->quantidade = strtod(tok, &endptr);
+    if (endptr == tok)
+        return false; // Conversão falhou
+
+    tok = strtok(NULL, ",");  // ✅ CORREÇÃO AQUI
+    if (!tok)
+        return false;
+    trim_crlf(tok);
+    residuo->custo = strtod(tok, &endptr);
+    if (endptr == tok)
+        return false; // Conversão falhou
+
+    return true;
+}
+
+bool inserir_residuo_csv(const residuo_t *residuo)
+{
+    if (!residuo)
+        return false;
+
+    // Primeiro, verificamos se o arquivo existe e se termina com uma quebra de linha
+    FILE *f_read = fopen(RES_FILE, "r");
+    if (f_read)
+    {
+        // Vai até o final do arquivo
+        fseek(f_read, 0, SEEK_END);
+        long size = ftell(f_read);
+
+        // Se o arquivo não estiver vazio, verifica se termina com uma quebra de linha
+        if (size > 0)
+        {
+            // Volta uma posição para ler o último caractere
+            fseek(f_read, -1, SEEK_END);
+            int last_char = fgetc(f_read);
+            fclose(f_read);
+
+            // Se o último caractere não for quebra de linha, abrir em modo a+ para adicionar quebra de linha
+            if (last_char != '\n')
+            {
+                FILE *f_append_nl = fopen(RES_FILE, "a");
+                if (!f_append_nl)
+                    return false;
+                // Adicionar quebra de linha
+                fputc('\n', f_append_nl);
+                fclose(f_append_nl);
+            }
+        }
+        else
+        {
+            fclose(f_read);
+        }
+    }
+
+    FILE *f = fopen(RES_FILE, "a");
+    if (!f)
+        return false;
+
+    // Se arquivo estava vazio ou não existia, escreve o cabeçalho
+    if (!f_read)
+    {
+        // Escrever cabeçalho e verificar se foi escrito corretamente
+        if (fprintf(f, "CNPJ,MES,ANO,QUANTIDADE,CUSTO\n") < 0)
+        {
+            // Erro ao escrever cabeçalho
+            fclose(f);
+            return false;
+        }
+    }
+
+    // Escrever dados do resíduo e verificar se foi escrito corretamente
+    if (fprintf(f, "%s,%d,%d,%.2f,%.2f\n",
+                residuo->cnpj,
+                residuo->mes,
+                residuo->ano,
+                residuo->quantidade,
+                residuo->custo) < 0)
+    {
+        // Erro ao escrever dados
+        fclose(f);
+        return false;
+    }    fclose(f);
+    return true;
+}
+
+bool buscar_residuo_csv(const char *cnpj, int mes, int ano, residuo_t *out_residuo)
+{
+    if (!cnpj || !out_residuo)
+        return false;
+
+    FILE *f = fopen(RES_FILE, "r");
+    if (!f)
+        return false;
+
+    char line[TAMANHO_LINHA_RES];
+    bool encontrado = false;
+    residuo_t residuo_temp;
+
+    // Pular cabeçalho
+    fgets(line, sizeof(line), f);
+
+    while (fgets(line, sizeof(line), f))
+    {
+        if (extrair_dados_residuo_csv(line, &residuo_temp))
+        {
+            if (strcmp(residuo_temp.cnpj, cnpj) == 0 && 
+                residuo_temp.mes == mes && 
+                residuo_temp.ano == ano)
+            {
+                *out_residuo = residuo_temp;
+                encontrado = true;
+                break;
+            }
+        }
+    }
+
+    fclose(f);
+    return encontrado;
+}
+
+bool listar_residuos_por_cnpj_csv(const char *cnpj, residuo_t *residuos, size_t tamanho_max, size_t *qtd_residuos)
+{
+    if (!cnpj || !residuos || !qtd_residuos)
+        return false;
+    *qtd_residuos = 0;
+
+    FILE *f = fopen(RES_FILE, "r");
+    if (!f)
+        return false;
+
+    char line[TAMANHO_LINHA_RES];
+    size_t count = 0;
+    residuo_t residuo_temp;
+
+    // Pular cabeçalho
+    fgets(line, sizeof(line), f);
+
+    while (count < tamanho_max && fgets(line, sizeof(line), f))
+    {
+        if (extrair_dados_residuo_csv(line, &residuo_temp))
+        {
+            if (strcmp(residuo_temp.cnpj, cnpj) == 0)
+            {
+                residuos[count] = residuo_temp;
+                count++;
+            }
+        }
+    }
+
+    *qtd_residuos = count;
+    fclose(f);
+    return true;
+}
+
+// bool atualizar_residuo_csv(const residuo_t *residuo)
+// {
+//     if (!residuo)
+//         return false;
+
+//     FILE *f_orig = fopen(RES_FILE, "r");
+//     FILE *f_temp = fopen(RES_FILE_TEMP, "w");
+
+//     if (!f_orig || !f_temp)
+//     {
+//         if (f_orig)
+//             fclose(f_orig);
+//         if (f_temp)
+//             fclose(f_temp);
+//         return false;
+//     }
+
+//     char line[TAMANHO_LINHA_RES];
+//     bool atualizado = false;
+//     residuo_t residuo_temp;
+
+//     // Copiar cabeçalho para o arquivo temporário
+//     if (fgets(line, sizeof(line), f_orig))
+//     {
+//         if (fputs(line, f_temp) == EOF)
+//         {
+//             fclose(f_orig);
+//             fclose(f_temp);
+//             return false;
+//         }
+//     }
+
+//     while (fgets(line, sizeof(line), f_orig))
+//     {
+//         if (extrair_dados_residuo_csv(line, &residuo_temp))
+//         {
+//             // Atualizar se corresponder
+//             if (strcmp(residuo_temp.cnpj, residuo->cnpj) == 0 && 
+//                 residuo_temp.mes == residuo->mes && 
+//                 residuo_temp.ano == residuo->ano)
+//             {
+//                 residuo_temp = *residuo;
+//                 atualizado = true;
+//             }
+//             // Escrever no arquivo temporário
+//             if (fprintf(f_temp, "%s,%d,%d,%.2f,%.2f\n",
+//                         residuo_temp.cnpj,
+//                         residuo_temp.mes,
+//                         residuo_temp.ano,
+//                         residuo_temp.quantidade,
+//                         residuo_temp.custo) < 0)
+//             {
+//                 fclose(f_orig);
+//                 fclose(f_temp);
+//                 return false;
+//             }
+//         }
+//         else
+//         {
+//             // Se não conseguiu extrair os dados, escrever a linha original
+//             if (fputs(line, f_temp) == EOF)
+//             {
+//                 fclose(f_orig);
+//                 fclose(f_temp);
+//                 return false;
+//             }
+//         }
+//     }
+
+//     fclose(f_orig);
+//     fclose(f_temp);
+
+//     // Se o resíduo não foi encontrado, adicionar novo registro
+//     if (!atualizado)
+//     {
+//         // Renomear os arquivos
+//         remove(RES_FILE);
+//         rename(RES_FILE_TEMP, RES_FILE);
+        
+//         // Inserir novo registro
+//         return inserir_residuo_csv(residuo);
+//     }
+
+//     // Renomear os arquivos
+//     remove(RES_FILE);
+//     rename(RES_FILE_TEMP, RES_FILE);    return true;
+// }
+
 bool atualizar_residuo_csv(const residuo_t *residuo)
 {
     if (!residuo)
@@ -138,6 +459,92 @@ bool atualizar_residuo_csv(const residuo_t *residuo)
     free(registros);
     return true;
 }
+
+// bool excluir_residuo_csv(const char *cnpj, int mes, int ano)
+// {
+//     if (!cnpj)
+//         return false;
+
+//     FILE *f_orig = fopen(RES_FILE, "r");
+//     FILE *f_temp = fopen(RES_FILE_TEMP, "w");
+
+//     if (!f_orig || !f_temp)
+//     {
+//         if (f_orig)
+//             fclose(f_orig);
+//         if (f_temp)
+//             fclose(f_temp);
+//         return false;
+//     }
+
+//     char line[TAMANHO_LINHA_RES];
+//     bool encontrado = false;
+//     residuo_t residuo_temp;
+
+//     // Copiar cabeçalho para o arquivo temporário
+//     if (fgets(line, sizeof(line), f_orig))
+//     {
+//         if (fputs(line, f_temp) == EOF)
+//         {
+//             fclose(f_orig);
+//             fclose(f_temp);
+//             return false;
+//         }
+//     }
+
+//     while (fgets(line, sizeof(line), f_orig))
+//     {
+//         if (extrair_dados_residuo_csv(line, &residuo_temp))
+//         {
+//             // Se não for o resíduo a ser excluído, manter no arquivo
+//             if (!(strcmp(residuo_temp.cnpj, cnpj) == 0 && 
+//                   residuo_temp.mes == mes && 
+//                   residuo_temp.ano == ano))
+//             {
+//                 if (fprintf(f_temp, "%s,%d,%d,%.2f,%.2f\n",
+//                             residuo_temp.cnpj,
+//                             residuo_temp.mes,
+//                             residuo_temp.ano,
+//                             residuo_temp.quantidade,
+//                             residuo_temp.custo) < 0)
+//                 {
+//                     fclose(f_orig);
+//                     fclose(f_temp);
+//                     return false;
+//                 }
+//             }
+//             else
+//             {
+//                 encontrado = true;
+//             }
+//         }
+//         else
+//         {
+//             // Se não conseguiu extrair os dados, escrever a linha original
+//             if (fputs(line, f_temp) == EOF)
+//             {
+//                 fclose(f_orig);
+//                 fclose(f_temp);
+//                 return false;
+//             }
+//         }
+//     }
+
+//     fclose(f_orig);
+//     fclose(f_temp);
+
+//     // Se o resíduo não foi encontrado, retorna falso
+//     if (!encontrado)
+//     {
+//         remove(RES_FILE_TEMP);
+//         return false;
+//     }
+
+//     // Renomear os arquivos
+//     remove(RES_FILE);
+//     rename(RES_FILE_TEMP, RES_FILE);
+//     return true;
+// }
 
 bool verificar_csv_residuo(void)
 {
@@ -287,4 +694,69 @@ bool verificar_csv_residuo(void)
         free(novo_conteudo);
 
     return true;
+}
+
+bool buscar_residuos_por_cnpj(const char *cnpj, residuo_t **registros, size_t *total)
+{
+    if (!cnpj || !registros || !total)
+        return false;
+
+    *registros = NULL;
+    *total = 0;
+
+    FILE *arquivo = fopen(RES_FILE, "r");
+    if (!arquivo)
+        return false;
+
+    char linha[TAMANHO_LINHA_RES];
+    size_t capacidade = 0;
+    size_t contador = 0;
+
+    // Pula o cabeçalho
+    if (!fgets(linha, sizeof(linha), arquivo))
+    {
+        fclose(arquivo);
+        return false;
+    }
+
+    // Lê todos os registros do arquivo
+    while (fgets(linha, sizeof(linha), arquivo))
+    {
+        residuo_t temp;
+        if (extrair_dados_residuo_csv(linha, &temp))
+        {
+            // Verifica se o CNPJ corresponde ao procurado
+            if (strcmp(temp.cnpj, cnpj) == 0)
+            {
+                // Expande o array se necessário
+                if (contador >= capacidade)
+                {
+                    capacidade = capacidade ? capacidade * 2 : 8;
+                    void *novo_ptr = realloc(*registros, capacidade * sizeof(residuo_t));
+                    if (!novo_ptr)
+                    {
+                        free(*registros);
+                        *registros = NULL;
+                        fclose(arquivo);
+                        return false;
+                    }
+                    *registros = novo_ptr;
+                }
+
+                (*registros)[contador++] = temp;
+            }
+        }
+    }
+
+    fclose(arquivo);
+    *total = contador;
+    return true;
+}
+
+void liberar_registros_residuos(residuo_t *registros)
+{
+    if (registros)
+    {
+        free(registros);
+    }
 }

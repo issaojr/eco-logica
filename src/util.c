@@ -83,7 +83,7 @@ char *get_data_hora_atual(void)
     return data_hora;
 }
 
-char *util_strdup(const char *s)
+char *_util_strdup(const char *s)
 {
     if (!s)
         return NULL;

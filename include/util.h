@@ -17,7 +17,7 @@ void trim_crlf(char *s);
 char *trim(char *s);
 void colapsar_espacos(char *s);
 char *get_data_hora_atual(void);
-char *util_strdup(const char *s);
+char *_util_strdup(const char *s);
 void set_locale_utf8(void);
 
 #endif // UTIL_H
