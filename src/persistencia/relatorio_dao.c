@@ -6,8 +6,8 @@ bool inserir_rel_arquivo(
     const char *ext,
     const char *separador)
 {
-    char nome_local[256]; /* Mantém o nome local */
-    snprintf(nome_local, sizeof(nome_local), "relatorios/%s.%s", nome_base, ext);
+    char nome_local[256];
+    snprintf(nome_local, sizeof(nome_local), "%s.%s", nome_base, ext);
 
     if (arquivo_existe(nome_local))
     {
@@ -74,6 +74,8 @@ void gerar_nome_unico(const char *nome_base, char *saida, size_t tamanho, const 
     while (arquivo_existe(saida))
     {
         snprintf(saida, tamanho, "%s_%d.%s", nome_base, contador, extensao);
+        puts(saida); 
+        printf("\n");
         contador++;
     }
 }

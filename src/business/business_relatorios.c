@@ -259,18 +259,6 @@ bool gerar_relatorio_residuos_semestral(industria_t *i, relatorio_t *relatorio)
 }
 
 /**
- * Gera relatório financeiro por período para uma indústria específica.
- * @param i - Ponteiro para a estrutura da indústria.
- * @param relatorio - estrutura de dados para armazenar o relatório.
- * @return true se o relatório foi gerado com sucesso, false caso contrário.
- */
-bool gerar_relatorio_financeiro_por_periodo(industria_t *i, relatorio_t *relatorio)
-{
-    ui_exibir_to_do("[TODO] Implementar geração de relatório financeiro por período");
-    return false; /* Placeholder, deve ser implementado */
-}
-
-/**
  * Gera relatório de gastos mensais para uma indústria específica.
  * @param i - Ponteiro para a estrutura da indústria.
  * @param relatorio - estrutura de dados para armazenar o relatório.

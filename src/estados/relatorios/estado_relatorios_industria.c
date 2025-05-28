@@ -186,6 +186,8 @@ static estado_aplicacao estado_fase_3(void)
     /* Gerar relatório com base na opção escolhida, fase 3 */
     char *cabecalho = NULL;
     bool sucesso = false;
+    char nome_arquivo[256] = {0};
+    char *diretorio = "relatorios_gerados/";
 
     const opcao_t *mapa = tela_menu_exportacao_relatorio_mapa;
     size_t mapa_n = tela_menu_exportacao_relatorio_mapa_n;
@@ -195,11 +197,13 @@ static estado_aplicacao estado_fase_3(void)
     {
         sucesso = gerar_relatorio_residuos_semestral(i, relatorio);
         cabecalho = "RELATÓRIO DE RESÍDUOS POR SEMESTRE";
+        snprintf(nome_arquivo, sizeof(nome_arquivo), "%s%s_relatorio_residuos_por_semestre", diretorio, i->cnpj);
     }
     else if (opcao_relatorio == 2)
     {
         sucesso = gerar_relatorio_gastos_mensais(i, relatorio);
         cabecalho = "RELATÓRIO DE TOTAIS DE GASTOS MENSAIS";
+        snprintf(nome_arquivo, sizeof(nome_arquivo), "%s_relatorio_residuos_por_semestre", i->cnpj);
     }
     else
     {
@@ -263,7 +267,7 @@ static estado_aplicacao estado_fase_3(void)
         break;
     }
 
-    sucesso_exportacao = relatorio_exportar(relatorio, "relatorio", extensao, separador);
+    sucesso_exportacao = relatorio_exportar(relatorio, nome_arquivo, extensao, separador);
 
     if (sucesso_exportacao)
     {
