@@ -203,7 +203,7 @@ static estado_aplicacao estado_fase_3(void)
     {
         sucesso = gerar_relatorio_gastos_mensais(i, relatorio);
         cabecalho = "RELATÓRIO DE TOTAIS DE GASTOS MENSAIS";
-        snprintf(nome_arquivo, sizeof(nome_arquivo), "%s_relatorio_residuos_por_semestre", i->cnpj);
+        snprintf(nome_arquivo, sizeof(nome_arquivo), "%s%s_relatorio_gastos_mensais", diretorio, i->cnpj);
     }
     else
     {

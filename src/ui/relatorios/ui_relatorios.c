@@ -43,6 +43,7 @@ void ui_desenhar_tela_rel_ind_fase_3(
 {
     ui_desenhar_painel_ind_resumido(i);
     ui_desenhar_cabecalho(cabecalho);
+    printf("\n");
     if (relatorio)
     {
         ui_exibir_relatorio(relatorio);
@@ -51,8 +52,9 @@ void ui_desenhar_tela_rel_ind_fase_3(
     {
         ui_exibir_erro("Nenhum relatório disponível.");
     }
-
-    ui_pausar(NULL);
+    printf("\n");
+    ui_exibir_separador('-', UI_LARGURA_PADRAO);
+    printf("\n");
 }
 
 /*------------------ Menu da tela de relatórios por indústria -----------------------*/
