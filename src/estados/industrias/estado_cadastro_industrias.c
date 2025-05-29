@@ -3,7 +3,7 @@
 /* funções internas do estado */
 static int inicializar(void)
 {
-    return 0; // sucesso
+    return 0; 
 }
 
 static estado_aplicacao processar(size_t entrada)
@@ -16,7 +16,7 @@ static estado_aplicacao processar(size_t entrada)
         return ESTADO_MENU_LOGIN;
     }
 
-    // Desenhar tela de menu de cadastro de indústrias
+    
     ui_desenhar_tela_cadastro_industrias(
         funcionario_autenticado);
 
@@ -29,7 +29,6 @@ static estado_aplicacao processar(size_t entrada)
 
 static void finalizar(void)
 {
-    // TODO: liberar recursos alocados (se houver)
 }
 
 static estado_aplicacao obter_id(void)

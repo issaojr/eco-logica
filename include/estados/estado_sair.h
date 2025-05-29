@@ -13,4 +13,4 @@
  */
 estado_t *criar_estado_sair(void);
 
-#endif // ESTADO_SAIR_H
+#endif

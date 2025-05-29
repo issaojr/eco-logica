@@ -21,4 +21,4 @@ estado_aplicacao estado_processar_estado_menu(
     const char *(*prompt_fn)(void),
     estado_aplicacao estado_atual);
 
-#endif // ESTADO_MENU_UTILS_H
+#endif

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "estados/estado.h" // Para estado_t e estado_aplicacao
+#include "estados/estado.h"
 #include "ui/ui_tela_sobre_projeto.h"
 #include "estados/estado_menu_utils.h"
 #include "ui/ui_comum.h"
@@ -17,4 +17,4 @@
  */
 estado_t *criar_estado_sobre_projeto(void);
 
-#endif // ESTADO_SOBRE_PROJETO_H
+#endif

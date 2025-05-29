@@ -25,7 +25,7 @@ int main()
 
     printf("Iniciando testes de verificação CSV...\n\n");
 
-    // Teste 1: Arquivo não existe, deve criar com cabeçalho
+    
     remove("test_industrias.csv");
     printf("Teste 1: Criar arquivo indústrias com cabeçalho...\n");
     if (verificar_csv_industria())
@@ -37,7 +37,7 @@ int main()
         printf("FALHA: Não foi possível criar o arquivo.\n");
     }
 
-    // Teste 2: Arquivo sem cabeçalho, deve adicionar cabeçalho
+    
     printf("\nTeste 2: Adicionar cabeçalho em arquivo sem cabeçalho...\n");
     criar_arquivo_corrompido("test_funcionarios.csv",
                              "123456,NOME TESTE,ABCDEF\n");
@@ -50,7 +50,7 @@ int main()
         printf("FALHA: Não foi possível adicionar cabeçalho.\n");
     }
 
-    // Teste 3: Arquivo sem quebra de linha no final
+    
     printf("\nTeste 3: Adicionar quebra de linha no final...\n");
     criar_arquivo_corrompido("test_residuos.csv",
                              "CNPJ,MES,ANO,QUANTIDADE,CUSTO\n"

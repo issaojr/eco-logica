@@ -78,4 +78,4 @@ int comparar_meses(const void *a, const void *b);
 int comparar_semestres(const void *a, const void *b);
 
 
-#endif // BUSINESS_RELATORIOS_H
+#endif

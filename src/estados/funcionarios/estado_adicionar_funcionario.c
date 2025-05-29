@@ -3,7 +3,7 @@
 /* funções internas do estado */
 static int inicializar(void)
 {
-    return 0; // sucesso
+    return 0; 
 }
 
 static estado_aplicacao processar(size_t entrada)
@@ -11,7 +11,6 @@ static estado_aplicacao processar(size_t entrada)
     funcionario_t *funcionario_autenticado = get_funcionario_logado();
     if (!funcionario_autenticado)
     {
-        // [TODO] Criar estado de erro se não houver funcionário logado
         ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         return ESTADO_MENU_LOGIN;
@@ -24,14 +23,13 @@ static estado_aplicacao processar(size_t entrada)
     funcionario_t *novo_funcionario = malloc(sizeof(funcionario_t));
     if (!novo_funcionario)
     {
-        /* [TODO] Criar tela de erro para alocação de memória */
         ui_exibir_erro("Erro ao alocar memória para funcionário.");
         return ESTADO_CADASTRO_FUNCIONARIOS;
     }
     /* preenche a estrutura com valores padrão */
     memset(novo_funcionario, 0, sizeof(funcionario_t));
 
-    // Exibe o formulário de adicionar funcionário
+    /* Exibe o formulário de adicionar funcionário */
     ui_desenhar_tela_adicionar_funcionario(novo_funcionario);
     ui_desenhar_form_buscar_funcionario(novo_funcionario);
 
@@ -72,7 +70,6 @@ static estado_aplicacao processar(size_t entrada)
 
 static void finalizar(void)
 {
-    // TODO: liberar recursos alocados (se houver)
 }
 
 static estado_aplicacao obter_id(void)

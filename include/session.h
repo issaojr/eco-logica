@@ -1,7 +1,7 @@
 #ifndef SESSION_H
 #define SESSION_H
 
-#include "persistencia/funcionario_dao.h" // Para funcionario_t
+#include "persistencia/funcionario_dao.h"
 
 /**
  * @brief Retorna um ponteiro para o funcionário logado.
@@ -19,4 +19,4 @@ void set_funcionario_logado(funcionario_t *func);
  */
 void logout(void);
 
-#endif // SESSION_H
+#endif

@@ -3,17 +3,16 @@
 /* funções internas do estado */
 static int inicializar(void)
 {
-    return 0; // sucesso
+    return 0; 
 }
 
 static estado_aplicacao processar(size_t entrada)
 {
-    // Obter o funcionário logado
+    
     funcionario_t *funcionario_autenticado = get_funcionario_logado();
 
     if (!funcionario_autenticado)
     {
-        // [TODO] Criar estado de erro se não houver funcionário logado
         ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         return ESTADO_MENU_LOGIN;
@@ -26,13 +25,12 @@ static estado_aplicacao processar(size_t entrada)
 
     if (!nova_industria)
     {
-        // [TODO] Criar estado de erro se não houver memória disponúvel
         ui_exibir_erro("Erro ao alocar memória para nova indústria.");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
-        return ESTADO_CADASTRO_INDUSTRIAS; // Retorna ao estado de cadastro de indústrias
+        return ESTADO_CADASTRO_INDUSTRIAS; 
     }
 
-    // Exibe o formulário para adicionar indústria, iniciando pelo CNPJ
+    
     ui_desenhar_form_adicionar_industria(nova_industria);
 
     /* Deve verificar se a indústria já existe no cadastro */
@@ -43,7 +41,7 @@ static estado_aplicacao processar(size_t entrada)
         free(nova_industria);
         ui_exibir_erro("Este CNPJ já está cadastrado.");
         ui_prompt_voltar_menu_anterior(NULL);
-        return ESTADO_CADASTRO_INDUSTRIAS; // Retorna ao estado de cadastro de indústrias
+        return ESTADO_CADASTRO_INDUSTRIAS; 
     }
 
     /* Exibe restante do formulário, caso CNPJ não esteja cadastrado */
@@ -59,14 +57,12 @@ static estado_aplicacao processar(size_t entrada)
 
     if (resultado != 0)
     {
-        // [TODO] Criar tela ui de erro se a adição falhar
         ui_exibir_erro("Erro ao adicionar nova indústria.");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
-        return ESTADO_CADASTRO_INDUSTRIAS; // Retorna ao estado de cadastro de indústrias
+        return ESTADO_CADASTRO_INDUSTRIAS; 
     }
     else
     {
-        // [TODO] Criar tela ui de sucesso se a adição for bem-sucedida
         ui_exibir_sucesso("Indústria adicionada com sucesso.");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
     }
@@ -75,7 +71,6 @@ static estado_aplicacao processar(size_t entrada)
 
 static void finalizar(void)
 {
-    // TODO: liberar recursos alocados (se houver)
 }
 
 static estado_aplicacao obter_id(void)

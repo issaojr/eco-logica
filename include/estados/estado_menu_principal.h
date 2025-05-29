@@ -15,4 +15,4 @@
  */
 estado_t *criar_estado_menu_principal(void);
 
-#endif // ESTADO_MENU_PRINCIPAL_H
+#endif

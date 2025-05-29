@@ -17,4 +17,4 @@
  */
 estado_t *criar_estado_cadastro_funcionarios(void);
 
-#endif // ESTADO_CADASTRO_FUNCIONARIOS_H
+#endif 

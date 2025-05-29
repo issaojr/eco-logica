@@ -16,4 +16,4 @@
  */
 estado_t *criar_estado_editar_industria(void);
 
-#endif // ESTADO_EDITAR_INDUSTRIA_H
+#endif 

@@ -20,4 +20,4 @@ void xor_cipher(char *data, char key);
  */
 void hash_senha(const char *senha, char *output, char key);
 
-#endif // BUSINESS_CRYPTO_H
+#endif

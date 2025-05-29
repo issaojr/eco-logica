@@ -7,7 +7,7 @@ bool atualizar_residuo(const residuo_t *r)
         return false;
     }
 
-    // Registra o resíduo
+    
     return atualizar_residuo_csv(r);
 }
 

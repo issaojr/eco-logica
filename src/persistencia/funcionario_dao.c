@@ -11,17 +11,17 @@ static bool extrair_dados_funcionario_csv(char *linha, funcionario_t *funcionari
     if (!linha || !funcionario)
         return false;
 
-    // Fazer uma cópia da linha para evitar problemas com strtok
+    
     char linha_backup[TAMANHO_LINHA_FUNC];
     strncpy(linha_backup, linha, sizeof(linha_backup) - 1);
     linha_backup[sizeof(linha_backup) - 1] = '\0';
 
-    // Extração segura dos dados
+    
     char *tok = strtok(linha_backup, ",");
     if (!tok)
         return false;
     trim_crlf(tok);
-    // Armazenar matrícula como string
+    
     strncpy(funcionario->matricula, tok, sizeof(funcionario->matricula) - 1);
     funcionario->matricula[sizeof(funcionario->matricula) - 1] = '\0';
 
@@ -29,7 +29,7 @@ static bool extrair_dados_funcionario_csv(char *linha, funcionario_t *funcionari
     if (!tok)
         return false;
     trim_crlf(tok);
-    // Garantir terminação nula
+    
     strncpy(funcionario->nome, tok, sizeof(funcionario->nome) - 1);
     funcionario->nome[sizeof(funcionario->nome) - 1] = '\0';
 
@@ -37,7 +37,7 @@ static bool extrair_dados_funcionario_csv(char *linha, funcionario_t *funcionari
     if (!tok)
         return false;
     trim_crlf(tok);
-    // Garantir terminação nula
+    
     strncpy(funcionario->hash_senha, tok, sizeof(funcionario->hash_senha) - 1);
     funcionario->hash_senha[sizeof(funcionario->hash_senha) - 1] = '\0';
     return true;
@@ -55,7 +55,7 @@ bool validar_funcionario_csv(const char *matricula_str, const char *hash_senha, 
     funcionario_t funcionario_temp;
     bool autenticado = false;
 
-    // Pular a primeira linha (cabeçalho)
+    
     fgets(line, sizeof(line), f);
 
     while (fgets(line, sizeof(line), f))
@@ -72,7 +72,7 @@ bool validar_funcionario_csv(const char *matricula_str, const char *hash_senha, 
 
         if (strcmp(hash_senha, funcionario_temp.hash_senha) == 0)
         {
-            // Credenciais válidas
+            
             if (out_funcionario)
             {
                 *out_funcionario = funcionario_temp;
@@ -88,33 +88,33 @@ bool validar_funcionario_csv(const char *matricula_str, const char *hash_senha, 
 
 bool inserir_funcionario_csv(const funcionario_t *funcionario)
 {
-    // Verificar se o funcionário é válido
+    
     if (!funcionario)
         return false;
 
-    // Primeiro, verificamos se o arquivo existe e se termina com uma quebra de linha
+    
     FILE *f_read = fopen(FUNC_FILE, "r");
     if (f_read)
     {
-        // Vai para o fim do arquivo
+        
         fseek(f_read, 0, SEEK_END);
         long size = ftell(f_read);
 
-        // Se o arquivo não está vazio, verificar o último caractere
+        
         if (size > 0)
         {
-            // Volta uma posição para ler o último caractere
+            
             fseek(f_read, -1, SEEK_END);
             char last_char = fgetc(f_read);
             fclose(f_read);
 
-            // Se o último caractere não for quebra de linha, abrir em modo a+ para adicionar quebra de linha
+            
             if (last_char != '\n')
             {
                 FILE *f_append_nl = fopen(FUNC_FILE, "a");
                 if (!f_append_nl)
                     return false;
-                // Adicionar quebra de linha
+                
                 fputc('\n', f_append_nl);
                 fclose(f_append_nl);
             }
@@ -128,22 +128,22 @@ bool inserir_funcionario_csv(const funcionario_t *funcionario)
     if (!f)
         return false;
 
-    // Se arquivo estava vazio ou não existia, escreve o cabeçalho
+    
     if (!f_read)
     {
-        // Escrever cabeçalho e verificar se foi escrito corretamente
+        
         if (fprintf(f, "MATRICULA,NOME,HASH_SENHA\n") < 0)
         {
-            // Erro ao escrever cabeçalho
+            
             fclose(f);
             return false;
         }
     }
 
-    // Escrever dados do funcionário e verificar se foi escrito corretamente
+    
     if (fprintf(f, "%s,%s,%s\n", funcionario->matricula, funcionario->nome, funcionario->hash_senha) < 0)
     {
-        // Erro ao escrever dados
+        
         fclose(f);
         return false;
     }
@@ -239,7 +239,7 @@ bool atualizar_funcionario_csv(const funcionario_t *funcionario)
     bool atualizado = false;
     funcionario_t funcionario_temp;
 
-    // Copiar cabeçalho para o arquivo temporário
+    /* Copiar cabeçalho para o arquivo temporário */
     if (fgets(line, sizeof(line), f_orig))
     {
         if (fputs(line, f_temp) == EOF)
@@ -250,23 +250,23 @@ bool atualizar_funcionario_csv(const funcionario_t *funcionario)
         }
     }
 
-    // Copiar todos os registros para o arquivo temporário, atualizando o registro desejado
+    /* Copiar todos os registros para o arquivo temporário, atualizando o registro desejado */
     while (fgets(line, sizeof(line), f_orig))
     {
         char linha_copia[TAMANHO_LINHA_FUNC];
         strncpy(linha_copia, line, sizeof(linha_copia) - 1);
         linha_copia[sizeof(linha_copia) - 1] = '\0';
 
-        // Usar a função auxiliar para extrair dados
+        
         if (!extrair_dados_funcionario_csv(linha_copia, &funcionario_temp))
         {
             fputs(line, f_temp);
             continue;
         }
-        // Se encontrou o funcionário a ser atualizado
+        
         if (strcmp(funcionario_temp.matricula, funcionario->matricula) == 0)
         {
-            // Escrever registro atualizado
+            
             if (fprintf(f_temp, "%s,%s,%s\n",
                         funcionario->matricula,
                         funcionario->nome,
@@ -280,7 +280,7 @@ bool atualizar_funcionario_csv(const funcionario_t *funcionario)
         }
         else
         {
-            // Manter o registro original
+            
             if (fputs(line, f_temp) == EOF)
             {
                 fclose(f_orig);
@@ -293,17 +293,17 @@ bool atualizar_funcionario_csv(const funcionario_t *funcionario)
     fclose(f_orig);
     fclose(f_temp);
 
-    // Se o funcionário não foi encontrado, retorna falso
+    
     if (!atualizado)
     {
-        // Renomear arquivos
+        
         remove(FUNC_FILE);
         rename(FUNC_FILE_TEMP, FUNC_FILE);
 
         return false;
     }
 
-    // Substituir o arquivo original pelo arquivo temporário
+    
     remove(FUNC_FILE);
     rename(FUNC_FILE_TEMP, FUNC_FILE);
 
@@ -330,7 +330,7 @@ bool excluir_funcionario_csv(const char *matricula_str)
     char line[TAMANHO_LINHA_FUNC];
     bool encontrado = false;
     funcionario_t funcionario_temp;
-    // Copiar cabeçalho para o arquivo temporário
+    
     if (fgets(line, sizeof(line), f_orig))
     {
         if (fputs(line, f_temp) == EOF)
@@ -340,22 +340,22 @@ bool excluir_funcionario_csv(const char *matricula_str)
             return false;
         }
     }
-    // Copiar todos os registros para o arquivo temporário, exceto o registro a ser excluído
+    /* Copiar todos os registros para o arquivo temporário, exceto o registro a ser excluído */
     while (fgets(line, sizeof(line), f_orig))
     {
         char linha_copia[TAMANHO_LINHA_FUNC];
         strncpy(linha_copia, line, sizeof(linha_copia) - 1);
         linha_copia[sizeof(linha_copia) - 1] = '\0';
 
-        // Tenta extrair os dados da linha para verificar se é válida
+        
         bool linha_valida = extrair_dados_funcionario_csv(linha_copia, &funcionario_temp);
 
-        // Se a linha não for válida, ignora-a (opção mais segura)
+        
         if (!linha_valida)
         {
-            continue; // Linha inválida, não copiar para o arquivo temporário
+            continue; 
         }
-        // Se não for o funcionário a ser excluído, mantém no arquivo
+        
         if (strcmp(funcionario_temp.matricula, matricula_str) != 0)
         {
             if (fputs(line, f_temp) == EOF)
@@ -374,14 +374,14 @@ bool excluir_funcionario_csv(const char *matricula_str)
     fclose(f_orig);
     fclose(f_temp);
 
-    // Se o funcionário não foi encontrado, retorna falso
+    
     if (!encontrado)
     {
         remove(FUNC_FILE_TEMP);
         return false;
     }
 
-    // Substituir o arquivo original pelo arquivo temporário
+    
     remove(FUNC_FILE);
     rename(FUNC_FILE_TEMP, FUNC_FILE);
 
@@ -399,16 +399,16 @@ bool verificar_csv_funcionario(void)
 
     FILE *f_orig = fopen(FUNC_FILE, "r");
 
-    // Se o arquivo não existir, cria um novo com cabeçalho
+    
     if (!f_orig)
     {
         FILE *f_new = fopen(FUNC_FILE, "w");
         if (!f_new)
         {
-            return false; // Não conseguiu criar o arquivo
+            return false; 
         }
 
-        // Escrever cabeçalho
+        
         if (fprintf(f_new, "MATRICULA,NOME,HASH_SENHA\n") < 0)
         {
             fclose(f_new);
@@ -419,7 +419,7 @@ bool verificar_csv_funcionario(void)
         return true;
     }
 
-    // Verificar se há cabeçalho
+    
     char line[TAMANHO_LINHA_FUNC];
     bool tem_cabecalho = false;
 
@@ -431,15 +431,14 @@ bool verificar_csv_funcionario(void)
         }
     }
 
-    // Ler todo o arquivo para um buffer e fazer correções necessárias
+    /* Ler todo o arquivo para um buffer e fazer correções necessárias */
     fseek(f_orig, 0, SEEK_END);
     long file_size = ftell(f_orig);
     rewind(f_orig);
 
-    // Se o arquivo for muito grande, não tenta carregar tudo na memória
+    /* Se o arquivo for muito grande, não tenta carregar tudo na memória */
     if (file_size > 1024 * 1024 * 10)
     {
-        // 10MB
         fclose(f_orig);
         return false;
     }
@@ -456,7 +455,7 @@ bool verificar_csv_funcionario(void)
 
     buffer[bytes_read] = '\0';
 
-    // Se não tiver cabeçalho, prepara para adicionar
+    /* Se não tiver cabeçalho, prepara para adicionar */
     bool arquivo_modificado = false;
     char *novo_conteudo = NULL;
 
@@ -477,19 +476,19 @@ bool verificar_csv_funcionario(void)
         arquivo_modificado = true;
     }
 
-    // Verificar se o arquivo termina com quebra de linha
+    /* Verificar se o arquivo termina com quebra de linha */
     if (bytes_read > 0 && buffer[bytes_read - 1] != '\n')
     {
         if (novo_conteudo)
         {
-            // Temos um buffer novo com cabeçalho, adicionar quebra de linha
+            /* Temos um buffer novo com cabeçalho, adicionar quebra de linha */
             size_t len = strlen(novo_conteudo);
             novo_conteudo[len] = '\n';
             novo_conteudo[len + 1] = '\0';
         }
         else
         {
-            // Criar um novo buffer apenas para adicionar quebra de linha
+            /* Criar um novo buffer apenas para adicionar quebra de linha */
             novo_conteudo = (char*)malloc(bytes_read + 2);
             if (!novo_conteudo)
             {
@@ -504,7 +503,7 @@ bool verificar_csv_funcionario(void)
         arquivo_modificado = true;
     }
 
-    // Se o arquivo foi modificado, reescrever
+    /* Se o arquivo foi modificado, reescrever */
     if (arquivo_modificado)
     {
         FILE *f_write = fopen(FUNC_FILE, "w");

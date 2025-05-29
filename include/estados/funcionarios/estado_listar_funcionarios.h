@@ -19,4 +19,4 @@
  */
 estado_t *criar_estado_listar_funcionarios(void);
 
-#endif // ESTADO_LISTAR_FUNCIONARIOS_H
+#endif 

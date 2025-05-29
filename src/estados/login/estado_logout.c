@@ -8,7 +8,7 @@ static int inicializar(void)
 
 static estado_aplicacao processar(size_t entrada)
 {
-    // Limpar a sessão do usuário
+    
     logout();
 
     if (get_funcionario_logado() != NULL)
@@ -17,15 +17,15 @@ static estado_aplicacao processar(size_t entrada)
         return ESTADO_MENU_PRINCIPAL; 
     }
 
-    // Desenhar a tela de logout
+    
     ui_desenhar_tela_sucesso("LOGOUT REALIZADO", "Você foi desconectado com sucesso.");
-    return ESTADO_MENU_LOGIN; // Redireciona para o menu de login
+    return ESTADO_MENU_LOGIN; 
 
 }
 
 static void finalizar(void)
 {
-    // Não há recursos específicos para liberar neste estado
+    
 }
 
 static estado_aplicacao obter_id(void)
@@ -46,4 +46,4 @@ estado_t *criar_estado_logout(void)
     return estado;
 }
 
-// Fim do arquivo
+

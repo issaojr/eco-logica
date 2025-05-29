@@ -16,4 +16,4 @@
  */
 estado_t *criar_estado_editar_funcionario(void);
 
-#endif // ESTADO_EDITAR_FUNCIONARIO_H
+#endif 

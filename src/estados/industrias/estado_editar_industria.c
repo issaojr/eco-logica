@@ -3,7 +3,7 @@
 /* funções internas do estado */
 static int inicializar(void)
 {
-    return 0; // sucesso
+    return 0; 
 }
 
 static estado_aplicacao processar(size_t entrada)
@@ -12,7 +12,6 @@ static estado_aplicacao processar(size_t entrada)
 
     if (!funcionario_autenticado)
     {
-        // [TODO] Criar estado de erro se não houver funcionário logado
         ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         return ESTADO_MENU_LOGIN;
@@ -33,12 +32,6 @@ static estado_aplicacao processar(size_t entrada)
     ui_desenhar_tela_editar_buscar_industria(industria_antes);
 
     const bool industria_existe = buscar_industria_por_cnpj(industria_antes->cnpj, industria_antes);
-
-    if (UI_DEBUG)
-    {
-        printf("DEBUG: CNPJ buscado: %s\n", industria_antes->cnpj);
-        printf("DEBUG: Indústria encontrada: %s\n", industria_existe ? "Sim" : "Não");
-    }
 
     printf("\n");
 
@@ -73,12 +66,12 @@ static estado_aplicacao processar(size_t entrada)
 
     if (resultado == 0)
     {
-        // Edição bem-sucedida
+        
         ui_desenhar_tela_sucesso("EDIÇÃO DE INDÚSTRIA BEM-SUCEDIDA", "Indústria editada com sucesso.");
     }
     else
     {
-        // Erro ao editar
+        
         ui_desenhar_tela_erro("EDIÇÃO DE INDÚSTRIA FALHOU", "Erro ao editar indústria.");
     }
 
@@ -87,7 +80,6 @@ static estado_aplicacao processar(size_t entrada)
 
 static void finalizar(void)
 {
-    // TODO: liberar recursos alocados (se houver)
 }
 
 static estado_aplicacao obter_id(void)

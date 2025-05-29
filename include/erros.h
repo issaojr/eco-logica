@@ -77,4 +77,4 @@ typedef enum
  */
 const char *erro_msg(codigo_erro code);
 
-#endif // ERROS_H
+#endif

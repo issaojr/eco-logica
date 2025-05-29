@@ -3,7 +3,7 @@
 void ui_desenhar_tela_menu_login(void)
 {
 
-    // Desenha tela de menu login
+    
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_PROGRAMA,
@@ -33,7 +33,7 @@ const char *tela_menu_login_prompt(void)
 void ui_desenhar_tela_form_login(void)
 {
 
-    // Desenha tela de menu login
+    
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_PROGRAMA,

@@ -16,4 +16,4 @@
  */
 estado_t *criar_estado_excluir_funcionario(void);
 
-#endif // ESTADO_EXCLUIR_FUNCIONARIO_H
+#endif 

@@ -16,4 +16,4 @@
  */
 estado_t *criar_estado_excluir_industria(void);
 
-#endif // ESTADO_EXCLUIR_INDUSTRIA_H
+#endif 

@@ -30,7 +30,7 @@ void transformar_maiusculo(char *s)
 
     while (*p)
     {
-        // Caracteres ASCII simples
+        /* Caracteres ASCII simples */
         if (*p < 128)
         {
             *p = toupper(*p);
@@ -38,67 +38,67 @@ void transformar_maiusculo(char *s)
             continue;
         }
 
-        // UTF-8: primeiro byte de uma sequência multibyte
+        /* UTF-8: primeiro byte de uma sequência multibyte */
         if ((*p & 0xE0) == 0xC0)
         {
-            // 2 bytes (110xxxxx)
+            /* 2 bytes (110xxxxx) */
             if (p[0] == 0xC3)
             {
-                // Latin-1 Supplement em UTF-8
+                /* Latin-1 Supplement em UTF-8 */
                 switch (p[1])
                 {
-                // Minúsculas para maiúsculas
+                /* Minúsculas para maiúsculas */
                 case 0xA1: p[1] = 0x81;
-                    break; // á -> Á
+                    break; /* á -> Á */
                 case 0xA0: p[1] = 0x80;
-                    break; // à -> À
+                    break; /* à -> À */
                 case 0xA2: p[1] = 0x82;
-                    break; // â -> Â
+                    break; /* â -> Â */
                 case 0xA3: p[1] = 0x83;
-                    break; // ã -> Ã
+                    break; /* ã -> Ã */
                 case 0xA9: p[1] = 0x89;
-                    break; // é -> É
+                    break; /* é -> É */
                 case 0xA8: p[1] = 0x88;
-                    break; // è -> È
+                    break; /* è -> È */
                 case 0xAA: p[1] = 0x8A;
-                    break; // ê -> Ê
+                    break; /* ê -> Ê */
                 case 0xAD: p[1] = 0x8D;
-                    break; // í -> Í
+                    break; /* í -> Í */
                 case 0xAC: p[1] = 0x8C;
-                    break; // ì -> Ì
+                    break; /* ì -> Ì */
                 case 0xB3: p[1] = 0x93;
-                    break; // ó -> Ó
+                    break; /* ó -> Ó */
                 case 0xB2: p[1] = 0x92;
-                    break; // ò -> Ò
+                    break; /* ò -> Ò */
                 case 0xB4: p[1] = 0x94;
-                    break; // ô -> Ô
+                    break; /* ô -> Ô */
                 case 0xB5: p[1] = 0x95;
-                    break; // õ -> Õ
+                    break; /* õ -> Õ */
                 case 0xBA: p[1] = 0x9A;
-                    break; // ú -> Ú
+                    break; /* ú -> Ú */
                 case 0xB9: p[1] = 0x99;
-                    break; // ù -> Ù
+                    break; /* ù -> Ù */
                 case 0xBB: p[1] = 0x9B;
-                    break; // û -> Û
+                    break; /* û -> Û */
                 case 0xA7: p[1] = 0x87;
-                    break; // ç -> Ç
+                    break; /* ç -> Ç */
                 }
             }
-            p += 2; // Avança 2 bytes
+            p += 2; /* Avança 2 bytes */
         }
         else if ((*p & 0xF0) == 0xE0)
         {
-            // 3 bytes (1110xxxx)
+            /* 3 bytes (1110xxxx) */
             p += 3;
         }
         else if ((*p & 0xF8) == 0xF0)
         {
-            // 4 bytes (11110xxx)
+            /* 4 bytes (11110xxx) */
             p += 4;
         }
         else
         {
-            // Byte inválido, avança com segurança
+            /* Byte inválido, avança com segurança */
             p++;
         }
     }
@@ -132,37 +132,37 @@ bool validar_nome(char *nome)
 
         if (c < 0x80)
         {
-            // ASCII
+            /* ASCII */
             if (isalpha(c))
             {
                 count_letras++;
             }
             else if (c == ' ' || c == '-' || c == '\'')
             {
-                // ok
+                
             }
             else
             {
-                return false; // dígito ou pontuação proibida
+                return false; 
             }
             i++;
         }
         else
         {
-            // possível início de multibyte UTF-8
+            
             int seqlen;
             if ((c & 0xE0) == 0xC0) seqlen = 2;
             else if ((c & 0xF0) == 0xE0) seqlen = 3;
             else if ((c & 0xF8) == 0xF0) seqlen = 4;
-            else return false; // byte inválido
+            else return false; 
 
-            // verifica bytes de continuação: 10xxxxxx
+            
             for (int j = 1; j < seqlen; j++)
             {
                 if (i + j >= n || ((nome[i + j] & 0xC0) != 0x80))
                     return false;
             }
-            // conta como uma letra “qualquer” (você pode filtrar códigos específicos se quiser)
+            
             count_letras++;
             i += seqlen;
         }
@@ -320,7 +320,7 @@ bool validar_quantidade(char *quantidade_str)
     char *endptr;
     double valor = strtod(quantidade_str, &endptr);
     
-    // Verifica se a conversão foi bem-sucedida e se o valor é positivo
+    
     return (endptr != quantidade_str && *endptr == '\0' && valor >= 0.0);
 }
 
@@ -332,7 +332,7 @@ bool validar_custo(char *custo_str)
     char *endptr;
     double valor = strtod(custo_str, &endptr);
     
-    // Verifica se a conversão foi bem-sucedida e se o valor é positivo
+    
     return (endptr != custo_str && *endptr == '\0' && valor >= 0.0);
 }
 
@@ -419,7 +419,7 @@ void ui_converter_str_hash(char *senha, size_t tamanho)
 
 void ui_exibir_form_funcionario(funcionario_t *f)
 {
-    //ui_ler_matricula_funcionario(f->matricula, sizeof(f->matricula));
+    
     ui_ler_nome_funcionario(f->nome, sizeof(f->nome));
 
     ui_ler_senha_funcionario(f->hash_senha, sizeof(f->hash_senha));

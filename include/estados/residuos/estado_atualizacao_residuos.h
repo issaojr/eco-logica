@@ -22,4 +22,4 @@ bool atualizar_residuo(const residuo_t *r);
  */
 estado_t *criar_estado_atualizacao_residuos(void);
 
-#endif // ESTADO_ATUALIZACAO_RESIDUOS_H
+#endif 

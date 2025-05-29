@@ -16,4 +16,4 @@
  */
 bool business_autenticar(char *matricula, const char *senha);
 
-#endif // BUSINESS_AUTH_H
+#endif

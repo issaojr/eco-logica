@@ -18,4 +18,4 @@
  */
 estado_t *criar_estado_adicionar_funcionario(void);
 
-#endif // ESTADO_ADICIONAR_FUNCIONARIO_H
+#endif 

@@ -33,4 +33,4 @@ bool exportar_relatorio_industrias_melhor_desempenho(void *relatorio, int tipo_e
  */
 bool exportar_relatorio_aporte_financeiro_semestral(void *relatorio, int tipo_exportacao);
 
-#endif // BUSINESS_RELATORIOS_GLOBAIS_H
+#endif 

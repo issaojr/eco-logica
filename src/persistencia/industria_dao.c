@@ -231,29 +231,29 @@ bool inserir_industria_csv(const industria_t *industria)
     if (!industria)
         return false;
 
-    // Primeiro, verificamos se o arquivo existe e se termina com uma quebra de linha
+    
     FILE *f_read = fopen(IND_FILE, "r");
     if (f_read)
     {
-        // Vai até o final do arquivo
+        
         fseek(f_read, 0, SEEK_END);
         long size = ftell(f_read);
 
-        // Se o arquivo não estiver vazio, verifica se termina com uma quebra de linha
+        
         if (size > 0)
         {
-            // Volta uma posição para ler o último caractere
+            
             fseek(f_read, -1, SEEK_END);
             int last_char = fgetc(f_read);
             fclose(f_read);
 
-            // Se o último caractere não for quebra de linha, abrir em modo a+ para adicionar quebra de linha
+            
             if (last_char != '\n')
             {
                 FILE *f_append_nl = fopen(IND_FILE, "a");
                 if (!f_append_nl)
                     return false;
-                // Adicionar quebra de linha
+                
                 fputc('\n', f_append_nl);
                 fclose(f_append_nl);
             }
@@ -268,22 +268,22 @@ bool inserir_industria_csv(const industria_t *industria)
     if (!f)
         return false;
 
-    // Se arquivo estava vazio ou não existia, escreve o cabeçalho
+    
     if (!f_read)
     {
-        // Escrever cabeçalho e verificar se foi escrito corretamente
+        
         if (fprintf(
                 f,
                 "CNPJ,RAZAO_SOCIAL,NOME_FANTASIA,TELEFONE,LOGRADOURO,NUMERO,BAIRRO,CIDADE,ESTADO,CEP,DATA_ABERTURA,NOME_RESPONSAVEL,EMAIL_RESPONSAVEL\n")
             < 0)
         {
-            // Erro ao escrever cabeçalho
+            
             fclose(f);
             return false;
         }
     }
 
-    // Escrever dados da indústria e verificar se foi escrito corretamente
+    
     if (fprintf(f, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
                 industria->cnpj,
                 industria->razao_social,
@@ -299,7 +299,7 @@ bool inserir_industria_csv(const industria_t *industria)
                 industria->nome_responsavel,
                 industria->email_responsavel) < 0)
     {
-        // Erro ao escrever dados
+        
         fclose(f);
         return false;
     }
@@ -393,7 +393,7 @@ bool atualizar_industria_csv(const industria_t *industria)
     bool atualizado = false;
     industria_t industria_temp;
 
-    // Copiar cabeçalho para o arquivo temporário
+    
     if (fgets(line, sizeof(line), f_orig))
     {
         if (fputs(line, f_temp) == EOF)
@@ -408,13 +408,13 @@ bool atualizar_industria_csv(const industria_t *industria)
     {
         if (extrair_dados_industria_csv(line, &industria_temp))
         {
-            // Atualizar se corresponder
+            
             if (strcmp(industria_temp.cnpj, industria->cnpj) == 0)
             {
                 industria_temp = *industria;
                 atualizado = true;
             }
-            // Escrever no arquivo temporário
+            
             if (fprintf(f_temp, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
                         industria_temp.cnpj,
                         industria_temp.razao_social,
@@ -437,7 +437,7 @@ bool atualizar_industria_csv(const industria_t *industria)
         }
         else
         {
-            // Se não conseguiu extrair os dados, escrever a linha original
+            
             if (fputs(line, f_temp) == EOF)
             {
                 fclose(f_orig);
@@ -450,16 +450,16 @@ bool atualizar_industria_csv(const industria_t *industria)
     fclose(f_orig);
     fclose(f_temp);
 
-    // Se a indústria não foi encontrada, retorna falso
+    
     if (!atualizado)
     {
-        // Renomear o arquivos
+        
         remove(IND_FILE);
         rename(IND_FILE_TEMP, IND_FILE);
 
         return false;
     }
-    // Renomear os arquivos
+    
     remove(IND_FILE);
     rename(IND_FILE_TEMP, IND_FILE);
     return true;
@@ -486,7 +486,7 @@ bool excluir_industria_csv(const char *cnpj)
     bool encontrado = false;
     industria_t industria_temp;
 
-    // Copiar cabeçalho para o arquivo temporário
+    
     if (fgets(line, sizeof(line), f_orig))
     {
         if (fputs(line, f_temp) == EOF)
@@ -501,7 +501,7 @@ bool excluir_industria_csv(const char *cnpj)
     {
         if (extrair_dados_industria_csv(line, &industria_temp))
         {
-            // Se não for a indústria a ser excluída, manter no arquivo
+            
             if (strcmp(industria_temp.cnpj, cnpj) != 0)
             {
                 if (fprintf(f_temp, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
@@ -531,7 +531,7 @@ bool excluir_industria_csv(const char *cnpj)
         }
         else
         {
-            // Se não conseguiu extrair os dados, escrever a linha original
+            
             if (fputs(line, f_temp) == EOF)
             {
                 fclose(f_orig);
@@ -544,13 +544,13 @@ bool excluir_industria_csv(const char *cnpj)
     fclose(f_orig);
     fclose(f_temp);
 
-    // Se a indústria não foi encontrada, retorna falso
+    
     if (!encontrado)
     {
         remove(IND_FILE_TEMP);
         return false;
     }
-    // Renomear os arquivos
+    
     remove(IND_FILE);
     rename(IND_FILE_TEMP, IND_FILE);
     return true;
@@ -567,16 +567,16 @@ bool verificar_csv_industria(void)
 
     FILE *f_orig = fopen(IND_FILE, "r");
 
-    // Se o arquivo não existir, cria um novo com cabeçalho
+    
     if (!f_orig)
     {
         FILE *f_new = fopen(IND_FILE, "w");
         if (!f_new)
         {
-            return false; // Não conseguiu criar o arquivo
+            return false; 
         }
 
-        // Escrever cabeçalho
+        
         if (fprintf(
                 f_new,
                 "CNPJ,RAZAO_SOCIAL,NOME_FANTASIA,TELEFONE,LOGRADOURO,NUMERO,BAIRRO,CIDADE,ESTADO,CEP,DATA_ABERTURA,NOME_RESPONSAVEL,EMAIL_RESPONSAVEL\n")
@@ -590,7 +590,7 @@ bool verificar_csv_industria(void)
         return true;
     }
 
-    // Verificar se há cabeçalho
+    
     char line[TAMANHO_LINHA_IND];
     bool tem_cabecalho = false;
 
@@ -602,15 +602,14 @@ bool verificar_csv_industria(void)
         }
     }
 
-    // Ler todo o arquivo para um buffer e fazer correções necessárias
+    /* Ler todo o arquivo para um buffer e fazer correções necessárias */
     fseek(f_orig, 0, SEEK_END);
     long file_size = ftell(f_orig);
     rewind(f_orig);
 
-    // Se o arquivo for muito grande, não tenta carregar tudo na memória
+    /* Se o arquivo for muito grande, não tenta carregar tudo na memória */
     if (file_size > 1024 * 1024 * 10)
     {
-        // 10MB
         fclose(f_orig);
         return false;
     }
@@ -627,7 +626,7 @@ bool verificar_csv_industria(void)
 
     buffer[bytes_read] = '\0';
 
-    // Se não tiver cabeçalho, prepara para adicionar
+    /* Se não tiver cabeçalho, prepara para adicionar */
     bool arquivo_modificado = false;
     char *novo_conteudo = NULL;
 
@@ -649,19 +648,19 @@ bool verificar_csv_industria(void)
         arquivo_modificado = true;
     }
 
-    // Verificar se o arquivo termina com quebra de linha
+    /* Verificar se o arquivo termina com quebra de linha */
     if (bytes_read > 0 && buffer[bytes_read - 1] != '\n')
     {
         if (novo_conteudo)
         {
-            // Temos um buffer novo com cabeçalho, adicionar quebra de linha
+            /* Temos um buffer novo com cabeçalho, adicionar quebra de linha */
             size_t len = strlen(novo_conteudo);
             novo_conteudo[len] = '\n';
             novo_conteudo[len + 1] = '\0';
         }
         else
         {
-            // Criar um novo buffer apenas para adicionar quebra de linha
+            /* Criar um novo buffer apenas para adicionar quebra de linha */
             novo_conteudo = (char*)malloc(bytes_read + 2);
             if (!novo_conteudo)
             {
@@ -676,7 +675,7 @@ bool verificar_csv_industria(void)
         arquivo_modificado = true;
     }
 
-    // Se o arquivo foi modificado, reescrever
+    /* Se o arquivo foi modificado, reescrever */
     if (arquivo_modificado)
     {
         FILE *f_write = fopen(IND_FILE, "w");

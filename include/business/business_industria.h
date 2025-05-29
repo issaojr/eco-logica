@@ -3,7 +3,7 @@
 
 #define TAM_MAX_INDUSTRIAS 512
 
-#include <stddef.h> // Para size_t
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -63,4 +63,4 @@ int obter_todas_industrias(industria_t *industrias_out, size_t max_industrias, s
 
 bool gerar_relatorio_lista_industrias(relatorio_t *rel);
 
-#endif // BUSINESS_INDUSTRIA_H
+#endif

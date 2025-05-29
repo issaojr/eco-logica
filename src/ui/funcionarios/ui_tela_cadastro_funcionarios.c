@@ -4,7 +4,7 @@ void ui_desenhar_tela_cadastro_funcionarios(
     const char *nome_funcionario,
     const char *matricula)
 {
-    // Desenha tela de menu de cadastro de funcionários
+    
     ui_desenhar_tela_padrao(
         UI_TITULO_PROGRAMA,
         UI_SUBTITULO_CADASTRO_FUNCIONARIOS,
@@ -22,7 +22,7 @@ opcao_t ui_menu_cadastro_funcionarios_mapa[] = {
 size_t ui_menu_cadastro_funcionarios_mapa_n =
     sizeof(ui_menu_cadastro_funcionarios_mapa) / sizeof(ui_menu_cadastro_funcionarios_mapa[0]);
 
-// char *ui_menu_cadastro_funcionarios_prompt = ui_prompt_opcao(1, 5);
+
 
 const char *ui_menu_cadastro_funcionarios_prompt(void)
 {

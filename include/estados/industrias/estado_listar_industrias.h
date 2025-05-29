@@ -20,4 +20,4 @@
  */
 estado_t *criar_estado_listar_industrias(void);
 
-#endif // ESTADO_LISTAR_INDUSTRIAS_H
+#endif 

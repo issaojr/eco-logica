@@ -3,7 +3,7 @@
 /* funções internas do estado */
 static int inicializar(void)
 {
-    return 0; // sucesso
+    return 0; 
 }
 
 static estado_aplicacao processar(size_t entrada)
@@ -11,7 +11,6 @@ static estado_aplicacao processar(size_t entrada)
     funcionario_t *funcionario_autenticado = get_funcionario_logado();
     if (!funcionario_autenticado)
     {
-        // [TODO] Criar estado de erro se não houver funcionário logado
         ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         return ESTADO_MENU_LOGIN;
@@ -41,7 +40,7 @@ static estado_aplicacao processar(size_t entrada)
      */
     ui_desenhar_tela_editar_buscar_funcionario(funcionario_antes);
 
-    // Busca o funcionário pelo número de matrícula
+    /* Busca o funcionário pelo número de matrícula */
     bool funcionario_encontrado = buscar_funcionario_por_matricula(funcionario_antes->matricula, funcionario_antes);
 
     printf("\n");
@@ -58,7 +57,7 @@ static estado_aplicacao processar(size_t entrada)
     }
     else
     {
-        // Exibe o painel do funcionário encontrado
+        /* Exibe o painel do funcionário encontrado */
         ui_desenhar_painel_funcionario_selecionado(funcionario_antes);
     }
 
@@ -67,7 +66,7 @@ static estado_aplicacao processar(size_t entrada)
             sizeof(funcionario_depois->matricula) - 1);
     funcionario_depois->matricula[sizeof(funcionario_depois->matricula) - 1] = '\0';
 
-    // Exibe o formulário de editar funcionário
+    /* Exibe o formulário de editar funcionário */
     ui_desenhar_form_editar_funcionario(
         funcionario_autenticado->nome,
         funcionario_autenticado->matricula,
@@ -80,9 +79,9 @@ static estado_aplicacao processar(size_t entrada)
     /* Verifica se a edição foi bem-sucedida */
     if (resultado == 0)
     {
-        // Edição bem-sucedida
-        // caso a matrícula do funcionario atualizado seja a mesma do funcionario autenticado
-        // atualiza a sessão
+        /* Edição bem-sucedida
+        caso a matrícula do funcionario atualizado seja a mesma do funcionario autenticado
+        atualiza a sessão */
         if (strcmp(funcionario_autenticado->matricula, funcionario_depois->matricula) == 0)
         {
             /* Copias os novos dados, para atualizar adequadamente o funcionario autenticado na sessão */
@@ -92,7 +91,6 @@ static estado_aplicacao processar(size_t entrada)
     }
     else
     {
-        // Erro ao editar
         ui_desenhar_tela_erro("EDIÇÃO DE FUNCIONÁRIO FALHOU", "Erro ao editar funcionário.");
     }
 
@@ -105,7 +103,6 @@ static estado_aplicacao processar(size_t entrada)
 
 static void finalizar(void)
 {
-    // TODO: liberar recursos alocados (se houver)
 }
 
 static estado_aplicacao obter_id(void)

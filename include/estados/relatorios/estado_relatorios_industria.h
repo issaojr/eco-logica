@@ -22,4 +22,4 @@ estado_t *criar_estado_relatorios_industria(void);
 
 void reset_estado_rel_ind(void);
 
-#endif // ESTADO_RELATORIOS_INDUSTRIA_H
+#endif 

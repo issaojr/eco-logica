@@ -3,7 +3,7 @@
 
 #define TAM_MAX_FUNCIONARIOS 256
 
-#include <stddef.h> // Para size_t
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -36,4 +36,4 @@ bool buscar_funcionario_por_matricula(char *matricula, funcionario_t *funcionari
 
 bool gerar_relatorio_lista_funcionarios(relatorio_t *rel);
 
-#endif // BUSINESS_FUNCIONARIO_H
+#endif

@@ -64,4 +64,4 @@ bool buscar_residuos_csv(residuo_t **registros, size_t *total);
  */
 bool verificar_csv_residuo(void);
 
-#endif // RESIDUO_DAO_H
+#endif 

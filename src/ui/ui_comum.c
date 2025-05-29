@@ -3,16 +3,17 @@
 void ui_limpar_tela(void)
 {
 #ifdef _WIN32
-    if (!UI_DEBUG) system("cls");
+    system("cls");
 #else
-    if (!UI_DEBUG) system("clear");
+    system("clear");
 #endif
 }
 
 void ui_limpar_entrada(void) /* descarta até próximo '\n' */
 {
     int c;
-    while ((c = getchar()) != '\n' && c != EOF);
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
 }
 
 void ui_exibir_separador(char caractere, int largura)
@@ -28,27 +29,29 @@ void ui_exibir_titulo(const char *titulo, const char *subtitulo)
 {
     int largura = UI_LARGURA_PADRAO;
     /* Garante ponteiros não nulos e strings válidas */
-    if (!titulo) titulo = "";
-    if (!subtitulo) subtitulo = "";
+    if (!titulo)
+        titulo = "";
+    if (!subtitulo)
+        subtitulo = "";
     size_t largura_titulo = ui_tamanho_str_utf8(titulo);
     size_t largura_subtitulo = ui_tamanho_str_utf8(subtitulo);
 
-    // Borda superior
+    
     ui_exibir_separador('=', largura);
-    // Título centralizado
+    
     int espacos = (largura - largura_titulo) / 2;
     printf("%*s%s%s%s%*s\n",
            espacos, "",
            UI_COR_NEGRITO, titulo, UI_COR_RESET,
            espacos - (int)strlen(UI_COR_NEGRITO) - (int)strlen(UI_COR_RESET), "");
-    // Subtítulo, se fornecido
+    
     if (subtitulo != NULL && *subtitulo != '\0')
     {
         espacos = (largura - largura_subtitulo) / 2;
         printf("%*s%s%*s\n", espacos, "", subtitulo, espacos, "");
     }
 
-    // Borda inferior
+    
     ui_exibir_separador('=', largura);
 }
 
@@ -84,13 +87,6 @@ void ui_exibir_to_do(const char *mensagem)
 {
     char mensagem_formatada[UI_TAMANHO_MAX_MSG];
     snprintf(mensagem_formatada, UI_TAMANHO_MAX_MSG, "%s[TODO] %s%s\n", UI_COR_LARANJA, mensagem, UI_COR_RESET);
-    printf("%s", mensagem_formatada);
-}
-
-void ui_exibir_debug(const char *mensagem)
-{
-    char mensagem_formatada[UI_TAMANHO_MAX_MSG];
-    snprintf(mensagem_formatada, UI_TAMANHO_MAX_MSG, "%s[DEBUG] %s%s\n", UI_COR_CIANO, mensagem, UI_COR_RESET);
     printf("%s", mensagem_formatada);
 }
 
@@ -271,9 +267,9 @@ size_t ui_tamanho_str_utf8(const char *s)
     /**
      * Garante que o ponteiro não aponta para lixo
      * Se o ponteiro não for NULL, mas a string não está terminada, pode travar
-     * Por isso, limite de segurança para evitar loop infinito 
+     * Por isso, limite de segurança para evitar loop infinito
      */
-    const unsigned char *p = (const unsigned char*)s;
+    const unsigned char *p = (const unsigned char *)s;
     size_t maxlen = 4096; /* limite de segurança para strings anormais */
     size_t checked = 0;
     while (p && *p && checked < maxlen)
@@ -476,7 +472,7 @@ void ui_desenhar_tela_erro(const char *titulo, const char *mensagem)
 void ui_desenhar_tela_sair(void)
 {
     const char *titulo = "Ecológica - Sistema de Gestão de Resíduos";
-    const char *mensagem= "Agradecemos por usar o nosso Sistema!";
+    const char *mensagem = "Agradecemos por usar o nosso Sistema!";
     ui_limpar_tela();
 
     ui_exibir_titulo(titulo, NULL);
@@ -506,7 +502,7 @@ void ui_desenhar_linha_painel(
     size_t num_espacos = largura_total - largura_label - largura_value - 4;
     /* Um espaço excedente no final para o caractere de fechamento */
     size_t espaco_total = num_espacos + 1;
-    char *espacos = malloc(espaco_total * sizeof(char)); 
+    char *espacos = malloc(espaco_total * sizeof(char));
     if (!espacos)
     {
         ui_exibir_erro("Erro ao alocar memória para espaços.");
@@ -515,10 +511,10 @@ void ui_desenhar_linha_painel(
 
     for (size_t i = 0; i < num_espacos; i++)
         espacos[i] = ' ';
-    espacos[num_espacos] = '\0';           // fecha a string
+    espacos[num_espacos] = '\0'; 
 
-    //for (int i = 0; i < num_espacos; i++)
-        //sprintf(espacos + i, " ");
+    
+    
 
     snprintf(linha, sizeof(linha), "%s %s%s %s%s%s%s%s", c_inicial, UI_COR_TAB_LABEL, label, UI_COR_TAB_VALUE, value, UI_COR_RESET, espacos, c_final);
     printf("%s\n", linha);
@@ -526,7 +522,6 @@ void ui_desenhar_linha_painel(
     /* Libera a memória alocada */
     free(espacos);
 }
-
 
 void ui_converter_para_maiusculo(char *str)
 {

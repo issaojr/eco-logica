@@ -16,7 +16,7 @@ typedef struct
     char cidade[64];
     char estado[4]; /* 2 + '\n' + '\0'                   */
     char cep[10]; /* 8 + '\n' + '\0'                   */
-    char data_abertura[11]; // dd/mm/aaaa
+    char data_abertura[11]; 
     char nome_responsavel[128];
     char email_responsavel[128];
 } industria_t;

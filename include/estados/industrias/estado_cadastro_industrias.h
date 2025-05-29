@@ -17,4 +17,4 @@
  */
 estado_t *criar_estado_cadastro_industrias(void);
 
-#endif // ESTADO_CADASTRO_INDUSTRIAS_H
+#endif 

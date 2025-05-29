@@ -14,7 +14,7 @@ static int inicializar(void)
         f_aut = get_funcionario_logado();
         if (!f_aut)
         {
-            // Exibir mensagem de erro se não houver funcionário logado
+            
             ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
             ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
             return ESTADO_MENU_LOGIN;
@@ -55,7 +55,7 @@ static estado_aplicacao estado_rel_ind_f1(void)
     bool industria_encontrada = buscar_industria_por_cnpj(i->cnpj, i);
     if (!industria_encontrada)
     {
-        // Exibir mensagem de erro se a indústria não for encontrada
+        
         ui_exibir_erro("Indústria não encontrada. Verifique o CNPJ e tente novamente.");
         reset_estado_rel_ind();
         ui_prompt_voltar_menu_anterior("Pressione ENTER para voltar ao menu principal...");
@@ -201,7 +201,7 @@ static estado_aplicacao processar(size_t entrada)
 {
     if (!f_aut)
     {
-        // Exibir mensagem de erro se não houver funcionário logado
+        
         ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         reset_estado_rel_ind();
@@ -248,7 +248,6 @@ static estado_aplicacao processar(size_t entrada)
 
 static void finalizar(void)
 {
-    // TODO: liberar recursos (se houver)
 }
 
 static estado_aplicacao obter_id(void)

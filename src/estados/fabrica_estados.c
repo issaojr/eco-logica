@@ -84,7 +84,7 @@ void destruir_estado(estado_t *estado)
 {
     if (estado)
     {
-        // Chamar a função de finalização do estado, se existir
+        
         if (estado->finalizar)
         {
             estado->finalizar();

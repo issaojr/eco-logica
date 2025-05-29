@@ -15,12 +15,12 @@ estado_aplicacao estado_processar_estado_menu(
     const char *(*prompt_fn)(void),
     estado_aplicacao estado_atual)
 {
-    // Exibe o menu e coleta a entrada do usuário
+    
     ui_imprimir_menu(mapa, mapa_n);
     const char *prompt = prompt_fn();
     codigo_opcao escolha = ui_ler_opcao(mapa, mapa_n, prompt);
 
-    // Encontra o índice da opção selecionada
+    
     size_t idx = 0;
     for (; idx < mapa_n; idx++)
     {
@@ -28,12 +28,12 @@ estado_aplicacao estado_processar_estado_menu(
             break;
     }
 
-    // Se não encontrou, permanece no estado atual
+    
     if (idx >= mapa_n)
     {
         return estado_atual;
     }
 
-    // Retorna o próximo estado com base na opção selecionada
+    
     return obter_proximo_estado(estado_atual, idx);
 }

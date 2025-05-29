@@ -5,82 +5,82 @@ int obter_todas_industrias(
 	size_t max_industrias,
 	size_t *total_industrias_out)
 {
-	// Delega a chamada para a camada de persistência
+	
 	if (listar_industrias_csv(
 		industrias_out,
 		max_industrias,
 		total_industrias_out))
 	{
-		return 0; // Sucesso
+		return 0; 
 	}
 	else
 	{
-		return 1; // Erro
+		return 1; 
 	}
 }
 
 bool cadastrar_industria(const industria_t *industria)
 {
 	industria_t existente;
-	// Se CNPJ já existe, não cadastra
+	
 	if (validar_industria_csv(industria->cnpj, &existente))
 	{
 		return false;
 	}
-	// Insere nova indústria
+	
 	return inserir_industria_csv(industria);
 }
 
 int adicionar_industria(industria_t *industria)
 {
 	if (!industria)
-		return 1; // Erro: indústria inválida
+		return 1; 
 
-	// Verifica se a indústria já existe
+	
 	bool existe = buscar_industria_csv(industria->cnpj, industria);
 
 	if (existe)
 	{
-		return 2; // Erro: indústria já existe
+		return 2; 
 	}
 
-	// Delega a chamada para a camada de persistência
+	
 	if (inserir_industria_csv(industria))
 	{
-		return 0; // Sucesso
+		return 0; 
 	}
 	else
 	{
-		return 1; // Erro
+		return 1; 
 	}
 }
 
 int editar_industria(industria_t *industria)
 {
 	if (!industria)
-		return 1; // Erro: indústria inválida
+		return 1; 
 
-	// Delega a chamada para a camada de persistência
+	
 	if (atualizar_industria_csv(industria))
 	{
-		return 0; // Sucesso
+		return 0; 
 	}
 	else
 	{
-		return 1; // Erro
+		return 1; 
 	}
 }
 
 int excluir_industria(const char *cnpj)
 {
-	// Delega a chamada para a camada de persistência
+	
 	if (excluir_industria_csv(cnpj))
 	{
-		return 0; // Sucesso
+		return 0; 
 	}
 	else
 	{
-		return 1; // Erro
+		return 1; 
 	}
 }
 

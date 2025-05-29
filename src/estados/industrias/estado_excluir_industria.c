@@ -12,7 +12,6 @@ static estado_aplicacao processar(size_t entrada)
 
     if (!funcionario_autenticado)
     {
-        // [TODO] Criar estado de erro se não houver funcionário logado
         ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         return ESTADO_MENU_LOGIN;
@@ -26,7 +25,6 @@ static estado_aplicacao processar(size_t entrada)
 
     if (!industria_selecionada)
     {
-        /* [TODO] Criar tela de erro para alocação de memória */
         ui_exibir_erro("Erro ao alocar memória para indústria.");
         return ESTADO_CADASTRO_INDUSTRIAS;
     }
@@ -73,7 +71,6 @@ static estado_aplicacao processar(size_t entrada)
 
 static void finalizar(void)
 {
-    // TODO: liberar recursos alocados (se houver)
 }
 
 static estado_aplicacao obter_id(void)

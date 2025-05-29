@@ -95,13 +95,13 @@ void ui_exibir_lista_industrias(
                industrias_out[i].cnpj,
                industrias_out[i].razao_social,
                industrias_out[i].nome_fantasia,
-               // industrias_out[i].telefone,
-               // industrias_out[i].logradouro,
-               // industrias_out[i].numero,
-               // industrias_out[i].bairro,
+               
+               
+               
+               
                industrias_out[i].cidade,
                industrias_out[i].estado,
-               // industrias_out[i].cep,
+               
                industrias_out[i].data_abertura,
                industrias_out[i].nome_responsavel,
                industrias_out[i].email_responsavel);

@@ -281,7 +281,7 @@ bool gerar_relatorio_aporte_financeiro_semestral(relatorio_t *relatorio)
 typedef struct
 {
     int ano;
-    int semestre; // 1 ou 2
+    int semestre; 
     double quantidade_total;
 } rel_semestre_resumo_t;
 
@@ -366,7 +366,7 @@ bool gerar_relatorio_residuos_semestral(industria_t *i, relatorio_t *relatorio)
 
     qsort(semestres, contador_semestres, sizeof(rel_semestre_resumo_t), comparar_semestres);
 
-    relatorio->colunas = 3; // ✅ Agora só 3 colunas
+    relatorio->colunas = 3; 
     relatorio->linhas = contador_semestres;
 
     relatorio->cabecalhos = (char **)malloc(relatorio->colunas * sizeof(char *));
@@ -544,7 +544,7 @@ bool gerar_relatorio_gastos_mensais(industria_t *i, relatorio_t *relatorio)
         return false;
     }
 
-    // Ordenar meses por ano e mês
+    
     qsort(meses, contador_meses, sizeof(rel_mes_resumo_t), comparar_meses);
 
     relatorio->colunas = 3;
@@ -665,14 +665,14 @@ void relatorio_liberar(relatorio_t *rel)
     if (!rel)
         return;
 
-    // Liberar cabeçalhos
+    
     for (size_t i = 0; i < rel->colunas; i++)
     {
         free(rel->cabecalhos[i]);
     }
     free(rel->cabecalhos);
 
-    // Liberar dados
+    
     for (size_t i = 0; i < rel->linhas; i++)
     {
         for (size_t j = 0; j < rel->colunas; j++)

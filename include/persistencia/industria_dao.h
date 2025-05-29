@@ -51,4 +51,4 @@ bool excluir_industria_csv(const char *cnpj);
  */
 bool verificar_csv_industria(void);
 
-#endif // INDUSTRIA_DAO_H
+#endif 

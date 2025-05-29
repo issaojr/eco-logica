@@ -66,4 +66,4 @@ void ui_ler_quantidade_residuos(double *quantidade, size_t tamanho);
 void ui_ler_custo_residuos(double *custo, size_t tamanho);
 void ui_exibir_form_residuos(residuo_t *r);
 
-#endif // UI_FORM_H
+#endif 

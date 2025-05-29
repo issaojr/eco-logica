@@ -49,4 +49,4 @@ estado_t *criar_estado(estado_aplicacao id);
  */
 void destruir_estado(estado_t *estado);
 
-#endif // ESTADO_H
+#endif 
