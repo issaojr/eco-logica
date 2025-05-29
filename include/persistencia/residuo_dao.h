@@ -5,6 +5,7 @@
 #define RES_FILE_TEMP "residuos_temp.csv"
 
 #define TAMANHO_LINHA_RES 256
+#define MAX_RESIDUOS 99999
 
 #include <stdio.h>
 #include <stdlib.h>

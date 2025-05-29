@@ -8,6 +8,34 @@ typedef struct
     double quantidade_total;
 } rel_residuos_por_regiao_t;
 
+typedef struct
+{
+    const char *estado;
+    const char *regiao;
+} estado_regiao_t;
+
+static const estado_regiao_t mapa_estados[] = {
+    {"AC", "NORTE"}, {"AP", "NORTE"}, {"AM", "NORTE"}, {"PA", "NORTE"}, {"RO", "NORTE"}, {"RR", "NORTE"}, {"TO", "NORTE"}, {"AL", "NORDESTE"}, {"BA", "NORDESTE"}, {"CE", "NORDESTE"}, {"MA", "NORDESTE"}, {"PB", "NORDESTE"}, {"PE", "NORDESTE"}, {"PI", "NORDESTE"}, {"RN", "NORDESTE"}, {"SE", "NORDESTE"}, {"DF", "CENTRO-OESTE"}, {"GO", "CENTRO-OESTE"}, {"MT", "CENTRO-OESTE"}, {"MS", "CENTRO-OESTE"}, {"ES", "SUDESTE"}, {"MG", "SUDESTE"}, {"RJ", "SUDESTE"}, {"SP", "SUDESTE"}, {"PR", "SUL"}, {"RS", "SUL"}, {"SC", "SUL"}};
+
+static const char *obter_regiao_por_estado(const char *estado)
+{
+    for (size_t i = 0; i < sizeof(mapa_estados) / sizeof(estado_regiao_t); ++i)
+    {
+        if (strcmp(mapa_estados[i].estado, estado) == 0)
+        {
+            return mapa_estados[i].regiao;
+        }
+    }
+    return "OUTRA";
+}
+
+static int comparar_decrescente(const void *a, const void *b)
+{
+    const rel_residuos_por_regiao_t *r1 = (const rel_residuos_por_regiao_t *)a;
+    const rel_residuos_por_regiao_t *r2 = (const rel_residuos_por_regiao_t *)b;
+    return (r2->quantidade_total > r1->quantidade_total) - (r2->quantidade_total < r1->quantidade_total);
+}
+
 /**
  * Gera relatório de resíduos por região.
  * @param estrutura de dados para armazenar o relatório.
@@ -15,25 +43,61 @@ typedef struct
  */
 bool gerar_relatorio_residuos_por_regiao(relatorio_t *relatorio)
 {
-    /* Implementar */
-    /**
-     * Aqui, é preciso relacionar os estados, UFs ("AC","AL","AP","AM",
-     * "BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE",
-     * "PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"), com as regiões
-     * do Brasil ("NORTE","NORDESTE","CENTRO-OESTE","SUDESTE","SUL"), e 
-     * agrupar os resíduos por região.
-     * 
-     * Assim, deve-se relacionar o campo CNPJ da indústria com o campo estado, e então
-     * com todas as respectivas entradas de resíduos, e somar a quantidade de resíduos
-     * 
-     * Todos os estados devem ser agrupados por região, e a quantidade total de resíduos
-     * de cada região deve ser calculada.
-     * 
-     * A estração dos dados deve ser realizada através de funções da camada de persistência
-     * 
-     * O relatório deve ser ordenado por ordem decrescente de quantidade de resíduos.
-     */
-    return false; /* Placeholder, deve ser implementado */
+    if (!relatorio)
+        return false;
+
+    industria_t industrias[MAX_INDUSTRIAS];
+    size_t total_industrias = 0;
+
+    if (!listar_industrias_csv(industrias, MAX_INDUSTRIAS, &total_industrias))
+        return false;
+
+    rel_residuos_por_regiao_t regioes[5] = {
+        {"NORTE", 0}, {"NORDESTE", 0}, {"CENTRO-OESTE", 0}, {"SUDESTE", 0}, {"SUL", 0}};
+
+    for (size_t i = 0; i < total_industrias; ++i)
+    {
+        const char *regiao = obter_regiao_por_estado(industrias[i].estado);
+        residuo_t *registros = NULL;
+        size_t total = 0;
+
+        if (buscar_residuos_por_cnpj(industrias[i].cnpj, &registros, &total))
+        {
+            for (size_t j = 0; j < total; ++j)
+            {
+                for (size_t k = 0; k < 5; ++k)
+                {
+                    if (strcmp(regioes[k].nome_regiao, regiao) == 0)
+                    {
+                        regioes[k].quantidade_total += registros[j].quantidade;
+                        break;
+                    }
+                }
+            }
+            liberar_registros_residuos(registros);
+        }
+    }
+
+    qsort(regioes, 5, sizeof(rel_residuos_por_regiao_t), comparar_decrescente);
+
+    relatorio->colunas = 2;
+    relatorio->linhas = 5;
+    relatorio->cabecalhos = malloc(2 * sizeof(char *));
+    relatorio->cabecalhos[0] = _util_strdup("Região");
+    relatorio->cabecalhos[1] = _util_strdup("Total de Resíduos(kg)");
+
+    relatorio->dados = malloc(5 * sizeof(char **));
+    for (size_t i = 0; i < 5; ++i)
+    {
+        relatorio->dados[i] = malloc(2 * sizeof(char *));
+        relatorio->dados[i][0] = _util_strdup(regioes[i].nome_regiao);
+
+        char buffer[64];
+        snprintf(buffer, sizeof(buffer), "%.2f", regioes[i].quantidade_total);
+        relatorio->dados[i][1] = _util_strdup(buffer);
+    }
+
+    return true;
 }
 
 typedef struct
@@ -47,21 +111,144 @@ typedef struct
  * @param relatorio - estrutura de dados para armazenar o relatório.
  * @return true se o relatório foi gerado com sucesso, false caso contrário.
  */
+static int comparar_quantidade_crescente(const void *a, const void *b)
+{
+    double q1 = ((const rel_residuos_por_industria_t *)a)->quantidade_total;
+    double q2 = ((const rel_residuos_por_industria_t *)b)->quantidade_total;
+    return (q1 > q2) - (q1 < q2);
+}
+
 bool gerar_relatorio_industrias_melhor_desempenho(relatorio_t *relatorio)
 {
-    /**
-     * Este relatório deve listar todas as indústrias, por ordem decrescente de quantidade
-     * de resíduos gerados, e exibir o razão social da indústria, CNPJ, quantidade de resíduos
-     */
-    return false; /* Placeholder, deve ser implementado */
+    industria_t industrias[MAX_INDUSTRIAS];
+    size_t qtd_industrias = 0;
+
+    if (!listar_industrias_csv(industrias, MAX_INDUSTRIAS, &qtd_industrias))
+        return false;
+
+    rel_residuos_por_industria_t *dados = calloc(qtd_industrias, sizeof(rel_residuos_por_industria_t));
+    if (!dados)
+        return false;
+
+    for (size_t i = 0; i < qtd_industrias; i++)
+    {
+        strcpy(dados[i].cnpj, industrias[i].cnpj);
+        dados[i].razao_social = _util_strdup(industrias[i].razao_social);
+
+        residuo_t *residuos = NULL;
+        size_t total = 0;
+        if (buscar_residuos_por_cnpj(dados[i].cnpj, &residuos, &total))
+        {
+            for (size_t j = 0; j < total; j++)
+                dados[i].quantidade_total += residuos[j].quantidade;
+            liberar_registros_residuos(residuos);
+        }
+    }
+
+    qsort(dados, qtd_industrias, sizeof(rel_residuos_por_industria_t), comparar_quantidade_crescente);
+
+    relatorio->colunas = 3;
+    relatorio->linhas = qtd_industrias;
+    relatorio->cabecalhos = malloc(3 * sizeof(char *));
+    relatorio->cabecalhos[0] = _util_strdup("Razão Social");
+    relatorio->cabecalhos[1] = _util_strdup("CNPJ");
+    relatorio->cabecalhos[2] = _util_strdup("Total de Resíduos(kg)");
+
+    relatorio->dados = malloc(qtd_industrias * sizeof(char **));
+    for (size_t i = 0; i < qtd_industrias; ++i)
+    {
+        relatorio->dados[i] = malloc(3 * sizeof(char *));
+        relatorio->dados[i][0] = _util_strdup(dados[i].razao_social);
+        relatorio->dados[i][1] = _util_strdup(dados[i].cnpj);
+
+        char buffer[64];
+        snprintf(buffer, sizeof(buffer), "%.2f", dados[i].quantidade_total);
+        relatorio->dados[i][2] = _util_strdup(buffer);
+
+        free(dados[i].razao_social);
+    }
+
+    free(dados);
+    return true;
 }
+// bool gerar_relatorio_industrias_melhor_desempenho(relatorio_t *relatorio)
+// {
+//     industria_t industrias[MAX_INDUSTRIAS];
+//     size_t qtd_industrias = 0;
+
+//     if (!listar_industrias_csv(industrias, MAX_INDUSTRIAS, &qtd_industrias))
+//         return false;
+
+//     rel_residuos_por_industria_t *dados = malloc(sizeof(*dados) * qtd_industrias);
+//     if (!dados)
+//         return false;
+
+//     for (size_t i = 0; i < qtd_industrias; i++)
+//     {
+//         dados[i].razao_social = _util_strdup(industrias[i].razao_social);
+//         strncpy(dados[i].cnpj, industrias[i].cnpj, sizeof(dados[i].cnpj));
+//         dados[i].quantidade_total = 0.0;
+
+//         residuo_t residuos[MAX_RESIDUOS];
+//         size_t qtd_residuos = 0;
+
+//         if (listar_residuos_por_cnpj_csv(industrias[i].cnpj, residuos, MAX_RESIDUOS, &qtd_residuos))
+//         {
+//             for (size_t j = 0; j < qtd_residuos; j++)
+//                 dados[i].quantidade_total += residuos[j].quantidade;
+//         }
+//     }
+
+//     // Ordenação decrescente por quantidade_total
+//     for (size_t i = 0; i < qtd_industrias - 1; i++)
+//     {
+//         for (size_t j = i + 1; j < qtd_industrias; j++)
+//         {
+//             if (dados[i].quantidade_total < dados[j].quantidade_total)
+//             {
+//                 rel_residuos_por_industria_t tmp = dados[i];
+//                 dados[i] = dados[j];
+//                 dados[j] = tmp;
+//             }
+//         }
+//     }
+
+//     /* Montagem do relatório */
+//     if (!relatorio_inicializar(relatorio, 3, qtd_industrias))
+//     {
+//         for (size_t i = 0; i < qtd_industrias; i++)
+//             free(dados[i].razao_social);
+//         free(dados);
+//         return false;
+//     }
+
+//     relatorio_definir_cabecalho(relatorio, 0, "Razão Social");
+//     relatorio_definir_cabecalho(relatorio, 1, "CNPJ");
+//     relatorio_definir_cabecalho(relatorio, 2, "Qtde Resíduos(kg)");
+
+//     for (size_t i = 0; i < qtd_industrias; i++)
+//     {
+//         relatorio_definir_dado(relatorio, i, 0, dados[i].razao_social);
+//         relatorio_definir_dado(relatorio, i, 1, dados[i].cnpj);
+
+//         char buf[32];
+//         snprintf(buf, sizeof(buf), "%.2f", dados[i].quantidade_total);
+//         relatorio_definir_dado(relatorio, i, 2, buf);
+
+//         free(dados[i].razao_social);
+//     }
+
+//     free(dados);
+//     return true;
+// }
 
 typedef struct
 {
     int ano;
-    int semestre; // 1 ou 2
+    int semestre; /* 1 ou 2 */
     double aporte_total;
 } rel_aporte_financeiro_t;
+
 /**
  * Gera relatório de aporte financeiro semestral.
  * @param relatorio - estrutura de dados para armazenar o relatório.
@@ -110,7 +297,8 @@ bool gerar_relatorio_residuos_semestral(industria_t *i, relatorio_t *relatorio)
         return false;
     }
 
-    typedef struct {
+    typedef struct
+    {
         int ano;
         int semestre;
         double quantidade_total;
@@ -167,8 +355,7 @@ bool gerar_relatorio_residuos_semestral(industria_t *i, relatorio_t *relatorio)
 
     qsort(semestres, contador_semestres, sizeof(rel_semestre_resumo_t), comparar_semestres);
 
-
-    relatorio->colunas = 3;  // ✅ Agora só 3 colunas
+    relatorio->colunas = 3; // ✅ Agora só 3 colunas
     relatorio->linhas = contador_semestres;
 
     relatorio->cabecalhos = (char **)malloc(relatorio->colunas * sizeof(char *));
@@ -186,7 +373,8 @@ bool gerar_relatorio_residuos_semestral(industria_t *i, relatorio_t *relatorio)
     {
         if (!relatorio->cabecalhos[k])
         {
-            for (size_t j = 0; j < k; j++) free(relatorio->cabecalhos[j]);
+            for (size_t j = 0; j < k; j++)
+                free(relatorio->cabecalhos[j]);
             free(relatorio->cabecalhos);
             free(semestres);
             return false;
@@ -196,7 +384,8 @@ bool gerar_relatorio_residuos_semestral(industria_t *i, relatorio_t *relatorio)
     relatorio->dados = (char ***)malloc(relatorio->linhas * sizeof(char **));
     if (!relatorio->dados)
     {
-        for (size_t k = 0; k < relatorio->colunas; k++) free(relatorio->cabecalhos[k]);
+        for (size_t k = 0; k < relatorio->colunas; k++)
+            free(relatorio->cabecalhos[k]);
         free(relatorio->cabecalhos);
         free(semestres);
         return false;
@@ -209,11 +398,13 @@ bool gerar_relatorio_residuos_semestral(industria_t *i, relatorio_t *relatorio)
         {
             for (size_t j = 0; j < idx; j++)
             {
-                for (size_t k = 0; k < relatorio->colunas; k++) free(relatorio->dados[j][k]);
+                for (size_t k = 0; k < relatorio->colunas; k++)
+                    free(relatorio->dados[j][k]);
                 free(relatorio->dados[j]);
             }
             free(relatorio->dados);
-            for (size_t k = 0; k < relatorio->colunas; k++) free(relatorio->cabecalhos[k]);
+            for (size_t k = 0; k < relatorio->colunas; k++)
+                free(relatorio->cabecalhos[k]);
             free(relatorio->cabecalhos);
             free(semestres);
             return false;
@@ -234,15 +425,18 @@ bool gerar_relatorio_residuos_semestral(industria_t *i, relatorio_t *relatorio)
         {
             if (!relatorio->dados[idx][k])
             {
-                for (size_t l = 0; l < k; l++) free(relatorio->dados[idx][l]);
+                for (size_t l = 0; l < k; l++)
+                    free(relatorio->dados[idx][l]);
                 free(relatorio->dados[idx]);
                 for (size_t j = 0; j < idx; j++)
                 {
-                    for (size_t l = 0; l < relatorio->colunas; l++) free(relatorio->dados[j][l]);
+                    for (size_t l = 0; l < relatorio->colunas; l++)
+                        free(relatorio->dados[j][l]);
                     free(relatorio->dados[j]);
                 }
                 free(relatorio->dados);
-                for (size_t k = 0; k < relatorio->colunas; k++) free(relatorio->cabecalhos[k]);
+                for (size_t k = 0; k < relatorio->colunas; k++)
+                    free(relatorio->cabecalhos[k]);
                 free(relatorio->cabecalhos);
                 free(semestres);
                 return false;
@@ -254,7 +448,8 @@ bool gerar_relatorio_residuos_semestral(industria_t *i, relatorio_t *relatorio)
     return true;
 }
 
-typedef struct {
+typedef struct
+{
     int ano;
     int mes;
     double custo_total;
@@ -283,7 +478,8 @@ bool gerar_relatorio_gastos_mensais(industria_t *i, relatorio_t *relatorio)
         return false;
     }
 
-    typedef struct {
+    typedef struct
+    {
         int ano;
         int mes;
         double custo_total;
@@ -358,7 +554,8 @@ bool gerar_relatorio_gastos_mensais(industria_t *i, relatorio_t *relatorio)
     {
         if (!relatorio->cabecalhos[k])
         {
-            for (size_t j = 0; j < k; j++) free(relatorio->cabecalhos[j]);
+            for (size_t j = 0; j < k; j++)
+                free(relatorio->cabecalhos[j]);
             free(relatorio->cabecalhos);
             free(meses);
             return false;
@@ -368,7 +565,8 @@ bool gerar_relatorio_gastos_mensais(industria_t *i, relatorio_t *relatorio)
     relatorio->dados = (char ***)malloc(relatorio->linhas * sizeof(char **));
     if (!relatorio->dados)
     {
-        for (size_t k = 0; k < relatorio->colunas; k++) free(relatorio->cabecalhos[k]);
+        for (size_t k = 0; k < relatorio->colunas; k++)
+            free(relatorio->cabecalhos[k]);
         free(relatorio->cabecalhos);
         free(meses);
         return false;
@@ -381,11 +579,13 @@ bool gerar_relatorio_gastos_mensais(industria_t *i, relatorio_t *relatorio)
         {
             for (size_t j = 0; j < idx; j++)
             {
-                for (size_t k = 0; k < relatorio->colunas; k++) free(relatorio->dados[j][k]);
+                for (size_t k = 0; k < relatorio->colunas; k++)
+                    free(relatorio->dados[j][k]);
                 free(relatorio->dados[j]);
             }
             free(relatorio->dados);
-            for (size_t k = 0; k < relatorio->colunas; k++) free(relatorio->cabecalhos[k]);
+            for (size_t k = 0; k < relatorio->colunas; k++)
+                free(relatorio->cabecalhos[k]);
             free(relatorio->cabecalhos);
             free(meses);
             return false;
@@ -406,15 +606,18 @@ bool gerar_relatorio_gastos_mensais(industria_t *i, relatorio_t *relatorio)
         {
             if (!relatorio->dados[idx][k])
             {
-                for (size_t l = 0; l < k; l++) free(relatorio->dados[idx][l]);
+                for (size_t l = 0; l < k; l++)
+                    free(relatorio->dados[idx][l]);
                 free(relatorio->dados[idx]);
                 for (size_t j = 0; j < idx; j++)
                 {
-                    for (size_t l = 0; l < relatorio->colunas; l++) free(relatorio->dados[j][l]);
+                    for (size_t l = 0; l < relatorio->colunas; l++)
+                        free(relatorio->dados[j][l]);
                     free(relatorio->dados[j]);
                 }
                 free(relatorio->dados);
-                for (size_t k = 0; k < relatorio->colunas; k++) free(relatorio->cabecalhos[k]);
+                for (size_t k = 0; k < relatorio->colunas; k++)
+                    free(relatorio->cabecalhos[k]);
                 free(relatorio->cabecalhos);
                 free(meses);
                 return false;
@@ -479,7 +682,7 @@ int comparar_semestres(const void *a, const void *b)
 
     if (sa->ano != sb->ano)
         return sa->ano - sb->ano;
-    
+
     return sa->semestre - sb->semestre;
 }
 
@@ -490,6 +693,6 @@ int comparar_meses(const void *a, const void *b)
 
     if (ma->ano != mb->ano)
         return ma->ano - mb->ano;
-    
+
     return ma->mes - mb->mes;
 }

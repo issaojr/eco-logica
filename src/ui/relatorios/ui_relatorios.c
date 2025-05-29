@@ -91,21 +91,19 @@ void ui_desenhar_tela_rel_glb_fase_2(
     relatorio_t *relatorio,
     const char *cabecalho)
 {
-    ui_exibir_to_do("Implementar desenho da tela de relatórios globais fase 2");
-}
-
-/**
- * Redesenha a tela de relatórios globais, o relatório solicitado,
- * e menu de opções de exportação do relatório
- * e retorno ao menu principal.
- */
-void ui_desenhar_tela_rel_glb_fase_3(
-    funcionario_t *f,
-    relatorio_t *relatorio,
-    const char *cabecalho,
-    int *opcao_menu)
-{
-    ui_exibir_to_do("Implementar desenho da tela de relatórios globais fase 3");
+    ui_desenhar_cabecalho(cabecalho);
+    printf("\n");
+    if (relatorio)
+    {
+        ui_exibir_relatorio(relatorio);
+    }
+    else
+    {
+        ui_exibir_erro("Nenhum relatório disponível.");
+    }
+    printf("\n");
+    ui_exibir_separador('-', UI_LARGURA_PADRAO);
+    printf("\n");
 }
 
 /*--------------------- Menu da tela de relatórios globais --------------------------*/
@@ -141,27 +139,68 @@ const char *tela_menu_exportacao_relatorio_prompt(void)
 
 /*-------------------------- Exibição de de relatório -------------------------------*/
 
-void ui_exibir_relatorio(
-    relatorio_t *rel)
+void ui_exibir_relatorio(relatorio_t *rel)
 {
+
     if (!rel || !rel->dados || rel->linhas == 0 || rel->colunas == 0)
     {
         ui_exibir_erro("Relatório vazio ou inválido.");
         return;
     }
 
-    for (size_t i = 0; i < rel->colunas; i++)
+    // Calcular larguras reais de cada coluna
+    size_t *larguras = calloc(rel->colunas, sizeof(size_t));
+    if (!larguras)
     {
-        printf("%-20s", rel->cabecalhos[i]);
+        ui_exibir_erro("Erro de memória ao calcular larguras.");
+        return;
     }
-    printf("\n");
 
+    for (size_t j = 0; j < rel->colunas; j++)
+    {
+        larguras[j] = ui_tamanho_str_utf8(rel->cabecalhos[j]);
+        for (size_t i = 0; i < rel->linhas; i++)
+        {
+            size_t tam = ui_tamanho_str_utf8(rel->dados[i][j]);
+            if (tam > larguras[j])
+                larguras[j] = tam;
+        }
+    }
+
+    // Exibir cabeçalhos
+    for (size_t j = 0; j < rel->colunas; j++)
+    {
+        const char *str = rel->cabecalhos[j];
+        size_t tam_real = ui_tamanho_str_utf8(str);
+        size_t espacos = larguras[j] - tam_real;
+
+        printf("%s", str);
+        for (size_t k = 0; k < espacos + 2; k++) putchar(' ');
+    }
+    putchar('\n');
+
+    // Linha separadora
+    for (size_t j = 0; j < rel->colunas; j++)
+    {
+        for (size_t k = 0; k < larguras[j]; k++) putchar('-');
+        printf("  ");
+    }
+    putchar('\n');
+
+    // Exibir os dados
     for (size_t i = 0; i < rel->linhas; i++)
     {
         for (size_t j = 0; j < rel->colunas; j++)
         {
-            printf("%-20s", rel->dados[i][j]);
+            const char *str = rel->dados[i][j];
+            size_t tam_real = ui_tamanho_str_utf8(str);
+            size_t espacos = larguras[j] - tam_real;
+
+            printf("%s", str);
+            for (size_t k = 0; k < espacos + 2; k++) putchar(' ');
         }
-        printf("\n");
+        putchar('\n');
     }
+
+    free(larguras);
 }

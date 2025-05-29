@@ -8,6 +8,8 @@
 #include "persistencia/residuo_dao.h"
 #include "persistencia/relatorio_dao.h"
 #include "estruturas/relatorio.h"
+#include "estados/industrias/estado_listar_industrias.h"
+#include "estados/residuos/estado_atualizacao_residuos.h"
 #include "ui/ui_comum.h"
 #include "util.h"
 
