@@ -1,6 +1,8 @@
 #ifndef BUSINESS_INDUSTRIA_H
 #define BUSINESS_INDUSTRIA_H
 
+#define TAM_MAX_INDUSTRIAS 512
+
 #include <stddef.h> // Para size_t
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,6 +10,7 @@
 #include "ui/ui_comum.h"
 #include "session.h"
 #include "persistencia/industria_dao.h"
+#include "persistencia/relatorio_dao.h"
 
 /**
  * Cadastra uma nova indústria se o CNPJ não existir.
@@ -57,5 +60,7 @@ bool buscar_industria_por_cnpj(const char *cnpj, industria_t *industria_out);
  */
 
 int obter_todas_industrias(industria_t *industrias_out, size_t max_industrias, size_t *total_industrias_out);
+
+bool gerar_relatorio_lista_industrias(relatorio_t *rel);
 
 #endif // BUSINESS_INDUSTRIA_H

@@ -1,6 +1,8 @@
 #ifndef BUSINESS_FUNCIONARIO_H
 #define BUSINESS_FUNCIONARIO_H
 
+#define TAM_MAX_FUNCIONARIOS 256
+
 #include <stddef.h> // Para size_t
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,6 +10,7 @@
 #include "ui/ui_comum.h"
 #include "session.h"
 #include "persistencia/funcionario_dao.h"
+#include "persistencia/relatorio_dao.h"
 
 /**
  * @brief Obtém a lista completa de todos os funcionários cadastrados.
@@ -30,5 +33,7 @@ int excluir_funcionario(char *matricula);
  * @return true se o funcionário foi encontrado, false caso contrário.
  */
 bool buscar_funcionario_por_matricula(char *matricula, funcionario_t *funcionario_out);
+
+bool gerar_relatorio_lista_funcionarios(relatorio_t *rel);
 
 #endif // BUSINESS_FUNCIONARIO_H

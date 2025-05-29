@@ -1,5 +1,7 @@
 #ifndef RELATORIO_H
 #define RELATORIO_H
+#include <stddef.h> 
+#include <stdbool.h> 
 
 /**
  * Representa um relatório de dados tabulares.

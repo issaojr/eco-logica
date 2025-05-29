@@ -1,8 +1,6 @@
 #ifndef ESTADO_LISTAR_INDUSTRIAS_H
 #define ESTADO_LISTAR_INDUSTRIAS_H
 
-#define MAX_INDUSTRIAS 200 // Tamanho máximo da lista de indústrias
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,7 +8,9 @@
 #include "estados/estados.h"
 #include "business/business_industria.h"
 #include "persistencia/industria_dao.h"
+#include "estruturas/relatorio.h"
 #include "ui/industrias/ui_tela_cadastro_industrias.h"
+#include "ui/relatorios/ui_relatorios.h"
 #include "ui/ui_comum.h"
 #include "session.h"
 

@@ -9,38 +9,41 @@ static int inicializar(void)
 static estado_aplicacao processar(size_t entrada)
 {
     funcionario_t *funcionario_autenticado = get_funcionario_logado();
-    // Verifica se o funcionário está logado
+
     if (!funcionario_autenticado)
     {
-        // [TODO] Criar estado de erro se não houver funcionário logado
         ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         return ESTADO_MENU_LOGIN;
     }
 
-    funcionario_t funcionarios[MAX_FUNCIONARIOS];
-    size_t total_funcionarios = 0;
-
-    // Chamada para business para recuperar a lista de funcionários
-    if (!obter_todos_funcionarios(funcionarios, MAX_FUNCIONARIOS, &total_funcionarios))
+    relatorio_t *r = malloc(sizeof(relatorio_t));
+    if (!r)
     {
-        ui_exibir_debug("Erro ao obter todos os funcionários.");
-        ui_exibir_erro("Erro ao listar funcionários.");
+        ui_exibir_erro("Erro ao alocar memória para o relatório.");
+        ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
+        return ESTADO_CADASTRO_FUNCIONARIOS;
+    }
+    memset(r, 0, sizeof(relatorio_t));
+
+    bool sucesso = gerar_relatorio_lista_funcionarios(r);
+    if (!sucesso)
+    {
+        ui_exibir_erro("Erro ao gerar relatório de funcionários.");
+        free(r);
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         return ESTADO_CADASTRO_FUNCIONARIOS;
     }
 
-    if (total_funcionarios == 0)
-    {
-        ui_exibir_erro("Nenhum funcionário cadastrado.");
-        ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
-        return ESTADO_CADASTRO_FUNCIONARIOS;
-    }
+    ui_desenhar_tela_padrao(
+        UI_TITULO_PROGRAMA,
+        UI_SUBTITULO_CADASTRO_INDUSTRIAS,
+        funcionario_autenticado->nome,
+        funcionario_autenticado->matricula);
 
-    ui_desenhar_lista_funcionarios(
-        funcionarios,
-        MAX_FUNCIONARIOS,
-        &total_funcionarios);
+    ui_desenhar_lista_funcionarios(r);
+
+    free(r);
 
     return ESTADO_CADASTRO_FUNCIONARIOS;
 }

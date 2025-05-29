@@ -30,11 +30,8 @@ const char *ui_menu_cadastro_funcionarios_prompt(void)
 }
 
 void ui_desenhar_lista_funcionarios(
-    funcionario_t *funcionarios_out,
-    size_t max_funcionarios,
-    size_t *total_funcionarios_out)
+    relatorio_t *r)
 {
-    ui_limpar_tela();
 
     const char *cabecalho = "LISTA DE FUNCIONÁRIOS";
 
@@ -43,10 +40,7 @@ void ui_desenhar_lista_funcionarios(
     printf("\n");
 
     /* Exibir lista de funcionarios */
-    ui_exibir_lista_funcionarios(
-        funcionarios_out,
-        max_funcionarios,
-        total_funcionarios_out);
+    ui_exibir_relatorio(r);
     printf("\n");
 
     /* Prompt para retornar ao menu anterior */
@@ -60,19 +54,6 @@ void ui_desenhar_lista_funcionarios(
  * @param total_funcionarios_out Ponteiro para o total de funcionários
  * @note A função exibe a lista de funcionários formatada no console.
  */
-void ui_exibir_lista_funcionarios(
-    funcionario_t *funcionarios_out,
-    size_t max_funcionarios,
-    size_t *total_funcionarios_out)
-{
-    printf(UI_COR_NEGRITO "Matrícula   Nome\n" UI_COR_RESET);
-    printf("-------------------------------\n");
-    for (size_t i = 0; i < *total_funcionarios_out; i++)
-    {
-        printf("%s      %s\n", funcionarios_out[i].matricula, funcionarios_out[i].nome);
-    }
-    printf("-------------------------------\n");
-}
 
 void ui_desenhar_tela_adicionar_funcionario(funcionario_t *novo_funcionario_out)
 {
@@ -148,7 +129,7 @@ void ui_desenhar_painel_funcionario_selecionado(funcionario_t *f)
 {
     size_t l = UI_LARGURA_QUADRO;
     ui_desenhar_linha_simples();
-    ui_desenhar_linha_painel("=>", "Funcionário Selecionado", "|","|", l);
+    ui_desenhar_linha_painel("=>", "Funcionário Selecionado", "|", "|", l);
     ui_desenhar_linha_simples();
     ui_desenhar_linha_painel("Matrícula:", f->matricula, "|", "|", l);
     ui_desenhar_linha_painel("Nome:", f->nome, "|", "|", l);

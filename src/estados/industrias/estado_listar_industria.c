@@ -3,41 +3,47 @@
 /* funções internas do estado */
 static int inicializar(void)
 {
-    return 0; // sucesso
+    return 0;
 }
 
 static estado_aplicacao processar(size_t entrada)
 {
     funcionario_t *funcionario_autenticado = get_funcionario_logado();
-    
+
     if (!funcionario_autenticado)
     {
-        // [TODO] Criar estado de erro se não houver funcionário logado
         ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         return ESTADO_MENU_LOGIN;
     }
 
-    industria_t industrias[MAX_INDUSTRIAS];
-    size_t total_industrias = 0;
-
-    if (!obter_todas_industrias(industrias, MAX_INDUSTRIAS, &total_industrias) == 0)
+    relatorio_t *r = malloc(sizeof(relatorio_t));
+    if (!r)
     {
-        ui_exibir_erro("Erro ao listar indústrias.");
+        ui_exibir_erro("Erro ao alocar memória para o relatório.");
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         return ESTADO_CADASTRO_INDUSTRIAS;
     }
-    if (total_industrias == 0)
+    memset(r, 0, sizeof(relatorio_t));
+
+    bool sucesso = gerar_relatorio_lista_industrias(r);
+    if (!sucesso)
     {
-        ui_exibir_erro("Nenhuma indústria cadastrada.");
+        ui_exibir_erro("Erro ao gerar relatório de indústrias.");
+        free(r);
         ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
         return ESTADO_CADASTRO_INDUSTRIAS;
     }
 
-    ui_desenhar_lista_industrias(
-        industrias,
-        MAX_INDUSTRIAS,
-        &total_industrias);
+    ui_desenhar_tela_padrao(
+        UI_TITULO_PROGRAMA,
+        UI_SUBTITULO_CADASTRO_INDUSTRIAS,
+        funcionario_autenticado->nome,
+        funcionario_autenticado->matricula);
+    
+    ui_desenhar_lista_industrias(r);
+
+    free(r);
 
     return ESTADO_CADASTRO_INDUSTRIAS;
 }

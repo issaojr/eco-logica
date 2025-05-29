@@ -148,7 +148,7 @@ void ui_exibir_relatorio(relatorio_t *rel)
         return;
     }
 
-    // Calcular larguras reais de cada coluna
+    /* Calcular larguras reais de cada coluna */
     size_t *larguras = calloc(rel->colunas, sizeof(size_t));
     if (!larguras)
     {
@@ -167,7 +167,7 @@ void ui_exibir_relatorio(relatorio_t *rel)
         }
     }
 
-    // Exibir cabeçalhos
+    /* Exibir cabeçalhos */
     for (size_t j = 0; j < rel->colunas; j++)
     {
         const char *str = rel->cabecalhos[j];
@@ -179,7 +179,7 @@ void ui_exibir_relatorio(relatorio_t *rel)
     }
     putchar('\n');
 
-    // Linha separadora
+    /* Linha separadora */
     for (size_t j = 0; j < rel->colunas; j++)
     {
         for (size_t k = 0; k < larguras[j]; k++) putchar('-');
@@ -187,7 +187,7 @@ void ui_exibir_relatorio(relatorio_t *rel)
     }
     putchar('\n');
 
-    // Exibir os dados
+    /* Exibir os dados */
     for (size_t i = 0; i < rel->linhas; i++)
     {
         for (size_t j = 0; j < rel->colunas; j++)

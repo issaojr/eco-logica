@@ -6,8 +6,10 @@
 #include "ui/ui_comum.h"
 #include "ui/ui_menu.h"
 #include "ui/ui_form.h"
+#include "ui/relatorios/ui_relatorios.h"
 #include "estruturas/industria.h"
 #include "estruturas/funcionario.h"
+#include "estruturas/relatorio.h"
 #include "session.h"
 
 /* mapa de opções e prompt da tela de cadastro de funcionários */
@@ -24,9 +26,7 @@ void ui_desenhar_tela_cadastro_industrias(
     funcionario_t *funcionario_autenticado);
 
 void ui_desenhar_lista_industrias(
-    industria_t *industrias_out,
-    size_t max_industrias,
-    size_t *total_industrias_out);
+    relatorio_t *r);
 
 void ui_desenhar_form_ler_cnpj_industria(
     industria_t *nova_industria_out);
@@ -85,3 +85,4 @@ void ui_desenhar_painel_industria_selecionada(
     industria_t *industria_selecionada);
 
 #endif /* UI_TELA_MENU_CADASTRO_INDUSTRIAS_H */
+

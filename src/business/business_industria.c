@@ -92,3 +92,78 @@ bool buscar_industria_por_cnpj(const char *cnpj, industria_t *industria_out)
 
 	return true;
 }
+
+bool gerar_relatorio_lista_industrias(relatorio_t *rel)
+{
+    if (!rel)
+        return false;
+
+    industria_t industrias[TAM_MAX_INDUSTRIAS];
+    size_t total = 0;
+
+    if (!listar_industrias_csv(industrias, TAM_MAX_INDUSTRIAS, &total) || total == 0)
+        return false;
+
+    rel->colunas = 13;
+    rel->linhas = total;
+
+    const char *cabecalhos[] = {
+        "CNPJ", "Razão Social", "Nome Fantasia", "Telefone", "Logradouro",
+        "Número", "Bairro", "Cidade", "Estado", "CEP",
+        "Data Abertura", "Nome Responsável", "Email Responsável"
+    };
+
+    rel->cabecalhos = malloc(rel->colunas * sizeof(char *));
+    if (!rel->cabecalhos)
+        return false;
+
+    for (size_t i = 0; i < rel->colunas; i++)
+        rel->cabecalhos[i] = _util_strdup(cabecalhos[i]);
+
+    rel->dados = malloc(total * sizeof(char **));
+    if (!rel->dados)
+    {
+        for (size_t i = 0; i < rel->colunas; i++)
+            free(rel->cabecalhos[i]);
+        free(rel->cabecalhos);
+        return false;
+    }
+
+    for (size_t i = 0; i < total; i++)
+    {
+        rel->dados[i] = malloc(rel->colunas * sizeof(char *));
+        rel->dados[i][0]  = _util_strdup(industrias[i].cnpj);
+        rel->dados[i][1]  = _util_strdup(industrias[i].razao_social);
+        rel->dados[i][2]  = _util_strdup(industrias[i].nome_fantasia);
+        rel->dados[i][3]  = _util_strdup(industrias[i].telefone);
+        rel->dados[i][4]  = _util_strdup(industrias[i].logradouro);
+        rel->dados[i][5]  = _util_strdup(industrias[i].numero);
+        rel->dados[i][6]  = _util_strdup(industrias[i].bairro);
+        rel->dados[i][7]  = _util_strdup(industrias[i].cidade);
+        rel->dados[i][8]  = _util_strdup(industrias[i].estado);
+        rel->dados[i][9]  = _util_strdup(industrias[i].cep);
+        rel->dados[i][10] = _util_strdup(industrias[i].data_abertura);
+        rel->dados[i][11] = _util_strdup(industrias[i].nome_responsavel);
+        rel->dados[i][12] = _util_strdup(industrias[i].email_responsavel);
+
+        for (size_t j = 0; j < rel->colunas; j++)
+        {
+            if (!rel->dados[i][j])
+            {
+                for (size_t k = 0; k <= i; k++)
+                {
+                    for (size_t l = 0; l < (k == i ? j : rel->colunas); l++)
+                        free(rel->dados[k][l]);
+                    free(rel->dados[k]);
+                }
+                for (size_t j = 0; j < rel->colunas; j++)
+                    free(rel->cabecalhos[j]);
+                free(rel->cabecalhos);
+                free(rel->dados);
+                return false;
+            }
+        }
+    }
+
+    return true;
+}

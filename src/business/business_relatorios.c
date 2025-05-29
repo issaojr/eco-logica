@@ -46,10 +46,10 @@ bool gerar_relatorio_residuos_por_regiao(relatorio_t *relatorio)
     if (!relatorio)
         return false;
 
-    industria_t industrias[MAX_INDUSTRIAS];
+    industria_t industrias[TAM_MAX_INDUSTRIAS];
     size_t total_industrias = 0;
 
-    if (!listar_industrias_csv(industrias, MAX_INDUSTRIAS, &total_industrias))
+    if (!listar_industrias_csv(industrias, TAM_MAX_INDUSTRIAS, &total_industrias))
         return false;
 
     rel_residuos_por_regiao_t regioes[5] = {
@@ -120,10 +120,10 @@ static int comparar_quantidade_crescente(const void *a, const void *b)
 
 bool gerar_relatorio_industrias_melhor_desempenho(relatorio_t *relatorio)
 {
-    industria_t industrias[MAX_INDUSTRIAS];
+    industria_t industrias[TAM_MAX_INDUSTRIAS];
     size_t qtd_industrias = 0;
 
-    if (!listar_industrias_csv(industrias, MAX_INDUSTRIAS, &qtd_industrias))
+    if (!listar_industrias_csv(industrias, TAM_MAX_INDUSTRIAS, &qtd_industrias))
         return false;
 
     rel_residuos_por_industria_t *dados = calloc(qtd_industrias, sizeof(rel_residuos_por_industria_t));

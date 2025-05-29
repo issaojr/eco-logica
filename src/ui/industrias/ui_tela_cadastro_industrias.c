@@ -28,11 +28,8 @@ const char *tela_menu_cadastro_industrias_prompt()
 }
 
 void ui_desenhar_lista_industrias(
-    industria_t *industrias_out,
-    size_t max_industrias,
-    size_t *total_industrias_out)
+    relatorio_t *r)
 {
-    ui_limpar_tela();
 
     char *cabecalho = "LISTA DE INDÚSTRIAS";
 
@@ -41,10 +38,8 @@ void ui_desenhar_lista_industrias(
     printf("\n");
 
     /* Exibir lista de industrias */
-    ui_exibir_lista_industrias(
-        industrias_out,
-        max_industrias,
-        total_industrias_out);
+    ui_exibir_relatorio(r);
+
     printf("\n");
 
     /* Prompt para retornar ao menu anterior */

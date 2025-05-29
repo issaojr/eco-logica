@@ -2,11 +2,12 @@
 #define UI_TELA_CADASTRO_FUNCIONARIOS_H
 
 #include "estruturas/funcionario.h"
+#include "estruturas/relatorio.h"
 #include "ui/ui_menu.h"
 #include "ui/ui_comum.h"
 #include "ui/ui_form.h"
 #include "business/business_crypto.h"
-#include "persistencia/funcionario_dao.h"
+#include "ui/relatorios/ui_relatorios.h"
 
 /* mapa de opções e prompt da tela de cadastro de funcionários */
 extern opcao_t ui_menu_cadastro_funcionarios_mapa[];
@@ -18,14 +19,7 @@ void ui_desenhar_tela_cadastro_funcionarios(
     const char *matricula);
 
 void ui_desenhar_lista_funcionarios(
-    funcionario_t *funcionarios_out,
-    size_t max_funcionarios,
-    size_t *total_funcionarios_out);
-
-void ui_exibir_lista_funcionarios(
-    funcionario_t *funcionarios_out,
-    size_t max_funcionarios,
-    size_t *total_funcionarios_out);
+    relatorio_t *r);
 
 void ui_desenhar_tela_adicionar_funcionario(
     funcionario_t *novo_funcionario_out);
