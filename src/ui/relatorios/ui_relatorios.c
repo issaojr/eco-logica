@@ -11,7 +11,7 @@ void ui_desenhar_tela_rel_ind_fase_1(
     industria_t *i)
 {
     ui_desenhar_cabecalho("SELECIONE A INDÚSTRIA");
-
+    printf("\n");
     ui_ler_cnpj_industria(i->cnpj, sizeof(i->cnpj));
 }
 
@@ -26,8 +26,6 @@ void ui_desenhar_tela_rel_ind_fase_2(
     int *opcao_menu)
 {
     ui_desenhar_painel_ind_resumido(i);
-
-    ui_desenhar_cabecalho("MENU DE RELATÓRIOS POR INDÚSTRIA");
 }
 
 /**
@@ -81,7 +79,7 @@ void ui_desenhar_tela_rel_glb_fase_1(
     funcionario_t *f,
     int *opcao_menu)
 {
-    ui_exibir_to_do("Implementar desenho da tela de relatórios globais fase 1");
+    ui_desenhar_cabecalho("MENU DE RELATÓRIOS GLOBAIS");
 }
 
 /**
@@ -115,7 +113,8 @@ void ui_desenhar_tela_rel_glb_fase_3(
 const opcao_t tela_menu_relatorios_globais_mapa[] = {
     {1, "Listar resíduos por semestre"},
     {2, "Listar totais de gastos mensais"},
-    {3, "Voltar ao menu principal"}};
+    {3, "Listar aporte financeiro semestral"},
+    {4, "Voltar ao menu principal"}};
 
 const size_t tela_menu_relatorios_globais_mapa_n =
     sizeof(tela_menu_relatorios_globais_mapa) / sizeof(tela_menu_relatorios_globais_mapa[0]);

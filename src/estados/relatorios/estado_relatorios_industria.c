@@ -47,97 +47,7 @@ static int inicializar(void)
     return 0;
 }
 
-static estado_aplicacao processar(size_t entrada)
-{
-    if (!f_aut)
-    {
-        // Exibir mensagem de erro se não houver funcionário logado
-        ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
-        ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
-        reset_estado_rel_ind();
-        return ESTADO_MENU_LOGIN;
-    }
-
-    if (!i)
-    {
-        ui_exibir_erro("Erro ao alocar memória para a indústria.");
-        reset_estado_rel_ind();
-        ui_prompt_voltar_menu_principal("Pressione ENTER para voltar ao menu principal...");
-        return ESTADO_MENU_PRINCIPAL;
-    }
-
-    if (!relatorio)
-    {
-        ui_exibir_erro("Erro ao alocar memória para o relatório.");
-        reset_estado_rel_ind();
-        ui_prompt_voltar_menu_principal("Pressione ENTER para voltar ao menu principal...");
-        return ESTADO_MENU_PRINCIPAL;
-    }
-
-    ui_desenhar_tela_padrao(
-        UI_TITULO_PROGRAMA,
-        UI_SUBTITULO_RELATORIOS_INDUSTRIA,
-        f_aut->nome,
-        f_aut->matricula);
-
-    /* Processar as fases de acordo com o estado atual */
-    switch (fase)
-    {
-    case 1:
-        return estado_fase_1();
-    case 2:
-        return estado_fase_2();
-    case 3:
-        return estado_fase_3();
-    default:
-        ui_exibir_erro("Estado inválido. Retornando ao menu principal.");
-        reset_estado_rel_ind();
-        return ESTADO_MENU_PRINCIPAL;
-    }
-}
-
-static void finalizar(void)
-{
-    // TODO: liberar recursos (se houver)
-}
-
-static estado_aplicacao obter_id(void)
-{
-    return ESTADO_RELATORIOS_INDUSTRIA;
-}
-
-estado_t *criar_estado_relatorios_industria(void)
-{
-    estado_t *e = malloc(sizeof(estado_t));
-    if (!e)
-        return NULL;
-    e->inicializar = inicializar;
-    e->processar = processar;
-    e->finalizar = finalizar;
-    e->obter_id = obter_id;
-    return e;
-}
-
-void reset_estado_rel_ind(void)
-{
-    if (i)
-    {
-        free(i);
-        i = NULL;
-    }
-
-    if (relatorio)
-    {
-        relatorio_liberar(relatorio);
-        free(relatorio);
-        relatorio = NULL;
-    }
-
-    opcao_relatorio = OPCAO_INVALIDA;
-    fase = 0;
-}
-
-static estado_aplicacao estado_fase_1(void)
+static estado_aplicacao estado_rel_ind_f1(void)
 {
     /* Desenhar a tela de relatórios por indústria e ler cnpj, fase 1 */
     ui_desenhar_tela_rel_ind_fase_1(f_aut, i);
@@ -156,7 +66,7 @@ static estado_aplicacao estado_fase_1(void)
     return ESTADO_RELATORIOS_INDUSTRIA;
 }
 
-static estado_aplicacao estado_fase_2(void)
+static estado_aplicacao estado_rel_ind_f2(void)
 {
     const opcao_t *mapa = tela_menu_relatorios_industria_mapa;
     size_t mapa_n = tela_menu_relatorios_industria_mapa_n;
@@ -181,7 +91,7 @@ static estado_aplicacao estado_fase_2(void)
     return ESTADO_RELATORIOS_INDUSTRIA;
 }
 
-static estado_aplicacao estado_fase_3(void)
+static estado_aplicacao estado_rel_ind_f3(void)
 {
     /* Gerar relatório com base na opção escolhida, fase 3 */
     char *cabecalho = NULL;
@@ -249,7 +159,7 @@ static estado_aplicacao estado_fase_3(void)
     bool sucesso_exportacao = false;
     char *extensao = NULL;
     char *separador = ",";
-    // Exportar o relatório de acordo com a opção escolhida
+    /* Exportar o relatório de acordo com a opção escolhida */
     switch ((int)opcao_exportacao)
     {
     case 1: /* Exportar para CSV */
@@ -286,3 +196,95 @@ static estado_aplicacao estado_fase_3(void)
 
     return ESTADO_MENU_PRINCIPAL;
 }
+
+static estado_aplicacao processar(size_t entrada)
+{
+    if (!f_aut)
+    {
+        // Exibir mensagem de erro se não houver funcionário logado
+        ui_exibir_erro("Nenhum funcionário logado. \nRedirecionando para a tela inicial...");
+        ui_prompt_voltar_inicio("Pressione ENTER para continuar...");
+        reset_estado_rel_ind();
+        return ESTADO_MENU_LOGIN;
+    }
+
+    if (!i)
+    {
+        ui_exibir_erro("Erro ao alocar memória para a indústria.");
+        reset_estado_rel_ind();
+        ui_prompt_voltar_menu_principal("Pressione ENTER para voltar ao menu principal...");
+        return ESTADO_MENU_PRINCIPAL;
+    }
+
+    if (!relatorio)
+    {
+        ui_exibir_erro("Erro ao alocar memória para o relatório.");
+        reset_estado_rel_ind();
+        ui_prompt_voltar_menu_principal("Pressione ENTER para voltar ao menu principal...");
+        return ESTADO_MENU_PRINCIPAL;
+    }
+
+    ui_desenhar_tela_padrao(
+        UI_TITULO_PROGRAMA,
+        UI_SUBTITULO_RELATORIOS_INDUSTRIA,
+        f_aut->nome,
+        f_aut->matricula);
+
+    /* Processar as fases de acordo com o estado atual */
+    switch (fase)
+    {
+    case 1:
+        return estado_rel_ind_f1();
+    case 2:
+        return estado_rel_ind_f2();
+    case 3:
+        return estado_rel_ind_f3();
+    default:
+        ui_exibir_erro("Estado inválido. Retornando ao menu principal.");
+        reset_estado_rel_ind();
+        return ESTADO_MENU_PRINCIPAL;
+    }
+}
+
+static void finalizar(void)
+{
+    // TODO: liberar recursos (se houver)
+}
+
+static estado_aplicacao obter_id(void)
+{
+    return ESTADO_RELATORIOS_INDUSTRIA;
+}
+
+estado_t *criar_estado_relatorios_industria(void)
+{
+    estado_t *e = malloc(sizeof(estado_t));
+    if (!e)
+        return NULL;
+    e->inicializar = inicializar;
+    e->processar = processar;
+    e->finalizar = finalizar;
+    e->obter_id = obter_id;
+    return e;
+}
+
+void reset_estado_rel_ind(void)
+{
+    if (i)
+    {
+        free(i);
+        i = NULL;
+    }
+
+    if (relatorio)
+    {
+        relatorio_liberar(relatorio);
+        free(relatorio);
+        relatorio = NULL;
+    }
+
+    opcao_relatorio = OPCAO_INVALIDA;
+    opcao_exportacao = OPCAO_INVALIDA;
+    fase = 0;
+}
+

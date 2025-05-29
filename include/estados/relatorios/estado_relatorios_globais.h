@@ -22,4 +22,9 @@
  */
 estado_t *criar_estado_relatorios_globais(void);
 
+/**
+ * Reseta o estado de relatórios globais
+ */
+void reset_estado_rel_globais(void);
+
 #endif // ESTADO_RELATORIOS_GLOBAIS_H

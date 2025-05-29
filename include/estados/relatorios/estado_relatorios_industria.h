@@ -22,8 +22,4 @@ estado_t *criar_estado_relatorios_industria(void);
 
 void reset_estado_rel_ind(void);
 
-static estado_aplicacao estado_fase_1(void);
-static estado_aplicacao estado_fase_2(void);    
-static estado_aplicacao estado_fase_3(void);
-
 #endif // ESTADO_RELATORIOS_INDUSTRIA_H
