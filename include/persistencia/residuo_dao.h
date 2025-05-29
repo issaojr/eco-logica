@@ -56,6 +56,8 @@ bool buscar_residuos_por_cnpj(const char *cnpj, residuo_t **registros, size_t *t
  */
 void liberar_registros_residuos(residuo_t *registros);
 
+bool buscar_residuos_csv(residuo_t **registros, size_t *total);
+
 /**
  * Verifica e corrige problemas nos arquivos CSV de resíduos
  * @return true se a verificação foi bem sucedida, false caso contrário

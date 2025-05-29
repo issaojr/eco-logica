@@ -107,13 +107,13 @@ static estado_aplicacao estado_rel_ind_f3(void)
     {
         sucesso = gerar_relatorio_residuos_semestral(i, relatorio);
         cabecalho = "RELATÓRIO DE RESÍDUOS POR SEMESTRE";
-        snprintf(nome_arquivo, sizeof(nome_arquivo), "%s%s_relatorio_residuos_por_semestre", diretorio, i->cnpj);
+        snprintf(nome_arquivo, sizeof(nome_arquivo), "%srelatorio_residuos_por_semestre[%s]", diretorio, i->cnpj);
     }
     else if (opcao_relatorio == 2)
     {
         sucesso = gerar_relatorio_gastos_mensais(i, relatorio);
         cabecalho = "RELATÓRIO DE TOTAIS DE GASTOS MENSAIS";
-        snprintf(nome_arquivo, sizeof(nome_arquivo), "%s%s_relatorio_gastos_mensais", diretorio, i->cnpj);
+        snprintf(nome_arquivo, sizeof(nome_arquivo), "%srelatorio_gastos_mensais[%s]", diretorio, i->cnpj);
     }
     else
     {

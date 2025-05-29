@@ -171,83 +171,22 @@ bool gerar_relatorio_industrias_melhor_desempenho(relatorio_t *relatorio)
     free(dados);
     return true;
 }
-// bool gerar_relatorio_industrias_melhor_desempenho(relatorio_t *relatorio)
-// {
-//     industria_t industrias[MAX_INDUSTRIAS];
-//     size_t qtd_industrias = 0;
-
-//     if (!listar_industrias_csv(industrias, MAX_INDUSTRIAS, &qtd_industrias))
-//         return false;
-
-//     rel_residuos_por_industria_t *dados = malloc(sizeof(*dados) * qtd_industrias);
-//     if (!dados)
-//         return false;
-
-//     for (size_t i = 0; i < qtd_industrias; i++)
-//     {
-//         dados[i].razao_social = _util_strdup(industrias[i].razao_social);
-//         strncpy(dados[i].cnpj, industrias[i].cnpj, sizeof(dados[i].cnpj));
-//         dados[i].quantidade_total = 0.0;
-
-//         residuo_t residuos[MAX_RESIDUOS];
-//         size_t qtd_residuos = 0;
-
-//         if (listar_residuos_por_cnpj_csv(industrias[i].cnpj, residuos, MAX_RESIDUOS, &qtd_residuos))
-//         {
-//             for (size_t j = 0; j < qtd_residuos; j++)
-//                 dados[i].quantidade_total += residuos[j].quantidade;
-//         }
-//     }
-
-//     // Ordenação decrescente por quantidade_total
-//     for (size_t i = 0; i < qtd_industrias - 1; i++)
-//     {
-//         for (size_t j = i + 1; j < qtd_industrias; j++)
-//         {
-//             if (dados[i].quantidade_total < dados[j].quantidade_total)
-//             {
-//                 rel_residuos_por_industria_t tmp = dados[i];
-//                 dados[i] = dados[j];
-//                 dados[j] = tmp;
-//             }
-//         }
-//     }
-
-//     /* Montagem do relatório */
-//     if (!relatorio_inicializar(relatorio, 3, qtd_industrias))
-//     {
-//         for (size_t i = 0; i < qtd_industrias; i++)
-//             free(dados[i].razao_social);
-//         free(dados);
-//         return false;
-//     }
-
-//     relatorio_definir_cabecalho(relatorio, 0, "Razão Social");
-//     relatorio_definir_cabecalho(relatorio, 1, "CNPJ");
-//     relatorio_definir_cabecalho(relatorio, 2, "Qtde Resíduos(kg)");
-
-//     for (size_t i = 0; i < qtd_industrias; i++)
-//     {
-//         relatorio_definir_dado(relatorio, i, 0, dados[i].razao_social);
-//         relatorio_definir_dado(relatorio, i, 1, dados[i].cnpj);
-
-//         char buf[32];
-//         snprintf(buf, sizeof(buf), "%.2f", dados[i].quantidade_total);
-//         relatorio_definir_dado(relatorio, i, 2, buf);
-
-//         free(dados[i].razao_social);
-//     }
-
-//     free(dados);
-//     return true;
-// }
 
 typedef struct
 {
     int ano;
     int semestre; /* 1 ou 2 */
     double aporte_total;
-} rel_aporte_financeiro_t;
+} rel_aporte_semestral_t;
+
+static int comparar_aporte_recente(const void *a, const void *b)
+{
+    const rel_aporte_semestral_t *r1 = (const rel_aporte_semestral_t *)a;
+    const rel_aporte_semestral_t *r2 = (const rel_aporte_semestral_t *)b;
+    if (r1->ano != r2->ano)
+        return r2->ano - r1->ano;
+    return r2->semestre - r1->semestre;
+}
 
 /**
  * Gera relatório de aporte financeiro semestral.
@@ -256,12 +195,84 @@ typedef struct
  */
 bool gerar_relatorio_aporte_financeiro_semestral(relatorio_t *relatorio)
 {
-    /**
-     * Este relatório deve listar o aporte financeiro total por semestre,
-     * agrupando por ano e semestre (1 ou 2), e somando o aporte financeiro,
-     * ordenado do mais recente para o mais antigo.
-     */
-    return false; /* Placeholder, deve ser implementado */
+    residuo_t *registros = NULL;
+    size_t total_registros = 0;
+
+    if (!buscar_residuos_csv(&registros, &total_registros))
+        return false;
+
+    rel_aporte_semestral_t *agrupados = NULL;
+    size_t total = 0, capacidade = 0;
+
+    for (size_t i = 0; i < total_registros; ++i)
+    {
+        residuo_t *r = &registros[i];
+        int semestre = (r->mes <= 6) ? 1 : 2;
+        bool achou = false;
+
+        for (size_t j = 0; j < total; j++)
+        {
+            if (agrupados[j].ano == r->ano && agrupados[j].semestre == semestre)
+            {
+                agrupados[j].aporte_total += r->custo;
+                achou = true;
+                break;
+            }
+        }
+
+        if (!achou)
+        {
+            if (total >= capacidade)
+            {
+                capacidade = capacidade ? capacidade * 2 : 8;
+                void *ptr = realloc(agrupados, capacidade * sizeof(rel_aporte_semestral_t));
+                if (!ptr)
+                {
+                    free(agrupados);
+                    liberar_registros_residuos(registros);
+                    return false;
+                }
+                agrupados = ptr;
+            }
+            agrupados[total].ano = r->ano;
+            agrupados[total].semestre = semestre;
+            agrupados[total].aporte_total = r->custo;
+            total++;
+        }
+    }
+
+    liberar_registros_residuos(registros);
+
+    if (total == 0)
+        return false;
+
+    qsort(agrupados, total, sizeof(rel_aporte_semestral_t), comparar_aporte_recente);
+
+    relatorio->colunas = 3;
+    relatorio->linhas = total;
+    relatorio->cabecalhos = malloc(3 * sizeof(char *));
+    relatorio->cabecalhos[0] = _util_strdup("Ano");
+    relatorio->cabecalhos[1] = _util_strdup("Semestre");
+    relatorio->cabecalhos[2] = _util_strdup("Aporte Financeiro (R$)");
+
+    relatorio->dados = malloc(total * sizeof(char **));
+    for (size_t i = 0; i < total; i++)
+    {
+        relatorio->dados[i] = malloc(3 * sizeof(char *));
+
+        char buffer[64];
+        snprintf(buffer, sizeof(buffer), "%d", agrupados[i].ano);
+        relatorio->dados[i][0] = _util_strdup(buffer);
+
+        snprintf(buffer, sizeof(buffer), "%dº Semestre", agrupados[i].semestre);
+        relatorio->dados[i][1] = _util_strdup(buffer);
+
+        snprintf(buffer, sizeof(buffer), "%.2f", agrupados[i].aporte_total);
+        relatorio->dados[i][2] = _util_strdup(buffer);
+    }
+
+    free(agrupados);
+    return true;
 }
 
 /*---------------------------RELATÓRIOS POR INDÚSTRIA-----------------------------*/

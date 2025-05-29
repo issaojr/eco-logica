@@ -109,9 +109,9 @@ void ui_desenhar_tela_rel_glb_fase_2(
 /*--------------------- Menu da tela de relatórios globais --------------------------*/
 
 const opcao_t tela_menu_relatorios_globais_mapa[] = {
-    {1, "Listar resíduos por semestre"},
-    {2, "Listar totais de gastos mensais"},
-    {3, "Listar aporte financeiro semestral"},
+    {1, "Regiões com maior geração de resíduos"},
+    {2, "Indústrias com menor geração de resíduos"},
+    {3, "Aporte financeiro semestral"},
     {4, "Voltar ao menu principal"}};
 
 const size_t tela_menu_relatorios_globais_mapa_n =

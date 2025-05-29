@@ -80,21 +80,21 @@ static estado_aplicacao estado_rel_globais_f2(void)
         /* Regiões com maior geração de resíduos */
         sucesso = gerar_relatorio_residuos_por_regiao(relatorio);
         cabecalho = "REGIÕES COM MAIOR GERAÇÃO DE RESÍDUOS";
-        snprintf(nome_arquivo, sizeof(nome_arquivo), "%sregioes_maior_geracao_residuos", diretorio);
+        snprintf(nome_arquivo, sizeof(nome_arquivo), "%srelatorio_regioes_maior_geracao_residuos", diretorio);
     }
     else if (opcao_relatorio == 2)
     {
         /* Indústrias com melhor desempenho ambiental */
         sucesso = gerar_relatorio_industrias_melhor_desempenho(relatorio);
-        cabecalho = "INDÚSTRIAS COM MELHOR DESEMPENHO AMBIENTAL";
-        snprintf(nome_arquivo, sizeof(nome_arquivo), "%sindustrias_melhor_desempenho", diretorio);
+        cabecalho = "INDÚSTRIAS COM MENOR GERAÇÃO DE RESÍDUOS";
+        snprintf(nome_arquivo, sizeof(nome_arquivo), "%srelatorio_industrias_menor_geracao_residuos", diretorio);
     }
     else if (opcao_relatorio == 3)
     {
         /* Aporte financeiro semestral */
         sucesso = gerar_relatorio_aporte_financeiro_semestral(relatorio);
         cabecalho = "APORTE FINANCEIRO SEMESTRAL";
-        snprintf(nome_arquivo, sizeof(nome_arquivo), "%saporte_financeiro_semestral", diretorio);
+        snprintf(nome_arquivo, sizeof(nome_arquivo), "%srelatorio_aporte_financeiro_semestral", diretorio);
     }
     else
     {
@@ -216,7 +216,7 @@ static estado_aplicacao processar(size_t entrada)
 
 static void finalizar(void)
 {
-    // TODO: liberar recursos (se houver)
+    
 }
 
 static estado_aplicacao obter_id(void)
