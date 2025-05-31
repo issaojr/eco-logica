@@ -1,8 +1,8 @@
 #ifndef FUNCIONARIO_DAO_H
 #define FUNCIONARIO_DAO_H
 
-#define FUNC_FILE "funcionarios.csv"
-#define FUNC_FILE_TEMP "funcionarios_temp.csv"
+#define FUNC_FILE "./dados/funcionarios.csv"
+#define FUNC_FILE_TEMP "./dados/funcionarios_temp.csv"
 #define HASH_KEY ((char)0xAA)
 
 #define TAMANHO_LINHA_FUNC 256
@@ -68,6 +68,6 @@ bool excluir_funcionario_csv(const char *matricula_str);
  * Verifica e corrige problemas nos arquivos CSV de funcionários
  * @return true se a verificação foi bem sucedida, false caso contrário
  */
-bool verificar_csv_funcionario(void);
+bool verificar_csv_funcionario(char *erro_out);
 
 #endif 

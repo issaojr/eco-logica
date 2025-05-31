@@ -1,8 +1,8 @@
 #ifndef INDUSTRIA_DAO_H
 #define INDUSTRIA_DAO_H
 
-#define IND_FILE "industrias.csv"
-#define IND_FILE_TEMP "industrias_temp.csv"
+#define IND_FILE "dados/industrias.csv"
+#define IND_FILE_TEMP "dados/industrias_temp.csv"
 
 #define TAMANHO_LINHA_IND 1024
 
@@ -49,6 +49,6 @@ bool excluir_industria_csv(const char *cnpj);
  * Verifica e corrige problemas nos arquivos CSV de indústrias
  * @return true se a verificação foi bem sucedida, false caso contrário
  */
-bool verificar_csv_industria(void);
+bool verificar_csv_industria(char *erro_out);
 
 #endif 

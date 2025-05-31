@@ -469,6 +469,23 @@ void ui_desenhar_tela_erro(const char *titulo, const char *mensagem)
     ui_prompt_voltar_menu_anterior(NULL);
 }
 
+void ui_desenhar_tela_erro_fatal(const char *titulo, const char *mensagem)
+{
+    ui_limpar_tela();
+
+    ui_exibir_titulo(titulo, NULL);
+
+    printf("\n");
+    ui_exibir_separador('*', UI_LARGURA_PADRAO);
+    printf("\n");
+    ui_exibir_erro(mensagem);
+    printf("\n");
+    ui_exibir_separador('*', UI_LARGURA_PADRAO);
+    printf("\n");
+
+    ui_prompt_sair(NULL);
+}
+
 void ui_desenhar_tela_sair(void)
 {
     const char *titulo = "Ecológica - Sistema de Gestão de Resíduos";

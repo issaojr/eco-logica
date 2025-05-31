@@ -556,7 +556,7 @@ bool excluir_industria_csv(const char *cnpj)
     return true;
 }
 
-bool verificar_csv_industria(void)
+bool verificar_csv_industria(char *erro_out)
 {
     /* Verificações de integridade do arquivo:
        - Verificar se o arquivo existe
@@ -567,21 +567,23 @@ bool verificar_csv_industria(void)
 
     FILE *f_orig = fopen(IND_FILE, "r");
 
-    
     if (!f_orig)
     {
         FILE *f_new = fopen(IND_FILE, "w");
         if (!f_new)
         {
-            return false; 
+            if (erro_out)
+                strcpy(erro_out, "Erro ao criar o arquivo de indústrias.");
+            return false;
         }
 
-        
-        if (fprintf(
-                f_new,
-                "CNPJ,RAZAO_SOCIAL,NOME_FANTASIA,TELEFONE,LOGRADOURO,NUMERO,BAIRRO,CIDADE,ESTADO,CEP,DATA_ABERTURA,NOME_RESPONSAVEL,EMAIL_RESPONSAVEL\n")
-            < 0)
+        const char *cabecalho =
+            "CNPJ,RAZAO_SOCIAL,NOME_FANTASIA,TELEFONE,LOGRADOURO,NUMERO,BAIRRO,CIDADE,ESTADO,CEP,DATA_ABERTURA,NOME_RESPONSAVEL,EMAIL_RESPONSAVEL\n";
+
+        if (fprintf(f_new, "%s", cabecalho) < 0)
         {
+            if (erro_out)
+                strcpy(erro_out, "Erro ao escrever o cabeçalho do arquivo de indústrias.");
             fclose(f_new);
             return false;
         }
@@ -590,7 +592,6 @@ bool verificar_csv_industria(void)
         return true;
     }
 
-    
     char line[TAMANHO_LINHA_IND];
     bool tem_cabecalho = false;
 
@@ -602,31 +603,31 @@ bool verificar_csv_industria(void)
         }
     }
 
-    /* Ler todo o arquivo para um buffer e fazer correções necessárias */
     fseek(f_orig, 0, SEEK_END);
     long file_size = ftell(f_orig);
     rewind(f_orig);
 
-    /* Se o arquivo for muito grande, não tenta carregar tudo na memória */
     if (file_size > 1024 * 1024 * 10)
     {
+        if (erro_out)
+            strcpy(erro_out, "O arquivo de indústrias é muito grande para ser processado.");
         fclose(f_orig);
         return false;
     }
 
-    char *buffer = (char*)malloc(file_size + 1);
+    char *buffer = (char *)malloc(file_size + 1);
     if (!buffer)
     {
+        if (erro_out)
+            strcpy(erro_out, "Erro ao alocar memória para leitura do arquivo de indústrias.");
         fclose(f_orig);
         return false;
     }
 
     size_t bytes_read = fread(buffer, 1, file_size, f_orig);
     fclose(f_orig);
-
     buffer[bytes_read] = '\0';
 
-    /* Se não tiver cabeçalho, prepara para adicionar */
     bool arquivo_modificado = false;
     char *novo_conteudo = NULL;
 
@@ -636,9 +637,11 @@ bool verificar_csv_industria(void)
             "CNPJ,RAZAO_SOCIAL,NOME_FANTASIA,TELEFONE,LOGRADOURO,NUMERO,BAIRRO,CIDADE,ESTADO,CEP,DATA_ABERTURA,NOME_RESPONSAVEL,EMAIL_RESPONSAVEL\n";
         size_t novo_tamanho = strlen(cabecalho) + bytes_read + 1;
 
-        novo_conteudo = (char*)malloc(novo_tamanho);
+        novo_conteudo = (char *)malloc(novo_tamanho);
         if (!novo_conteudo)
         {
+            if (erro_out)
+                strcpy(erro_out, "Erro ao alocar memória para inserir o cabeçalho.");
             free(buffer);
             return false;
         }
@@ -648,22 +651,21 @@ bool verificar_csv_industria(void)
         arquivo_modificado = true;
     }
 
-    /* Verificar se o arquivo termina com quebra de linha */
     if (bytes_read > 0 && buffer[bytes_read - 1] != '\n')
     {
         if (novo_conteudo)
         {
-            /* Temos um buffer novo com cabeçalho, adicionar quebra de linha */
             size_t len = strlen(novo_conteudo);
             novo_conteudo[len] = '\n';
             novo_conteudo[len + 1] = '\0';
         }
         else
         {
-            /* Criar um novo buffer apenas para adicionar quebra de linha */
-            novo_conteudo = (char*)malloc(bytes_read + 2);
+            novo_conteudo = (char *)malloc(bytes_read + 2);
             if (!novo_conteudo)
             {
+                if (erro_out)
+                    strcpy(erro_out, "Erro ao alocar memória para adicionar quebra de linha final.");
                 free(buffer);
                 return false;
             }
@@ -675,12 +677,13 @@ bool verificar_csv_industria(void)
         arquivo_modificado = true;
     }
 
-    /* Se o arquivo foi modificado, reescrever */
     if (arquivo_modificado)
     {
         FILE *f_write = fopen(IND_FILE, "w");
         if (!f_write)
         {
+            if (erro_out)
+                strcpy(erro_out, "Erro ao abrir o arquivo de indústrias para sobrescrita.");
             free(buffer);
             if (novo_conteudo)
                 free(novo_conteudo);
@@ -692,6 +695,8 @@ bool verificar_csv_industria(void)
 
         if (fwrite(conteudo_final, 1, tamanho_final, f_write) != tamanho_final)
         {
+            if (erro_out)
+                strcpy(erro_out, "Erro ao regravar o arquivo de indústrias.");
             fclose(f_write);
             free(buffer);
             if (novo_conteudo)

@@ -5,6 +5,7 @@
 #include "estados/estados.h"
 #include "estados/estado.h"
 #include "session.h"
+#include "ui/ui_comum.h"
 #include "ui/ui_menu.h"
 #include "persistencia/verificacao_csv.h"
 #include "util.h"
@@ -18,13 +19,19 @@ typedef struct
 int main(void)
 {
     set_locale_utf8();
+    char msg_erro_diretorio[512] = {0};
 
-    
-    if (!verificar_arquivos_csv())
+    if (!verificar_diretorio_dados(msg_erro_diretorio))
     {
-        printf("Aviso: Houve problemas ao verificar a integridade dos arquivos CSV.\n");
-        printf("Pressione ENTER para continuar mesmo assim...");
-        getchar();
+        ui_desenhar_tela_erro_fatal("Erro de diretório de dados", msg_erro_diretorio);
+        return 1;
+    }
+
+    char msg_erro_arquivos[512] = {0};
+    if (!verificar_arquivos_csv(msg_erro_arquivos))
+    {
+        ui_desenhar_tela_erro("Erro de verificação de arquivos CSV", msg_erro_arquivos);
+        return 1;
     }
 
     estado_aplicacao id_estado_atual = ESTADO_MENU_LOGIN;

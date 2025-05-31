@@ -248,6 +248,8 @@ void ui_desenhar_tela_sucesso(const char *titulo, const char *mensagem);
  */
 void ui_desenhar_tela_erro(const char *titulo, const char *mensagem);
 
+void ui_desenhar_tela_erro_fatal(const char *titulo, const char *mensagem);
+
 void ui_desenhar_tela_sair(void);
 
 void ui_desenhar_linha_painel(

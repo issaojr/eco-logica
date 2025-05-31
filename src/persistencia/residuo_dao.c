@@ -381,7 +381,7 @@ bool atualizar_residuo_csv(const residuo_t *residuo)
     return true;
 }
 
-bool verificar_csv_residuo(void)
+bool verificar_csv_residuo(char *erro_out)
 {
     /* Verificações de integridade do arquivo:
        - Verificar se o arquivo existe
@@ -392,18 +392,21 @@ bool verificar_csv_residuo(void)
 
     FILE *f_orig = fopen(RES_FILE, "r");
 
-    /* Se o arquivo não existir, cria um novo com cabeçalho */
     if (!f_orig)
     {
         FILE *f_new = fopen(RES_FILE, "w");
         if (!f_new)
         {
-            return false; /* Não conseguiu criar o arquivo */
+            if (erro_out)
+                strcpy(erro_out, "Erro ao criar o arquivo de resíduos.");
+            return false;
         }
 
-        
-        if (fprintf(f_new, "CNPJ,MES,ANO,QUANTIDADE,CUSTO\n") < 0)
+        const char *cabecalho = "CNPJ,MES,ANO,QUANTIDADE,CUSTO\n";
+        if (fprintf(f_new, "%s", cabecalho) < 0)
         {
+            if (erro_out)
+                strcpy(erro_out, "Erro ao escrever o cabeçalho do arquivo de resíduos.");
             fclose(f_new);
             return false;
         }
@@ -412,7 +415,6 @@ bool verificar_csv_residuo(void)
         return true;
     }
 
-    /* Verificar se há cabeçalho */
     char line[256];
     bool tem_cabecalho = false;
 
@@ -424,14 +426,14 @@ bool verificar_csv_residuo(void)
         }
     }
 
-    /* Ler todo o arquivo para um buffer e fazer correções necessárias */
     fseek(f_orig, 0, SEEK_END);
     long file_size = ftell(f_orig);
     rewind(f_orig);
 
-    /* Se o arquivo for muito grande, não tenta carregar tudo na memória */
     if (file_size > 1024 * 1024 * 10)
     {
+        if (erro_out)
+            strcpy(erro_out, "O arquivo de resíduos é muito grande para ser processado.");
         fclose(f_orig);
         return false;
     }
@@ -439,16 +441,16 @@ bool verificar_csv_residuo(void)
     char *buffer = (char *)malloc(file_size + 1);
     if (!buffer)
     {
+        if (erro_out)
+            strcpy(erro_out, "Erro ao alocar memória para leitura do arquivo de resíduos.");
         fclose(f_orig);
         return false;
     }
 
     size_t bytes_read = fread(buffer, 1, file_size, f_orig);
     fclose(f_orig);
-
     buffer[bytes_read] = '\0';
 
-    /* Se não tiver cabeçalho, prepara para adicionar */
     bool arquivo_modificado = false;
     char *novo_conteudo = NULL;
 
@@ -460,6 +462,8 @@ bool verificar_csv_residuo(void)
         novo_conteudo = (char *)malloc(novo_tamanho);
         if (!novo_conteudo)
         {
+            if (erro_out)
+                strcpy(erro_out, "Erro ao alocar memória para inserir o cabeçalho.");
             free(buffer);
             return false;
         }
@@ -469,22 +473,21 @@ bool verificar_csv_residuo(void)
         arquivo_modificado = true;
     }
 
-    /* Verificar se o arquivo termina com quebra de linha */
     if (bytes_read > 0 && buffer[bytes_read - 1] != '\n')
     {
         if (novo_conteudo)
         {
-            /* Temos um buffer novo com cabeçalho, adicionar quebra de linha */
             size_t len = strlen(novo_conteudo);
             novo_conteudo[len] = '\n';
             novo_conteudo[len + 1] = '\0';
         }
         else
         {
-            /* Criar um novo buffer apenas para adicionar quebra de linha */
             novo_conteudo = (char *)malloc(bytes_read + 2);
             if (!novo_conteudo)
             {
+                if (erro_out)
+                    strcpy(erro_out, "Erro ao alocar memória para adicionar quebra de linha final.");
                 free(buffer);
                 return false;
             }
@@ -496,12 +499,13 @@ bool verificar_csv_residuo(void)
         arquivo_modificado = true;
     }
 
-    /* Se o arquivo foi modificado, reescrever */
     if (arquivo_modificado)
     {
         FILE *f_write = fopen(RES_FILE, "w");
         if (!f_write)
         {
+            if (erro_out)
+                strcpy(erro_out, "Erro ao abrir o arquivo de resíduos para sobrescrita.");
             free(buffer);
             if (novo_conteudo)
                 free(novo_conteudo);
@@ -513,6 +517,8 @@ bool verificar_csv_residuo(void)
 
         if (fwrite(conteudo_final, 1, tamanho_final, f_write) != tamanho_final)
         {
+            if (erro_out)
+                strcpy(erro_out, "Erro ao regravar o arquivo de resíduos.");
             fclose(f_write);
             free(buffer);
             if (novo_conteudo)

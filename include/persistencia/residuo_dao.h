@@ -1,8 +1,8 @@
 #ifndef RESIDUO_DAO_H
 #define RESIDUO_DAO_H
 
-#define RES_FILE "residuos.csv"
-#define RES_FILE_TEMP "residuos_temp.csv"
+#define RES_FILE "dados/residuos.csv"
+#define RES_FILE_TEMP "dados/residuos_temp.csv"
 
 #define TAMANHO_LINHA_RES 256
 #define MAX_RESIDUOS 99999
@@ -62,6 +62,6 @@ bool buscar_residuos_csv(residuo_t **registros, size_t *total);
  * Verifica e corrige problemas nos arquivos CSV de resíduos
  * @return true se a verificação foi bem sucedida, false caso contrário
  */
-bool verificar_csv_residuo(void);
+bool verificar_csv_residuo(char *erro_out);
 
 #endif 

@@ -1,12 +1,11 @@
-# Makefile cross-platform (GNU make apenas)
+# Makefile para EcoLogica - com executável em bin/
 
 CC      := gcc
 CFLAGS  := -Wall -Iinclude -std=c99 -pedantic -finput-charset=UTF-8
 
 SRC_DIR := src
-OBJ_DIR := out
-BUILD_DIR := build
-TEST_DIR := $(BUILD_DIR)/tests
+OBJ_DIR := obj
+BIN_DIR := bin
 
 # Função recursiva para listar arquivos .c
 rwildcard = \
@@ -14,51 +13,35 @@ rwildcard = \
     $(filter %.$2,$(p)) \
     $(call rwildcard,$(p)/,$2))
 
-# Fontes principais (excluindo arquivos de teste)
-SRCS := $(filter-out $(SRC_DIR)/testes/%.c,$(call rwildcard,$(SRC_DIR)/,c))
-# Substitui o diretório src/ por out/ e adiciona a extensão .o
+# Fontes e objetos
+SRCS := $(call rwildcard,$(SRC_DIR)/,c)
 OBJS := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
-TARGET := $(BUILD_DIR)/ecologica
+TARGET := $(BIN_DIR)/ecologica
 
-# Fontes e objetos de testes
-TEST_SRCS := $(call rwildcard,$(SRC_DIR)/testes/,c)
-TEST_OBJS := $(patsubst $(SRC_DIR)/testes/%.c,$(OBJ_DIR)/testes/%.o,$(TEST_SRCS))
-TEST_TARGETS := $(patsubst $(SRC_DIR)/testes/%.c,$(TEST_DIR)/%,$(TEST_SRCS))
+.PHONY: all clean cleanall
 
-.PHONY: all clean cleanall test
-
+# Compilação principal
 all: $(TARGET)
 
-test: $(TEST_TARGETS)
-
-$(TARGET): $(OBJS) | $(BUILD_DIR)
+$(TARGET): $(OBJS) | $(BIN_DIR)
 	$(CC) $(CFLAGS) $^ -o $@
-	@echo "Copiando arquivos CSV para a pasta de build..."
-	cp funcionarios.csv $(BUILD_DIR)
-	cp industrias.csv $(BUILD_DIR)
-	cp residuos.csv $(BUILD_DIR)
+	@mkdir -p $(BIN_DIR)/dados
 
-# Regra para compilar os testes (exclui main.c)
-$(TEST_DIR)/%: $(OBJ_DIR)/testes/%.o $(filter-out $(OBJ_DIR)/main.o,$(OBJS)) | $(TEST_DIR)
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $^ -o $@
-
+# Compilação de objetos
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BUILD_DIR):
-	@mkdir -p $(BUILD_DIR)
+# Diretórios
+$(BIN_DIR):
+	@mkdir -p $(BIN_DIR)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
-$(TEST_DIR):
-	@mkdir -p $(TEST_DIR)
-
+# Limpeza
 clean:
-	rm -rf $(OBJ_DIR)
+	@rm -f $(OBJS)
 
-# Regra adicional para limpar tudo (objetos e executável)
-cleanall:
-	rm -rf $(OBJ_DIR) $(BUILD_DIR)
+cleanall: clean
+	@rm -f $(BIN_DIR)/ecologica
